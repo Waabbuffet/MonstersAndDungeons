@@ -7,7 +7,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 
 
-public class HydromancyBlocksHandler {
+public class MaDBlocksHandler {
 
 
 	public static void init()

@@ -2,7 +2,7 @@ package com.waabbuffet.MonstersAndDungeons.tileentity;
 
 
 
-public class HydromancyTileEntityHandler {
+public class MaDTileEntityHandler {
 
 
 	public static void register()

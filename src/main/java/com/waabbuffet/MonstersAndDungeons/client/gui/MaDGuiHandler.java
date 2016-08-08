@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 
 
 
-public class HydromancyGuiHandler implements IGuiHandler {
+public class MaDGuiHandler implements IGuiHandler {
 
 	
 	

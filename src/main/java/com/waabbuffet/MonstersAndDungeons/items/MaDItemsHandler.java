@@ -2,7 +2,7 @@ package com.waabbuffet.MonstersAndDungeons.items;
 
 
 
-public class HydromancyItemsHandler 
+public class MaDItemsHandler 
 {
 	
 

@@ -7,7 +7,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import com.waabbuffet.MonstersAndDungeons.client.events.ClientTickEventHandler;
-import com.waabbuffet.MonstersAndDungeons.items.HydromancyItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.proxy.CommonProxy;
 
 

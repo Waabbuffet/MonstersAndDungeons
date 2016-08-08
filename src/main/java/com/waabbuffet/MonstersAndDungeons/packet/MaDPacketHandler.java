@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 
 
-public class HydromancyPacketHandler {
+public class MaDPacketHandler {
 
 	 public static SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MODID); 
 	    
