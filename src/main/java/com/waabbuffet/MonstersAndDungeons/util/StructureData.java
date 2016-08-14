@@ -13,8 +13,21 @@ public class StructureData {
 	
 	IBlockState[][][] blocks;
 	
+	boolean isLoaded = false;
 	
 	
+	
+	public int getxSize() {
+		return xSize;
+	}
+	
+	public int getySize() {
+		return ySize;
+	}
+	
+	 public int getzSize() {
+		return zSize;
+	}
 	
 	//load values from file, build structureData(take direction, world and other stuff)
 	
