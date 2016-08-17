@@ -1,11 +1,9 @@
-package com.waabbuffet.MonstersAndDungeons.world.dungeons;
+package com.waabbuffet.MonstersAndDungeons.util.dungeon;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
-import com.waabbuffet.MonstersAndDungeons.util.DungeonExit;
-import com.waabbuffet.MonstersAndDungeons.util.DungeonRoom;
 
 public interface IDungeonRoom
 {
@@ -14,7 +12,7 @@ public interface IDungeonRoom
 	public boolean loadRoom();
 	public void unloadRoom();
 	public boolean isLoaded();
-	public void setCorrectPath();
+	public DungeonExit setCorrectPath();
 	
 	public DungeonExit alignWithRoom(DungeonRoom NextRoom, DungeonRoom PreviousRoom, DungeonExit PreviousEntrance, BlockPos RealWorldPosition);
 	

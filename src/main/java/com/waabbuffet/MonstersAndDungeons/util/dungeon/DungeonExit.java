@@ -1,4 +1,4 @@
-package com.waabbuffet.MonstersAndDungeons.util;
+package com.waabbuffet.MonstersAndDungeons.util.dungeon;
 
 import net.minecraft.util.math.BlockPos;
 
@@ -8,6 +8,7 @@ public class DungeonExit {
 	String Direction;
 	BlockPos pos; //Not this is only the distance from the starting point to the exit (0, 0, 0) Not actual position
 	boolean isCorrectPath;
+	int rotation;
 
 
 
@@ -29,7 +30,14 @@ public class DungeonExit {
 
 
 	public String getDirection() {
-		return Direction;
+		return this.Direction;
+	}
+	
+	public void setRotation(int rotation)
+	{
+		this.rotation = rotation;
+		this.Direction = this.getDirectionWithRotation(rotation);
+		
 	}
 
 	/**
@@ -37,25 +45,47 @@ public class DungeonExit {
 	 */
 	public String getDirectionWithRotation(int Times)
 	{
-		String RotatedDirection = this.getDirection();
+		String RotatedDirection = this.getDirection(); //WEST
 		
 		for(int i =0; i < Times; i ++)
 		{
-			if(this.getDirection().contains("EAST"))
+			if(RotatedDirection.contains("EAST"))
 			{
 				RotatedDirection = "SOUTH";
-			}else if(this.getDirection().contains("WEST"))
+			}else if(RotatedDirection.contains("WEST"))
 			{
 				RotatedDirection = "NORTH";
-			}else if(this.getDirection().contains("NORTH"))
+			}else if(RotatedDirection.contains("NORTH"))
 			{
 				RotatedDirection = "EAST";
-			}else if(this.getDirection().contains("SOUTH"))
+			}else if(RotatedDirection.contains("SOUTH"))
 			{
 				RotatedDirection = "WEST";
 			}
 					
 		}
+		return RotatedDirection;
+	}
+	
+	
+	public String getOppositeDirection()
+	{
+		String RotatedDirection = this.getDirection();
+		
+		if(RotatedDirection .contains("EAST"))
+		{
+			RotatedDirection = "WEST";
+		}else if(RotatedDirection .contains("WEST"))
+		{
+			RotatedDirection = "EAST";
+		}else if(RotatedDirection .contains("NORTH"))
+		{
+			RotatedDirection = "SOUTH";
+		}else if(RotatedDirection .contains("SOUTH"))
+		{
+			RotatedDirection = "NORTH";
+		}
+		
 		return RotatedDirection;
 	}
 	

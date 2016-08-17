@@ -1,4 +1,4 @@
-package com.waabbuffet.MonstersAndDungeons.util;
+package com.waabbuffet.MonstersAndDungeons.util.dungeon;
 
 import java.io.File;
 import java.io.FileInputStream;

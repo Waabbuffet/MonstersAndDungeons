@@ -1,6 +1,7 @@
 package com.waabbuffet.MonstersAndDungeons.proxy;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
+import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
 import com.waabbuffet.MonstersAndDungeons.world.MaDWorldGenerationHandler;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -21,6 +22,7 @@ public class CommonProxy {
 		MaDBlocksHandler.init();
 		MaDBlocksHandler.register();
 		
+		MaDPacketHandler.init();
 		
 		
 	}

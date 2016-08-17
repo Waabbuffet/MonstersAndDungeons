@@ -3,6 +3,7 @@ package com.waabbuffet.MonstersAndDungeons.util;
 import java.io.File;
 
 import com.waabbuffet.MonstersAndDungeons.client.ClientProxy;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonNBTTag;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

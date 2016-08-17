@@ -1,9 +1,11 @@
 package com.waabbuffet.MonstersAndDungeons.packet;
 
+
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 
 
@@ -15,7 +17,7 @@ public class MaDPacketHandler {
 	    
 	 public static void init() 
 	 {
-		//  INSTANCE.registerMessage(PlaceBlock.class, PlaceBlock.class, 0, Side.SERVER);
+		 // INSTANCE.registerMessage(SpawnRoomDEBUG.class, SpawnRoomDEBUG.class, 0, Side.SERVER);
 	    
 	 }	
 }

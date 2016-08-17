@@ -2,7 +2,9 @@ package com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder;
 
 import java.util.Random;
 
-import com.waabbuffet.MonstersAndDungeons.util.DungeonRoom;
+import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
+import com.waabbuffet.MonstersAndDungeons.world.dungeons.DungeonAutomatons;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
@@ -117,20 +119,31 @@ public class BlockExit extends Block
 
 		return this.getDefaultState().withProperty(PROPERTYFACING, enumfacing);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos,
 			IBlockState state, EntityPlayer playerIn, EnumHand hand,
 			ItemStack heldItem, EnumFacing side, float hitX, float hitY,
 			float hitZ) {
-		System.out.println(DungeonRoom.getDirectionBasedOnState(state));
-		
-		
+
+		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
+		{
+
+
+
+
+			DungeonAutomatons dungeon = new DungeonAutomatons(40, true);
+			dungeon.constructDungeon(worldIn, pos.up(10), "WEST");
+			dungeon.unloadDungeon();	
+
+
+
+		}
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem,
 				side, hitX, hitY, hitZ);
+
+
 	}
-	
-	
 
 
 }
