@@ -125,6 +125,9 @@ public class BlockExit extends Block
 			IBlockState state, EntityPlayer playerIn, EnumHand hand,
 			ItemStack heldItem, EnumFacing side, float hitX, float hitY,
 			float hitZ) {
+		
+		
+		System.out.println("" + DungeonRoom.getDirectionBasedOnState(state));
 
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
 		{
@@ -132,13 +135,14 @@ public class BlockExit extends Block
 
 
 
-			DungeonAutomatons dungeon = new DungeonAutomatons(40, true);
+			DungeonAutomatons dungeon = new DungeonAutomatons(15, true);
 			dungeon.constructDungeon(worldIn, pos.up(10), "WEST");
 			dungeon.unloadDungeon();	
 
 
 
 		}
+		
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem,
 				side, hitX, hitY, hitZ);
 

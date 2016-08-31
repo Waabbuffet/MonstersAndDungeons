@@ -348,12 +348,16 @@ public class DungeonRoom implements IDungeonRoom {
 	public DungeonExit setCorrectPath() {
 		// TODO Auto-generated method stub
 		Random Rand = new Random();
+		int RandomNumber = 0;
 
-		int RandomNumber = Rand.nextInt(this.getExits().size());
-		this.getExits().get(RandomNumber).setCorrectPath(true);
+		if(this.getExits().size() > 0)
+		{
+			RandomNumber = Rand.nextInt(this.getExits().size());
+			this.getExits().get(RandomNumber).setCorrectPath(true);
+			return this.getExits().get(RandomNumber);
+		}
 
-
-		return this.getExits().get(RandomNumber);
+		return null;
 	}
 
 

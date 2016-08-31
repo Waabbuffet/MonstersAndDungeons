@@ -24,7 +24,7 @@ public class MaDWorldGenerationHandler implements IWorldGenerator {
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 
 
-		if(random.nextInt(300) == 0)
+		if(false)
 		{
 			this.spawnOnce = false;
 			int posX = chunkX * 16 + random.nextInt(16);
