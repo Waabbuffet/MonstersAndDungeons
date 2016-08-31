@@ -1,41 +1,32 @@
 {
- "display": {
+    "display": {
         "thirdperson_righthand": {
-            "rotation": [ 25, 180, 0 ],
-            "translation": [ 0, 1.5, 0],
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 0, 5, 0],
             "scale": [ 1, 1, 1 ]
         },
         "thirdperson_lefthand": {
-            "rotation": [ 25, 180, 0 ],
-            "translation": [ 0, 1.5, 0],
+            "rotation": [0, 135, 0 ],
+            "translation": [ 0, 5, 0],
             "scale": [ 1, 1, 1 ]
         },
         "firstperson_righthand": {
-            "rotation": [ 0, 180, 0],
-            "translation": [ 0, 1.5, 0],
-            "scale": [ 1.25, 1.25, 1.25 ]
+            "rotation": [ 0, 180, -5 ],
+            "translation": [-3, 8, 0],
+            "scale": [ 1.5, 1.5, 1.5 ]
         },
         "firstperson_lefthand": {
-            "rotation": [ 0, 180, 0],
-            "translation": [ 0, 1.5, 0],
-            "scale": [ 1.25, 1.25, 1.25 ]
+            "rotation": [ 0, 180, -5],
+            "translation": [ 6, 8, 0],
+            "scale": [ 1.5, 1.5, 1.5]
         },
         "gui": {
             "rotation": [ 0, 180, 0],
             "translation": [ 0, -1, 0 ],
             "scale": [ 0.5, 0.5, 0.5]
         }
-
     },
-    "overrides": [
-        {
-            "predicate": {
-                "blocking": 1
-            },
-            "model": "monsteranddungeons:item/quartzShield_blocking"
-        }
-    ],
-    "textures": {
+"textures": {
         "particle": "monsteranddungeons:armor/quartzShield/QuartzArmorJaon0",
         "0": "monsteranddungeons:armor/quartzShield/QuartzArmorJaon0",
         "1": "monsteranddungeons:armor/quartzShield/QuartzArmorJaon1",
@@ -154,3 +145,6 @@
         }
     ]
 }
+
+
+

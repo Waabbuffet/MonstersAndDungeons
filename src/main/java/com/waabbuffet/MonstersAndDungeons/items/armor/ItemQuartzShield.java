@@ -1,7 +1,5 @@
 package com.waabbuffet.MonstersAndDungeons.items.armor;
 
-import com.waabbuffet.MonstersAndDungeons.client.models.items.ModelQuartzArmor;
-import com.waabbuffet.MonstersAndDungeons.client.models.items.ModelQuartzShield;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
 import net.minecraft.client.model.ModelBiped;

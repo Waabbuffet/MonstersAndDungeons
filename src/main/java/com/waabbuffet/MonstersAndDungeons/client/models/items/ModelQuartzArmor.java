@@ -572,7 +572,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 
 		GlStateManager.pushMatrix();
-		GlStateManager.scale(1.05f, 1.05f, 1.05f);
+		GlStateManager.scale(1.2f, 1.05f, 1.2f);
 
 		if (entity.isSneaking())
 		{
