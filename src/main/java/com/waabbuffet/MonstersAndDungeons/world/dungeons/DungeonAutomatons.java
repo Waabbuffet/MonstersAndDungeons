@@ -134,8 +134,6 @@ public class DungeonAutomatons  implements IDungeonBuilder {
 						{
 							TempNextRoom.loadRoom();
 						}
-
-
 						if(TempNextRoom.isLoaded())
 						{
 							DungeonExit TempExit = TempNextRoom.alignWithRoom(TempNextRoom, PreviousRoom, PreviousRoom.getExits().get(j), UpdatedLocation);

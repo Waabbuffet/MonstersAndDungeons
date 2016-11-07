@@ -152,7 +152,7 @@ public class DungeonRoom implements IDungeonRoom {
 					{
 						int ID = cmp.getInteger(x + "," + y + "," + z);
 
-
+						
 						if(!Block.getStateById(ID).getBlock().equals(MaDBlocksHandler.BlockExit))
 						{
 							this.roomStructure.blocks[x][y][z] = Block.getStateById(ID);
@@ -350,6 +350,7 @@ public class DungeonRoom implements IDungeonRoom {
 		Random Rand = new Random();
 		int RandomNumber = 0;
 
+		
 		if(this.getExits().size() > 0)
 		{
 			RandomNumber = Rand.nextInt(this.getExits().size());

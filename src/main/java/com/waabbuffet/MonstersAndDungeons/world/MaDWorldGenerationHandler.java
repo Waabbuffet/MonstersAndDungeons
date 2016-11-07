@@ -24,15 +24,15 @@ public class MaDWorldGenerationHandler implements IWorldGenerator {
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 
 
-		if(false)
+		if(random.nextInt(100) == 0)
 		{
 			this.spawnOnce = false;
 			int posX = chunkX * 16 + random.nextInt(16);
 			int posZ = chunkZ * 16 + random.nextInt(16);
 			int posY = world.getTopSolidOrLiquidBlock(new BlockPos(posX, 0, posZ)).getY();
 				
-			System.out.println("Chiken: " + new BlockPos(posX, posY + 40, posZ));
-			DungeonAutomatons dungeon = new DungeonAutomatons(2, true);
+			
+			DungeonAutomatons dungeon = new DungeonAutomatons(12, true);
 			dungeon.constructDungeon(world, new BlockPos(posX, posY + 40, posZ), "WEST");
 			dungeon.unloadDungeon();	
 		}

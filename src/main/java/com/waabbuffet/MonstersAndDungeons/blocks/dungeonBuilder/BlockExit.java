@@ -15,6 +15,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -73,9 +74,6 @@ public class BlockExit extends Block
 	public static final PropertyDirection PROPERTYFACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 
-
-
-
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
@@ -109,7 +107,7 @@ public class BlockExit extends Block
 		return new BlockStateContainer(this, new IProperty[] {PROPERTYFACING});
 	}
 
-
+	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing blockFaceClickedOn, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
@@ -127,19 +125,15 @@ public class BlockExit extends Block
 			float hitZ) {
 		
 		
-		System.out.println("" + DungeonRoom.getDirectionBasedOnState(state));
-
+	
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
 		{
-
-
-
-
+/*
 			DungeonAutomatons dungeon = new DungeonAutomatons(15, true);
 			dungeon.constructDungeon(worldIn, pos.up(10), "WEST");
 			dungeon.unloadDungeon();	
 
-
+*/
 
 		}
 		
@@ -148,6 +142,4 @@ public class BlockExit extends Block
 
 
 	}
-
-
 }
