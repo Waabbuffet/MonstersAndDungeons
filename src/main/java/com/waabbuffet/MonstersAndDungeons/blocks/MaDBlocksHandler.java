@@ -2,6 +2,7 @@ package com.waabbuffet.MonstersAndDungeons.blocks;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import net.minecraft.block.Block;
@@ -32,8 +34,11 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
+import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlockDoubleSlab;
+import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlockSlab;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlockStairs;
 import com.waabbuffet.MonstersAndDungeons.client.ClientProxy;
+import com.waabbuffet.MonstersAndDungeons.items.genBlocks.ItemGenBlockSlab;
 import com.waabbuffet.MonstersAndDungeons.proxy.CommonProxy;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
@@ -44,6 +49,8 @@ public class MaDBlocksHandler {
 	public static Block BlockExit;
 
 	public static List<Block> genBlocks = new ArrayList<Block>();
+	public static List<ItemGenBlockSlab> genSlab = new ArrayList<ItemGenBlockSlab>();
+	
 
 	public static void init()
 	{
@@ -58,6 +65,12 @@ public class MaDBlocksHandler {
 		{
 			GameRegistry.registerBlock(genBlocks.get(i), genBlocks.get(i).getUnlocalizedName().substring(5));
 		}
+		
+		for(ItemGenBlockSlab slab : genSlab)
+		{
+			GameRegistry.register(slab);
+		}
+		
 	}
 
 	public static void registerRenders()
@@ -79,10 +92,20 @@ public class MaDBlocksHandler {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Reference.MODID +":" + item.getUnlocalizedName().substring(5),"inventory"));
 
 	}
-	
+
 	public static void genBlocks(String Directory) throws IOException 
 	{
-		ZipFile zipDirectory = new ZipFile(Directory + "/Monster and Dungeons/madresources.zip");
+		File OldZipFile = new File(Directory + "/Monster and Dungeons/madresources.zip");
+		
+		if(!OldZipFile.exists())
+		{
+			throw new FileNotFoundException("MAD: Could not find: " + OldZipFile.getAbsolutePath() + "Custom generation blocks will not be generated" + "make sure you installed the config folder correctly");
+		}
+		
+		ZipFile zipDirectory = new ZipFile(OldZipFile);
+
+		List<ZipEntry> missingBlockState = new ArrayList<ZipEntry>(); 
+		List<ZipEntry> missingModels = new ArrayList<ZipEntry>(); 
 
 		Enumeration <? extends ZipEntry > enumeration = zipDirectory.entries();
 
@@ -97,29 +120,63 @@ public class MaDBlocksHandler {
 					if(entry.getName().endsWith(".png"))
 					{
 
-						if(hasModel(entry.getName().substring(35, entry.getName().length()- 4), zipDirectory, Directory + "/Monster and Dungeons/madresources.zip")) //checks to see if a model is located else loads a default value
+						String name = entry.getName().substring(35, entry.getName().length()- 4);
+						
+						if(name.contains("_stairs"))
 						{
-
-							Block block = new Block(Material.CLOTH).setUnlocalizedName(entry.getName().substring(35, entry.getName().length()- 4)).setCreativeTab(CreativeTabs.DECORATIONS);
+							Block block = new Block(Material.CLOTH).setUnlocalizedName(name).setCreativeTab(CreativeTabs.DECORATIONS);
 							BlockStairs block_stairs = new GenBlockStairs(block.getDefaultState());
-							block_stairs.setUnlocalizedName(entry.getName().substring(35, entry.getName().length()- 4)).setCreativeTab(CreativeTabs.DECORATIONS);
-
-							//	genBlocks.add(block);
+							block_stairs.setUnlocalizedName(name).setCreativeTab(CreativeTabs.DECORATIONS);
 							genBlocks.add(block_stairs);
+							
+						}else if(name.contains("_slab"))
+						{
+							
+							//public static final Block SLAB_HAZEL = (new SlabWood("slab_hazel")).setUnlocalizedName("slab_hazel"); 
+							Block block = new GenBlockSlab(name, Material.CLOTH).setUnlocalizedName("monsteranddungeons:" + name);
+							Block Doubleblock = new GenBlockDoubleSlab(Material.CLOTH, "double_" + name).setUnlocalizedName( "monsteranddungeons:" +"double_" +name);
+							
+							genBlocks.add(block);
+							genBlocks.add(Doubleblock);
+							
+							ItemGenBlockSlab slab = (ItemGenBlockSlab) (new ItemGenBlockSlab((GenBlockSlab)block, (GenBlockSlab)block, (GenBlockSlab)Doubleblock).setUnlocalizedName("item_" +name).setRegistryName("item" +name));
+							genSlab.add(slab);
+						
+						}else 
+						{
+							Block block = new Block(Material.CLOTH).setUnlocalizedName(name).setCreativeTab(CreativeTabs.DECORATIONS);
+							genBlocks.add(block);
+						}
+
+						boolean[] hasResources = hasModel(name, zipDirectory);
+
+						if(!hasResources[0])
+						{
+							missingBlockState.add(entry);
+						}
+
+						if(!hasResources[1])
+						{
+							missingModels.add(entry);
 						}
 					}
 				}
 			}
 		}
 
+		if(!missingBlockState.isEmpty() || !missingModels.isEmpty())
+		{
+			generateResources(OldZipFile, missingBlockState, missingModels);
+		}
+
 		zipDirectory.close();
 	}
 
-	private static boolean hasModel(String name, ZipFile zipDirectory, String directory) throws IOException
+	private static boolean[] hasModel(String name, ZipFile file)
 	{
-		Enumeration <? extends ZipEntry > enumeration = zipDirectory.entries();
-	
-		boolean needsBlockState = true, needsModel = true;
+		boolean[] missingResources = new boolean[2];
+
+		Enumeration<? extends ZipEntry> enumeration = file.entries();
 
 		while (enumeration.hasMoreElements()) 
 		{
@@ -129,25 +186,55 @@ public class MaDBlocksHandler {
 			{
 				if(entry.getName().contains(name))
 				{
-					if(entry.getName().contains("/blockstates"))
+					if(entry.getName().contains("/blockstates/"))
 					{
-						needsBlockState = false;
+						missingResources[0] = true;
 
-					}
-					else
-						if(entry.getName().contains("/models"))
+					}else
+						if(entry.getName().contains("/models/"))
 						{
-							needsModel = false;
+							missingResources[1] = true;
 						}
 				}
 			}
 		}
 
-		if(needsBlockState)
+		return missingResources;
+	}
+
+	private static boolean generateResources(File oldZipfile, List<ZipEntry> blockstateList, List<ZipEntry> modelList) throws IOException
+	{
+
+		File tempFile = new File(oldZipfile.getParent() + "/madresources_old.zip");
+		tempFile.createNewFile();
+		ZipInputStream oldInput = new ZipInputStream(new FileInputStream(oldZipfile));
+		ZipOutputStream tempOut = new ZipOutputStream(new FileOutputStream(tempFile));
+
+		byte[] buf = new byte[4096 * 1024];
+
+		ZipEntry Oldentry = oldInput.getNextEntry();
+		while (Oldentry != null) {
+			String name = Oldentry.getName();
+
+			tempOut.putNextEntry(new ZipEntry(name));
+			int len;
+			while ((len = oldInput.read(buf)) > 0) {
+				tempOut.write(buf, 0, len);
+			}
+
+			Oldentry = oldInput.getNextEntry();
+		}
+
+		oldInput.close();
+		tempOut.close();
+
+		ZipInputStream tempIn = new ZipInputStream(new FileInputStream(tempFile));
+		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(oldZipfile));
+
+		for(ZipEntry entry : blockstateList)
 		{
-			File f = new File(directory);
 			StringBuilder sb = new StringBuilder();
-			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f));
+			String name = entry.getName().substring(35, entry.getName().length()- 4);
 
 			ZipEntry newEntry = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/blockstates/" + name + ".json");
 			out.putNextEntry(newEntry);
@@ -164,75 +251,136 @@ public class MaDBlocksHandler {
 
 				byte[] data = sb.toString().getBytes();
 				out.write(data, 0, data.length);
-				out.closeEntry();
-
 
 			}else if(name.contains("_slab"))
 			{
+				String blockstatejsonFile = Reference.genBlocks_Slab_blockstate;
 
-			}else
-			{
+				blockstatejsonFile = blockstatejsonFile.replace("half_slab_oak", Reference.MOD_ID_GenBlocks + ":" + name + "_half");
+				blockstatejsonFile = blockstatejsonFile.replace("upper_slab_oak", Reference.MOD_ID_GenBlocks + ":" + name + "_upper");
+				
+				sb.append(blockstatejsonFile);
 
+				byte[] data = sb.toString().getBytes();
+				out.write(data, 0, data.length);
+				
+			}else {
+				
+				String blockstatejsonFile = Reference.genBlocks_Block_blockstate;
+
+				blockstatejsonFile = blockstatejsonFile.replace("dirt", Reference.MOD_ID_GenBlocks + ":" + name);
+			
+				sb.append(blockstatejsonFile);
+
+				byte[] data = sb.toString().getBytes();
+				out.write(data, 0, data.length);
+				
 			}
-			if(needsModel)
+		}
+
+		for(ZipEntry entry : modelList)
+		{
+			String name = entry.getName().substring(35, entry.getName().length()- 4);
+
+			if(name.contains("_stairs"))
 			{
+				String stairreg = Reference.genBlocks_Stairs_model_reg;
+				String stairInner = Reference.genBlocks_Stairs_model_inner;
+				String stairOuter = Reference.genBlocks_Stairs_model_outer;
+
+				StringBuilder sb1 = new StringBuilder();
+				StringBuilder sb2 = new StringBuilder();
+				StringBuilder sb3 = new StringBuilder();
 
 				ZipEntry newEntry1 = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + ".json");
+				ZipEntry newEntryInner = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_inner" + ".json");
+				ZipEntry newEntryOuter = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_outer" +".json");
+
+				stairreg = stairreg.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
+				sb1.append(stairreg);
+
+				stairInner = stairInner.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
+				sb2.append(stairInner);
+
+				stairOuter = stairOuter.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
+				sb3.append(stairOuter);
+
+				byte[] data1 = sb1.toString().getBytes();
+				byte[] data2 = sb2.toString().getBytes();
+				byte[] data3 = sb3.toString().getBytes();
+
 				out.putNextEntry(newEntry1);
+				out.write(data1, 0, data1.length);
 
-				if(name.contains("_stairs"))
-				{
-					String stairreg = Reference.genBlocks_Stairs_model_reg;
-					String stairInner = Reference.genBlocks_Stairs_model_inner;
-					String stairOuter = Reference.genBlocks_Stairs_model_outer;
+				out.putNextEntry(newEntryInner);
+				out.write(data2, 0, data2.length);
 
-					StringBuilder sb1 = new StringBuilder();
-					StringBuilder sb2 = new StringBuilder();
-					StringBuilder sb3 = new StringBuilder();
+				out.putNextEntry(newEntryOuter);
+				out.write(data3, 0, data3.length);
+			}else if(name.contains("_slab"))
+			{
+				String slabHalf = Reference.genBlocks_Slab_model_half;
+				String slabUpper = Reference.genBlocks_Slab_model_upper;
+				
+				StringBuilder sb1 = new StringBuilder();
+				StringBuilder sb2 = new StringBuilder();
+				
+				ZipEntry newEntryHalf = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_half" + ".json");
+				ZipEntry newEntryUpper = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_upper" +".json");
+				
+				slabHalf = slabHalf.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
+				sb1.append(slabHalf);
 
-					ZipEntry newEntryInner = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_inner" + ".json");
-					ZipEntry newEntryOuter = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_outer" +".json");
-
-					stairreg = stairreg.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
-					sb1.append(stairreg);
-
-					stairInner = stairInner.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
-					sb2.append(stairInner);
-
-					stairOuter = stairOuter.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
-					sb3.append(stairOuter);
-
-
-					byte[] data1 = sb1.toString().getBytes();
-					byte[] data2 = sb2.toString().getBytes();
-					byte[] data3 = sb3.toString().getBytes();
-
-					out.write(data1, 0, data1.length);
-					out.closeEntry();
-
-					out.putNextEntry(newEntryInner);
-					out.write(data2, 0, data2.length);
-					out.closeEntry();
-
-					out.putNextEntry(newEntryOuter);
-					out.write(data3, 0, data3.length);
-					out.closeEntry();
-
-
-				}else if(name.contains("_slab"))
-				{
-
-				}else
-				{
-
-				}
-
-
-			}
+				slabUpper = slabUpper.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
+				sb2.append(slabUpper);
+				
+				byte[] data1 = sb1.toString().getBytes();
+				byte[] data2 = sb2.toString().getBytes();
+				
+				out.putNextEntry(newEntryHalf);
+				out.write(data1, 0, data1.length);
+				
+				out.putNextEntry(newEntryUpper);
+				out.write(data2, 0, data2.length);
+				
+			}else 
+			{
+				String blockModel = Reference.genBlocks_Block_model;
 			
+				
+				StringBuilder sb1 = new StringBuilder();
+				
+				
+				ZipEntry newEntryHalf = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + ".json");
 		
-			out.close();
+				
+				blockModel = blockModel.replace("blocks/dirt", Reference.MOD_ID_GenBlocks + ":" + name);
+				sb1.append(blockModel);
+
+				byte[] data1 = sb1.toString().getBytes();
+			
+				out.putNextEntry(newEntryHalf);
+				out.write(data1, 0, data1.length);
+				
+			}
 		}
+
+		ZipEntry TempEntry = tempIn.getNextEntry();
+
+		while (TempEntry != null) {
+			String name = TempEntry.getName();
+
+			out.putNextEntry(new ZipEntry(name));
+			int len;
+			while ((len = tempIn.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			TempEntry = tempIn.getNextEntry();
+		}
+
+		out.close();
+		tempIn.close();
+		tempFile.delete();
 
 		return true;
 	}

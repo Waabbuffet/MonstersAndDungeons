@@ -42,10 +42,6 @@ public class CommonProxy {
 		MaDItemsHandler.register();
 		
 		MaDPacketHandler.init();
-		
-		
-		
-		
 	}
 
 	public void Init(FMLInitializationEvent event) {

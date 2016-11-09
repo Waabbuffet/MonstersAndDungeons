@@ -88,4 +88,36 @@ public class Reference
 					"} " +
 					"} ";
 
+	
+	public static final String genBlocks_Slab_blockstate = 
+	"{" + "\"variants\": {" + " \"half=bottom\": { \"model\": \"half_slab_oak\" }," +
+	" \"half=top\": { \"model\": \"upper_slab_oak\" }" + "}"  + "}";
+	
+	public static final String genBlocks_Slab_model_half = 	"{ " +
+			"\"parent\": \"block/half_slab\"," +
+			"\"textures\": { " +
+			"\"bottom\": \"blocks/planks_oak\"," +
+			"\"top\": \"blocks/planks_oak\", " +
+			"\"side\": \"blocks/planks_oak\" " +
+			"} " +
+			"} ";
+	public static final String genBlocks_Slab_model_upper = "{ " +
+			"\"parent\": \"block/upper_slab\"," +
+			"\"textures\": { " +
+			"\"bottom\": \"blocks/planks_oak\"," +
+			"\"top\": \"blocks/planks_oak\", " +
+			"\"side\": \"blocks/planks_oak\" " +
+			"} " +
+			"} ";
+	
+	public static final String genBlocks_Block_blockstate = 
+	"{" + "\"variants\": {" + " \"normal\": [" + " { \"model\": \"dirt\" }," +
+	" { \"model\": \"dirt\", \"y\": 90 }," + "{ \"model\": \"dirt\", \"y\": 180 }," +
+	"{ \"model\": \"dirt\", \"y\": 270 }" + "]" + "}" + "}";
+	
+	public static final String genBlocks_Block_model = 
+	"{" + " \"parent\": \"block/cube_all\"," + "\"textures\": {" + "\"all\": \"blocks/dirt\"" +
+	"}" + "}";
+	
+	
 }
