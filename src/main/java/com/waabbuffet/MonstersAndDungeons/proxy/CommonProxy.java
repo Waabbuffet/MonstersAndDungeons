@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
 import com.waabbuffet.MonstersAndDungeons.client.events.ClientEventHandler;
+import com.waabbuffet.MonstersAndDungeons.events.CommonEventHandler;
 import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
 import com.waabbuffet.MonstersAndDungeons.world.MaDWorldGenerationHandler;
@@ -23,7 +24,7 @@ public class CommonProxy {
 
 	public static File ConfigDir;
 
-	public void PreInit(FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) {
 		// TODO Auto-generated method stub
 
 		this.ConfigDir = event.getModConfigurationDirectory();
@@ -40,7 +41,7 @@ public class CommonProxy {
 		MaDPacketHandler.init();
 	}
 
-	public void Init(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
 		// TODO Auto-generated method stub
 
 
@@ -48,10 +49,7 @@ public class CommonProxy {
 		
 	}
 
-	public void PostInit(FMLPostInitializationEvent event) {
-		// TODO Auto-generated method stub
-
-
+	public void postInit(FMLPostInitializationEvent event) {
 	}
 
 	public void RegisterRenders() {

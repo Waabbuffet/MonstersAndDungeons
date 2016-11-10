@@ -41,8 +41,8 @@ public class ClientProxy extends CommonProxy {
 	
 	//public static ResourceLoader externalResources = new ResourceLoader();
 	
-	public void PreInit(FMLPreInitializationEvent event) {
-		super.PreInit(event);
+	public void preInit(FMLPreInitializationEvent event) {
+		super.preInit(event);
 		
 		dataDirectory = new File(event.getModConfigurationDirectory(), Reference.NAME);
 		
@@ -65,8 +65,8 @@ public class ClientProxy extends CommonProxy {
 
 	}
 
-	public void Init(FMLInitializationEvent event) {
-		super.Init(event);
+	public void init(FMLInitializationEvent event) {
+		super.init(event);
 	
 		MinecraftForge.EVENT_BUS.register(new KeyBindEvent());
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
@@ -83,8 +83,8 @@ public class ClientProxy extends CommonProxy {
 		this.RegisterRenders();
 	}
 
-	public void PostInit(FMLPostInitializationEvent event) {
-		super.PostInit(event);
+	public void postInit(FMLPostInitializationEvent event) {
+		super.postInit(event);
 		
 		
 	}

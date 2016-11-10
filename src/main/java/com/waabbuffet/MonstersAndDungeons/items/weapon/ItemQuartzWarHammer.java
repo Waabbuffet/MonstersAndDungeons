@@ -13,12 +13,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ItemQuartzWarHammer extends ItemAxe{
 
 	public ItemQuartzWarHammer(ToolMaterial material, String name) {
-		super(material, material.getDamageVsEntity(), 1.0f);
+		super(material, 0, 1.0f);
 
 		this.setCreativeTab(CreativeTabs.COMBAT);
-		
-		damageVsEntity = 4.0f;
-		
+				
 		setUnlocalizedName(name);
 		setRegistryName(name);
 		
