@@ -26,36 +26,20 @@ public class MaDItemsHandler
 
 	public static void init()
 	{
-		QuartzHelmet = new ItemQuartzArmor(QuartzArmorExample , 1,  EntityEquipmentSlot.HEAD).setUnlocalizedName("QuartzHelmet");
-		QuartzChest  = new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.CHEST).setUnlocalizedName("QuartzChest");
-		QuartzLegs =  new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.LEGS).setUnlocalizedName("QuartzLegs");
-		QuartzBoots = new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.FEET).setUnlocalizedName("QuartzBoots");
-		QuartzShield = new ItemQuartzShield().setUnlocalizedName("QuartzShield");
+		QuartzHelmet = new ItemQuartzArmor(QuartzArmorExample , 1,  EntityEquipmentSlot.HEAD, "QuartzHelmet");
+		QuartzChest  = new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.CHEST, "QuartzChest");
+		QuartzLegs =  new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.LEGS, "QuartzLegs");
+		QuartzBoots = new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.FEET, "QuartzBoots");
+		QuartzShield = new ItemQuartzShield("QuartzShield");
 		
-		QuartzWarHammer = new ItemQuartzWarHammer(QuartzToolsExample).setUnlocalizedName("Quartz Warhammer");
-		QuartzGreatSword = new ItemQuartzGreatSword(QuartzToolsExample).setUnlocalizedName("QuartzGreatSwordFull");
+		QuartzWarHammer = new ItemQuartzWarHammer(QuartzToolsExample, "Quartz Warhammer");
+		QuartzGreatSword = new ItemQuartzGreatSword(QuartzToolsExample, "QuartzGreatSwordFull");
 		
 
 	}
-
-	public static void register()
-	{
-		
-		GameRegistry.registerItem(QuartzHelmet, QuartzHelmet.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzChest, QuartzChest.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzLegs, QuartzLegs.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzBoots, QuartzBoots.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzShield, QuartzShield.getUnlocalizedName().substring(5));
-		
-		GameRegistry.registerItem(QuartzWarHammer, QuartzWarHammer.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzGreatSword, QuartzGreatSword.getUnlocalizedName().substring(5));
-		
-	}
-
 
 	public static void registerRenders()
 	{
-		
 		registerRender(QuartzHelmet);
 		registerRender(QuartzChest);
 		registerRender(QuartzLegs);
@@ -64,12 +48,8 @@ public class MaDItemsHandler
 		
 		registerRender(QuartzWarHammer);
 		registerRender(QuartzGreatSword);
-		
-		
-		
 	}
 
-	
 	public static void registerRender(Item item)
 	{
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation("monsteranddungeons:" + item.getUnlocalizedName().substring(5),"inventory"));

@@ -36,11 +36,7 @@ public class CommonProxy {
 		}
 		
 		MaDBlocksHandler.init();
-		MaDBlocksHandler.register();
-		
 		MaDItemsHandler.init();
-		MaDItemsHandler.register();
-		
 		MaDPacketHandler.init();
 	}
 

@@ -1,15 +1,15 @@
 package com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks;
 
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class GenBlockStairs extends BlockStairs {
+public class GenBlocks extends Block{
 
-	public GenBlockStairs(IBlockState modelState, String name) {
-		super(modelState);
+	public GenBlocks(String name) {
+		super(Material.WOOD);
 		
 		setUnlocalizedName(name);
 		setRegistryName(name);
@@ -18,4 +18,5 @@ public class GenBlockStairs extends BlockStairs {
 		GameRegistry.register(this);
 		GameRegistry.register(new ItemBlock(this), getRegistryName());
 	}
+
 }

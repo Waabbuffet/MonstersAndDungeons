@@ -6,7 +6,7 @@ public class GenBlockDoubleSlab extends GenBlockSlab {
 
 	public GenBlockDoubleSlab(Material materialIn, String Name) {
 		super(Name, materialIn);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

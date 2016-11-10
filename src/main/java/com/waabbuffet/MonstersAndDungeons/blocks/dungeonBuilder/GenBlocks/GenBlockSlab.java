@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -19,9 +20,14 @@ public class GenBlockSlab extends BlockSlab{
 	
 	public GenBlockSlab(String name, Material materialIn) {
 		super(materialIn);
+		
+		
+		setUnlocalizedName(name);
+		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		this.setRegistryName(name);
-		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		this.useNeighborBrightness = true;
+		
+		GameRegistry.register(this);
 	}
 
 	@Override

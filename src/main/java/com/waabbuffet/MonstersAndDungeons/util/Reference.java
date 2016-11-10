@@ -120,4 +120,7 @@ public class Reference
 	"}" + "}";
 	
 	
+	public static final String genBlocks_Block_Item_model = 
+	"{ \"parent\": \"block/half_slab_acacia \" }";
+	
 }
