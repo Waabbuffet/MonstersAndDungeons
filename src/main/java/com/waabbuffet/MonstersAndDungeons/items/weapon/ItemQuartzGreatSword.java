@@ -20,4 +20,5 @@ public class ItemQuartzGreatSword extends ItemSword {
 	
 	
 	
+	
 }

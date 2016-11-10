@@ -70,19 +70,19 @@ public class ModelQuartzArmor extends ModelBiped {
 	ModelRenderer leftarm13;
 	ModelRenderer leftarm14;
 
-	int Which;
+	int piece;
 
 	public ModelQuartzArmor(float f, int whichPiece)
 	{
 		textureWidth = 128;
 		textureHeight = 128;
 
-		Which = whichPiece;
+		piece = whichPiece;
 
 		head = new ModelRenderer(this, 62, 16);
 		head.addBox(2.5F, -10F, -4.5F, 2, 6, 1);
 		head.setRotationPoint(0F, 0F, 0F);
-		head.setTextureSize(128, 128);
+		head.setTextureSize(textureWidth, textureHeight);
 		head.mirror = true;
 		setRotation(head, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head);
@@ -90,7 +90,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head1 = new ModelRenderer(this, 56, 16);
 		head1.addBox(-1F, -11F, -4.5F, 2, 10, 1);
 		head1.setRotationPoint(0F, 0F, 0F);
-		head1.setTextureSize(128, 128);
+		head1.setTextureSize(textureWidth, textureHeight);
 		head1.mirror = true;
 		setRotation(head1, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head1);
@@ -98,7 +98,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head2 = new ModelRenderer(this, 64, 0);
 		head2.addBox(3F, -3F, -4F, 1, 1, 7);
 		head2.setRotationPoint(0F, 0F, 0F);
-		head2.setTextureSize(128, 128);
+		head2.setTextureSize(textureWidth, textureHeight);
 		head2.mirror = true;
 		setRotation(head2, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head2);
@@ -106,7 +106,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head3 = new ModelRenderer(this, 64, 0);
 		head3.addBox(-4F, -3F, -4F, 1, 1, 7);
 		head3.setRotationPoint(0F, 0F, 0F);
-		head3.setTextureSize(128, 128);
+		head3.setTextureSize(textureWidth, textureHeight);
 		head3.mirror = true;
 		setRotation(head3, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head3);
@@ -114,7 +114,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head4 = new ModelRenderer(this, 0, 14);
 		head4.addBox(-4F, -3F, 3F, 8, 1, 1);
 		head4.setRotationPoint(0F, 0F, 0F);
-		head4.setTextureSize(128, 128);
+		head4.setTextureSize(textureWidth, textureHeight);
 		head4.mirror = true;
 		setRotation(head4, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head4);
@@ -122,7 +122,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head5 = new ModelRenderer(this, 0, 0);
 		head5.addBox(-4F, -9F, -4F, 8, 6, 8);
 		head5.setRotationPoint(0F, 0F, 0F);
-		head5.setTextureSize(128, 128);
+		head5.setTextureSize(textureWidth, textureHeight);
 		head5.mirror = true;
 		setRotation(head5, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head5);
@@ -130,7 +130,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head6 = new ModelRenderer(this, 68, 16);
 		head6.addBox(-1F, -10F, 3.5F, 2, 6, 1);
 		head6.setRotationPoint(0F, 0F, 0F);
-		head6.setTextureSize(128, 128);
+		head6.setTextureSize(textureWidth, textureHeight);
 		head6.mirror = true;
 		setRotation(head6, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head6);
@@ -138,7 +138,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head7 = new ModelRenderer(this, 74, 23);
 		head7.addBox(2.5F, -10F, 3.5F, 2, 6, 1);
 		head7.setRotationPoint(0F, 0F, 0F);
-		head7.setTextureSize(128, 128);
+		head7.setTextureSize(textureWidth, textureHeight);
 		head7.mirror = true;
 		setRotation(head7, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head7);
@@ -146,7 +146,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head8 = new ModelRenderer(this, 68, 23);
 		head8.addBox(-4.5F, -10F, 3.5F, 2, 6, 1);
 		head8.setRotationPoint(0F, 0F, 0F);
-		head8.setTextureSize(128, 128);
+		head8.setTextureSize(textureWidth, textureHeight);
 		head8.mirror = true;
 		setRotation(head8, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head8);
@@ -154,7 +154,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head9 = new ModelRenderer(this, 74, 15);
 		head9.addBox(3.5F, -10F, -1F, 1, 6, 2);
 		head9.setRotationPoint(0F, 0F, 0F);
-		head9.setTextureSize(128, 128);
+		head9.setTextureSize(textureWidth, textureHeight);
 		head9.mirror = true;
 		setRotation(head9, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head9);
@@ -162,7 +162,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head10 = new ModelRenderer(this, 80, 15);
 		head10.addBox(-4.5F, -10F, -1F, 1, 6, 2);
 		head10.setRotationPoint(0F, 0F, 0F);
-		head10.setTextureSize(128, 128);
+		head10.setTextureSize(textureWidth, textureHeight);
 		head10.mirror = true;
 		setRotation(head10, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head10);
@@ -170,7 +170,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head11 = new ModelRenderer(this, 80, 23);
 		head11.addBox(-4.5F, -10F, -3.5F, 1, 6, 1);
 		head11.setRotationPoint(0F, 0F, 0F);
-		head11.setTextureSize(128, 128);
+		head11.setTextureSize(textureWidth, textureHeight);
 		head11.mirror = true;
 		setRotation(head11, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head11);
@@ -178,7 +178,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head12 = new ModelRenderer(this, 80, 23);
 		head12.addBox(-4.5F, -10F, 2.5F, 1, 6, 1);
 		head12.setRotationPoint(0F, 0F, 0F);
-		head12.setTextureSize(128, 128);
+		head12.setTextureSize(textureWidth, textureHeight);
 		head12.mirror = true;
 		setRotation(head12, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head12);
@@ -186,7 +186,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head13 = new ModelRenderer(this, 62, 23);
 		head13.addBox(-4.5F, -10F, -4.5F, 2, 6, 1);
 		head13.setRotationPoint(0F, 0F, 0F);
-		head13.setTextureSize(128, 128);
+		head13.setTextureSize(textureWidth, textureHeight);
 		head13.mirror = true;
 		setRotation(head13, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head13);
@@ -194,7 +194,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head14 = new ModelRenderer(this, 80, 23);
 		head14.addBox(3.5F, -10F, -3.5F, 1, 6, 1);
 		head14.setRotationPoint(0F, 0F, 0F);
-		head14.setTextureSize(128, 128);
+		head14.setTextureSize(textureWidth, textureHeight);
 		head14.mirror = true;
 		setRotation(head14, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head14);
@@ -202,7 +202,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		head15 = new ModelRenderer(this, 80, 23);
 		head15.addBox(3.5F, -10F, 2.5F, 1, 6, 1);
 		head15.setRotationPoint(0F, 0F, 0F);
-		head15.setTextureSize(128, 128);
+		head15.setTextureSize(textureWidth, textureHeight);
 		head15.mirror = true;
 		setRotation(head15, 0F, 0F, 0F);
 		//	this.bipedHead.addChild(head15);
@@ -211,7 +211,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm = new ModelRenderer(this, 40, 16);
 		leftarm.addBox(-1F, -2F, -2F, 4, 7, 4);
 		leftarm.setRotationPoint(5F, 2F, 0F);
-		leftarm.setTextureSize(128, 128);
+		leftarm.setTextureSize(textureWidth, textureHeight);
 		leftarm.mirror = true;
 		setRotation(leftarm, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm);
@@ -219,7 +219,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		RightarmArmour = new ModelRenderer(this, 34, 48);
 		RightarmArmour.addBox(-0.9F, -6.5F, -1F, 2, 1, 2);
 		RightarmArmour.setRotationPoint(-5F, 2F, 0F);
-		RightarmArmour.setTextureSize(128, 128);
+		RightarmArmour.setTextureSize(textureWidth, textureHeight);
 		RightarmArmour.mirror = true;
 		setRotation(RightarmArmour, 0F, 0F, -0.0872665F);
 		//	this.bipedRightArm.addChild(RightarmArmour);
@@ -227,7 +227,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		RightarmArmour1 = new ModelRenderer(this, 0, 53);
 		RightarmArmour1.addBox(-0.9F, -5.5F, -3.5F, 2, 6, 7);
 		RightarmArmour1.setRotationPoint(-5F, 2F, 0F);
-		RightarmArmour1.setTextureSize(128, 128);
+		RightarmArmour1.setTextureSize(textureWidth, textureHeight);
 		RightarmArmour1.mirror = true;
 		setRotation(RightarmArmour1, 0F, 0F, -0.0872665F);
 		//	this.bipedRightArm.addChild(RightarmArmour1);
@@ -235,7 +235,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		RightarmArmour2 = new ModelRenderer(this, 34, 48);
 		RightarmArmour2.addBox(-0.9F, -6.5F, 1.5F, 2, 1, 2);
 		RightarmArmour2.setRotationPoint(-5F, 2F, 0F);
-		RightarmArmour2.setTextureSize(128, 128);
+		RightarmArmour2.setTextureSize(textureWidth, textureHeight);
 		RightarmArmour2.mirror = true;
 		setRotation(RightarmArmour2, 0F, 0F, -0.0872665F);
 		//	this.bipedRightArm.addChild(RightarmArmour2);
@@ -243,7 +243,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		RightarmArmour3 = new ModelRenderer(this, 34, 43);
 		RightarmArmour3.addBox(-4.5F, 1.5F, -2F, 5, 1, 4);
 		RightarmArmour3.setRotationPoint(-5F, 2F, 0F);
-		RightarmArmour3.setTextureSize(128, 128);
+		RightarmArmour3.setTextureSize(textureWidth, textureHeight);
 		RightarmArmour3.mirror = true;
 		setRotation(RightarmArmour3, 0F, 0F, 0F);
 		//	this.bipedRightArm.addChild(RightarmArmour3);
@@ -251,7 +251,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		BodyArmour = new ModelRenderer(this, 32, 0);
 		BodyArmour.addBox(3.3F, 0.1F, -2.5F, 1, 4, 4);
 		BodyArmour.setRotationPoint(0F, 0F, 0F);
-		BodyArmour.setTextureSize(128, 128);
+		BodyArmour.setTextureSize(textureWidth, textureHeight);
 		BodyArmour.mirror = true;
 		setRotation(BodyArmour, 0.0872665F, 0F, 0F);
 		//	this.bipedBody.addChild(BodyArmour);
@@ -259,7 +259,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		body = new ModelRenderer(this, 16, 28);
 		body.addBox(-3F, 8F, -2F, 6, 1, 4);
 		body.setRotationPoint(0F, 0F, 0F);
-		body.setTextureSize(128, 128);
+		body.setTextureSize(textureWidth, textureHeight);
 		body.mirror = true;
 		setRotation(body, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(body);
@@ -267,7 +267,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		BodyArmour1 = new ModelRenderer(this, 32, 0);
 		BodyArmour1.addBox(-4.3F, 0.1F, -2.3F, 1, 4, 4);
 		BodyArmour1.setRotationPoint(0F, 0F, 0F);
-		BodyArmour1.setTextureSize(128, 128);
+		BodyArmour1.setTextureSize(textureWidth, textureHeight);
 		BodyArmour1.mirror = true;
 		setRotation(BodyArmour1, 0.0872665F, 0F, 0F);
 		//	this.bipedBody.addChild(BodyArmour1);
@@ -275,7 +275,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm1 = new ModelRenderer(this, 42, 8);
 		leftarm1.addBox(-1.2F, 5F, -2.2F, 4, 1, 4);
 		leftarm1.setRotationPoint(5F, 2F, 0F);
-		leftarm1.setTextureSize(128, 128);
+		leftarm1.setTextureSize(textureWidth, textureHeight);
 		leftarm1.mirror = true;
 		setRotation(leftarm1, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm1);
@@ -283,7 +283,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm2 = new ModelRenderer(this, 42, 8);
 		leftarm2.addBox(-0.8F, 3F, -2.2F, 4, 1, 4);
 		leftarm2.setRotationPoint(5F, 2F, 0F);
-		leftarm2.setTextureSize(128, 128);
+		leftarm2.setTextureSize(textureWidth, textureHeight);
 		leftarm2.mirror = true;
 		setRotation(leftarm2, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm2);
@@ -291,7 +291,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm3 = new ModelRenderer(this, 42, 8);
 		leftarm3.addBox(-1.2F, 5F, -1.8F, 4, 1, 4);
 		leftarm3.setRotationPoint(5F, 2F, 0F);
-		leftarm3.setTextureSize(128, 128);
+		leftarm3.setTextureSize(textureWidth, textureHeight);
 		leftarm3.mirror = true;
 		setRotation(leftarm3, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm3);
@@ -299,7 +299,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm4 = new ModelRenderer(this, 42, 8);
 		leftarm4.addBox(-0.8F, 5F, -1.8F, 4, 1, 4);
 		leftarm4.setRotationPoint(5F, 2F, 0F);
-		leftarm4.setTextureSize(128, 128);
+		leftarm4.setTextureSize(textureWidth, textureHeight);
 		leftarm4.mirror = true;
 		setRotation(leftarm4, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm4);
@@ -307,7 +307,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm5 = new ModelRenderer(this, 42, 8);
 		leftarm5.addBox(-0.8F, 5F, -2.2F, 4, 1, 4);
 		leftarm5.setRotationPoint(5F, 2F, 0F);
-		leftarm5.setTextureSize(128, 128);
+		leftarm5.setTextureSize(textureWidth, textureHeight);
 		leftarm5.mirror = true;
 		setRotation(leftarm5, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm5);
@@ -315,7 +315,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm6 = new ModelRenderer(this, 42, 8);
 		leftarm6.addBox(-1.2F, 3F, -1.8F, 4, 1, 4);
 		leftarm6.setRotationPoint(5F, 2F, 0F);
-		leftarm6.setTextureSize(128, 128);
+		leftarm6.setTextureSize(textureWidth, textureHeight);
 		leftarm6.mirror = true;
 		setRotation(leftarm6, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm6);
@@ -323,7 +323,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm7 = new ModelRenderer(this, 42, 8);
 		leftarm7.addBox(-1.2F, 3F, -2.2F, 4, 1, 4);
 		leftarm7.setRotationPoint(5F, 2F, 0F);
-		leftarm7.setTextureSize(128, 128);
+		leftarm7.setTextureSize(textureWidth, textureHeight);
 		leftarm7.mirror = true;
 		setRotation(leftarm7, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm7);
@@ -331,7 +331,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm8 = new ModelRenderer(this, 42, 8);
 		leftarm8.addBox(-0.8F, 3F, -1.8F, 4, 1, 4);
 		leftarm8.setRotationPoint(5F, 2F, 0F);
-		leftarm8.setTextureSize(128, 128);
+		leftarm8.setTextureSize(textureWidth, textureHeight);
 		leftarm8.mirror = true;
 		setRotation(leftarm8, 0F, 0F, 0F);
 		//	this.bipedLeftArm.addChild(leftarm8);
@@ -339,7 +339,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		BodyArmour2 = new ModelRenderer(this, 16, 42);
 		BodyArmour2.addBox(-3F, 3.9F, 1.5F, 6, 2, 1);
 		BodyArmour2.setRotationPoint(0F, 0F, 0F);
-		BodyArmour2.setTextureSize(128, 128);
+		BodyArmour2.setTextureSize(textureWidth, textureHeight);
 		BodyArmour2.mirror = true;
 		setRotation(BodyArmour2, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(BodyArmour2);
@@ -347,7 +347,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		BodyArmour3 = new ModelRenderer(this, 16, 42);
 		BodyArmour3.addBox(-3F, 4.9F, -2.5F, 6, 3, 1);
 		BodyArmour3.setRotationPoint(0F, 0F, 0F);
-		BodyArmour3.setTextureSize(128, 128);
+		BodyArmour3.setTextureSize(textureWidth, textureHeight);
 		BodyArmour3.mirror = true;
 		setRotation(BodyArmour3, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(BodyArmour3);
@@ -355,7 +355,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		BodyArmour4 = new ModelRenderer(this, 16, 51);
 		BodyArmour4.addBox(-4F, -0.1F, -2.5F, 2, 1, 1);
 		BodyArmour4.setRotationPoint(0F, 0F, 0F);
-		BodyArmour4.setTextureSize(128, 128);
+		BodyArmour4.setTextureSize(textureWidth, textureHeight);
 		BodyArmour4.mirror = true;
 		setRotation(BodyArmour4, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(BodyArmour4);
@@ -363,7 +363,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		BodyArmour5 = new ModelRenderer(this, 22, 51);
 		BodyArmour5.addBox(2F, -0.1F, -2.5F, 2, 1, 1);
 		BodyArmour5.setRotationPoint(0F, 0F, 0F);
-		BodyArmour5.setTextureSize(128, 128);
+		BodyArmour5.setTextureSize(textureWidth, textureHeight);
 		BodyArmour5.mirror = true;
 		setRotation(BodyArmour5, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(BodyArmour5);
@@ -371,7 +371,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		BodyArmour6 = new ModelRenderer(this, 16, 46);
 		BodyArmour6.addBox(-4F, -0.1F, 1.5F, 8, 4, 1);
 		BodyArmour6.setRotationPoint(0F, 0F, 0F);
-		BodyArmour6.setTextureSize(128, 128);
+		BodyArmour6.setTextureSize(textureWidth, textureHeight);
 		BodyArmour6.mirror = true;
 		setRotation(BodyArmour6, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(BodyArmour6);
@@ -379,7 +379,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		BodyArmour7 = new ModelRenderer(this, 16, 46);
 		BodyArmour7.addBox(-4F, 0.9F, -2.5F, 8, 4, 1);
 		BodyArmour7.setRotationPoint(0F, 0F, 0F);
-		BodyArmour7.setTextureSize(128, 128);
+		BodyArmour7.setTextureSize(textureWidth, textureHeight);
 		BodyArmour7.mirror = true;
 		setRotation(BodyArmour7, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(BodyArmour7);
@@ -387,7 +387,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		LeftarmArmour = new ModelRenderer(this, 0, 42);
 		LeftarmArmour.addBox(-1.1F, -4.5F, -3F, 2, 5, 6);
 		LeftarmArmour.setRotationPoint(5F, 2F, 0F);
-		LeftarmArmour.setTextureSize(128, 128);
+		LeftarmArmour.setTextureSize(textureWidth, textureHeight);
 		LeftarmArmour.mirror = true;
 		setRotation(LeftarmArmour, 0F, 0F, 0.0872665F);
 		//	this.bipedLeftArm.addChild(LeftarmArmour);
@@ -395,7 +395,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		RightarmArmour5 = new ModelRenderer(this, 34, 48); 
 		RightarmArmour5.addBox(-0.9F, -6.5F, -3.5F, 2, 1, 2);
 		RightarmArmour5.setRotationPoint(-5F, 2F, 0F);
-		RightarmArmour5.setTextureSize(128, 128);
+		RightarmArmour5.setTextureSize(textureWidth, textureHeight);
 		RightarmArmour5.mirror = true;
 		setRotation(RightarmArmour5, 0F, 0F, -0.0872665F);
 		//	this.bipedRightArm.addChild(RightarmArmour3);
@@ -403,7 +403,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		LeftarmArmour1 = new ModelRenderer(this, 0, 32);
 		LeftarmArmour1.addBox(-1F, -3.5F, -2.5F, 5, 5, 5);
 		LeftarmArmour1.setRotationPoint(5F, 2F, 0F);
-		LeftarmArmour1.setTextureSize(128, 128);
+		LeftarmArmour1.setTextureSize(textureWidth, textureHeight);
 		LeftarmArmour1.mirror = true;
 		setRotation(LeftarmArmour1, 0F, 0F, 0.0872665F);
 		//	this.bipedLeftArm.addChild(LeftarmArmour1);
@@ -411,7 +411,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		RightarmArmour4 = new ModelRenderer(this, 34, 32);
 		RightarmArmour4.addBox(-5F, -4.5F, -2.5F, 6, 6, 5);
 		RightarmArmour4.setRotationPoint(-5F, 2F, 0F);
-		RightarmArmour4.setTextureSize(128, 128);
+		RightarmArmour4.setTextureSize(textureWidth, textureHeight);
 		RightarmArmour4.mirror = true;
 		setRotation(RightarmArmour4, 0F, 0F, -0.0872665F);
 		//	this.bipedRightArm.addChild(RightarmArmour4);
@@ -419,7 +419,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		body1 = new ModelRenderer(this, 16, 16);
 		body1.addBox(-4F, 0F, -2F, 8, 8, 4);
 		body1.setRotationPoint(0F, 0F, 0F);
-		body1.setTextureSize(128, 128);
+		body1.setTextureSize(textureWidth, textureHeight);
 		body1.mirror = true;
 		setRotation(body1, 0F, 0F, 0F);
 		//	this.bipedRightArm.addChild(body1);
@@ -427,7 +427,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		rightleg = new ModelRenderer(this, 0, 18);
 		rightleg.addBox(-2F, 0F, -2F, 1, 7, 4);
 		rightleg.setRotationPoint(-2F, 10F, 0F);
-		rightleg.setTextureSize(128, 128);
+		rightleg.setTextureSize(textureWidth, textureHeight);
 		rightleg.mirror = true;
 		setRotation(rightleg, 0F, 0F, 0.0872665F);
 		//	this.bipedRightLeg.addChild(rightleg);
@@ -435,7 +435,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftleg = new ModelRenderer(this, 0, 18);
 		leftleg.addBox(1F, 0F, -2F, 1, 7, 4);
 		leftleg.setRotationPoint(2F, 10F, 0F);
-		leftleg.setTextureSize(128, 128);
+		leftleg.setTextureSize(textureWidth, textureHeight);
 		leftleg.mirror = true;
 		setRotation(leftleg, 0F, 0F, -0.0872665F);
 		//	this.bipedLeftLeg.addChild(leftleg1);
@@ -443,7 +443,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftleg1 = new ModelRenderer(this, 80, 0);
 		leftleg1.addBox(-2F, -1.5F, -2.6F, 4, 10, 1);
 		leftleg1.setRotationPoint(0F, 10F, 0F);
-		leftleg1.setTextureSize(128, 128);
+		leftleg1.setTextureSize(textureWidth, textureHeight);
 		leftleg1.mirror = true;
 		setRotation(leftleg1, -0.0523599F, 0F, 0F);
 		//	this.bipedLeftLeg.addChild(leftleg1);
@@ -451,7 +451,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		body2 = new ModelRenderer(this, 40, 27);
 		body2.addBox(-4F, 8.5F, 1.3F, 8, 2, 1);
 		body2.setRotationPoint(0F, 0F, 0F);
-		body2.setTextureSize(128, 128);
+		body2.setTextureSize(textureWidth, textureHeight);
 		body2.mirror = true;
 		setRotation(body2, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(body2);
@@ -459,7 +459,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftleg2 = new ModelRenderer(this, 80, 0);
 		leftleg2.addBox(-2F, -1.5F, 1.6F, 4, 10, 1);
 		leftleg2.setRotationPoint(0F, 10F, 0F);
-		leftleg2.setTextureSize(128, 128);
+		leftleg2.setTextureSize(textureWidth, textureHeight);
 		leftleg2.mirror = true;
 		setRotation(leftleg2, 0.0523599F, 0F, 0F);
 		//	this.bipedLeftLeg.addChild(leftleg2);
@@ -467,7 +467,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		body5 = new ModelRenderer(this, 20, 33);
 		body5.addBox(3.3F, 8.5F, -2F, 1, 2, 4);
 		body5.setRotationPoint(0F, 0F, 0F);
-		body5.setTextureSize(128, 128);
+		body5.setTextureSize(textureWidth, textureHeight);
 		body5.mirror = true;
 		setRotation(body5, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(body5);
@@ -475,7 +475,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		body3 = new ModelRenderer(this, 40, 27);
 		body3.addBox(-4F, 8.5F, -2.3F, 8, 2, 1);
 		body3.setRotationPoint(0F, 0F, 0F);
-		body3.setTextureSize(128, 128);
+		body3.setTextureSize(textureWidth, textureHeight);
 		body3.mirror = true;
 		setRotation(body3, 0F, 0F, 0F);
 		//	this.bipedBody.addChild(body3);
@@ -483,7 +483,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		body4 = new ModelRenderer(this, 20, 33);
 		body4.addBox(-4.3F, 8.5F, -2F, 1, 2, 4);
 		body4.setRotationPoint(0F, 0F, 0F);
-		body4.setTextureSize(128, 128);
+		body4.setTextureSize(textureWidth, textureHeight);
 		body4.mirror = true;
 		setRotation(body4, 0F, 0F, 0F);
 		//		this.bipedBody.addChild(body4);
@@ -491,7 +491,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftleg4 = new ModelRenderer(this, 42, 0);
 		leftleg4.addBox(-3.5F, 0F, -2F, 7, 7, 1);
 		leftleg4.setRotationPoint(0F, 10F, 0F);
-		leftleg4.setTextureSize(128, 128);
+		leftleg4.setTextureSize(textureWidth, textureHeight);
 		leftleg4.mirror = true;
 		setRotation(leftleg4, -0.0872665F, 0F, 0F);
 		//		this.bipedLeftLeg.addChild(leftleg4);
@@ -499,7 +499,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftleg3 = new ModelRenderer(this, 42, 0);
 		leftleg3.addBox(-3.5F, 0F, 1F, 7, 7, 1);
 		leftleg3.setRotationPoint(0F, 10F, 0F);
-		leftleg3.setTextureSize(128, 128);
+		leftleg3.setTextureSize(textureWidth, textureHeight);
 		leftleg3.mirror = true;
 		setRotation(leftleg3, 0.0872665F, 0F, 0F);
 		//		this.bipedLeftLeg.addChild(leftleg3);
@@ -508,7 +508,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm9 = new ModelRenderer(this, 90, 0);
 		leftarm9.addBox(-2F, 9F, -2F, 4, 3, 4);
 		leftarm9.setRotationPoint(2F, 12F, 0F);
-		leftarm9.setTextureSize(128, 128);
+		leftarm9.setTextureSize(textureWidth, textureHeight);
 		leftarm9.mirror = true;
 		setRotation(leftarm9, 0F, 0F, 0F);
 		//	this.bipedLeftLeg.addChild(leftarm9);
@@ -516,7 +516,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm10 = new ModelRenderer(this, 106, 10);
 		leftarm10.addBox(-1F, 8F, -2.2F, 2, 2, 1);
 		leftarm10.setRotationPoint(-2F, 12F, 0F);
-		leftarm10.setTextureSize(128, 128);
+		leftarm10.setTextureSize(textureWidth, textureHeight);
 		leftarm10.mirror = true;
 		setRotation(leftarm10, 0F, 0F, 0F);
 		//	this.bipedLeftLeg.addChild(leftarm10);
@@ -524,7 +524,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm11 = new ModelRenderer(this, 106, 10);
 		leftarm11.addBox(-1F, 8F, -2.2F, 2, 2, 1);
 		leftarm11.setRotationPoint(-2F, 12F, 0F);
-		leftarm11.setTextureSize(128, 128);
+		leftarm11.setTextureSize(textureWidth, textureHeight);
 		leftarm11.mirror = true;
 		setRotation(leftarm11, 0F, 0F, 0F);
 		//	this.bipedLeftLeg.addChild(leftarm11);
@@ -532,7 +532,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm12 = new ModelRenderer(this, 106, 5);
 		leftarm12.addBox(-2F, 7.5F, -2F, 4, 1, 4);
 		leftarm12.setRotationPoint(2F, 12F, 0F);
-		leftarm12.setTextureSize(128, 128);
+		leftarm12.setTextureSize(textureWidth, textureHeight);
 		leftarm12.mirror = true;
 		setRotation(leftarm12, 0F, 0F, 0F);
 		//	this.bipedLeftLeg.addChild(leftarm12);
@@ -540,7 +540,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm13 = new ModelRenderer(this, 90, 7);
 		leftarm13.addBox(-2F, 9F, -2F, 4, 3, 4);
 		leftarm13.setRotationPoint(-2F, 12F, 0F);
-		leftarm13.setTextureSize(128, 128);
+		leftarm13.setTextureSize(textureWidth, textureHeight);
 		leftarm13.mirror = true;
 		setRotation(leftarm13, 0F, 0F, 0F);
 		//	this.bipedLeftLeg.addChild(leftarm13);
@@ -548,7 +548,7 @@ public class ModelQuartzArmor extends ModelBiped {
 		leftarm14 = new ModelRenderer(this, 106, 0);
 		leftarm14.addBox(-2F, 7.5F, -2F, 4, 1, 4);
 		leftarm14.setRotationPoint(-2F, 12F, 0F);
-		leftarm14.setTextureSize(128, 128);
+		leftarm14.setTextureSize(textureWidth, textureHeight);
 		leftarm14.mirror = true;
 		setRotation(leftarm14, 0F, 0F, 0F);
 		//	this.bipedLeftLeg.addChild(leftarm14);
@@ -579,7 +579,7 @@ public class ModelQuartzArmor extends ModelBiped {
 			GlStateManager.translate(0.0F, 0.2F, 0.0F);
 		}
 
-		if(this.Which == 0)
+		if(this.piece == 0)
 		{
 			copyModelAngles(this.bipedHead, this.head);
 			copyModelAngles(this.bipedHead, this.head1);
@@ -615,7 +615,7 @@ public class ModelQuartzArmor extends ModelBiped {
 			head14.render(f5);
 			head15.render(f5);
 
-		}else if(this.Which == 1)
+		}else if(this.piece == 1)
 		{
 			copyModelAngles(this.bipedLeftArm, this.leftarm);
 			copyModelAngles(this.bipedLeftArm, this.leftarm1);
@@ -677,7 +677,7 @@ public class ModelQuartzArmor extends ModelBiped {
 			body1.render(f5);
 
 
-		}else if(this.Which == 2)
+		}else if(this.piece == 2)
 		{
 
 			this.rightleg.rotateAngleX  =  MathHelper.cos(f * 0.6662F) * 1.4F * f1 / 1.0f;
@@ -707,7 +707,7 @@ public class ModelQuartzArmor extends ModelBiped {
 			leftleg4.render(f5);
 			leftleg3.render(f5);
 
-		}else if(this.Which == 3)
+		}else if(this.piece == 3)
 		{
 
 			copyModelAngles(this.bipedLeftLeg, this.leftarm9);
