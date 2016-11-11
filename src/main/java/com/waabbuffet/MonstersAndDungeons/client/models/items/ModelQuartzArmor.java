@@ -516,7 +516,7 @@ public class ModelQuartzArmor extends ModelBiped {
 			copyModelAngles(this.bipedLeftArm, this.leftarm5);
 			copyModelAngles(this.bipedLeftArm, this.leftarm6);
 			copyModelAngles(this.bipedLeftArm, this.leftarm7);
-			copyModelAngles(this.bipedLeftArm, this.leftarm9);
+			copyModelAngles(this.bipedLeftArm, this.leftarm8);
 			copyModelAngles(this.bipedLeftArm, this.LeftarmArmour);
 			copyModelAngles(this.bipedLeftArm, this.LeftarmArmour1);
 			
@@ -546,7 +546,6 @@ public class ModelQuartzArmor extends ModelBiped {
 			leftarm6.render(scale);
 			leftarm7.render(scale);
 			leftarm8.render(scale);
-			leftarm9.render(scale);
 			LeftarmArmour.render(scale);
 			LeftarmArmour1.render(scale);
 
