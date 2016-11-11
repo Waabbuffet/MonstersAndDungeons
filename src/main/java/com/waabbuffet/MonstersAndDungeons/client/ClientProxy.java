@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
 import com.waabbuffet.MonstersAndDungeons.client.events.ClientEventHandler;
 import com.waabbuffet.MonstersAndDungeons.client.events.ClientTickEventHandler;
+import com.waabbuffet.MonstersAndDungeons.client.models.items.ModelQuartzArmor;
 import com.waabbuffet.MonstersAndDungeons.events.KeyBindEvent;
 import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.proxy.CommonProxy;
@@ -95,7 +97,10 @@ public class ClientProxy extends CommonProxy {
 		MaDBlocksHandler.registerRenders();
 		MaDItemsHandler.registerRenders();
 	}
-	
-	
-	
+		
+	@Override
+	public ModelBiped getArmorModel(int id) {
+		return new ModelQuartzArmor(id);
+	}
+		
 }

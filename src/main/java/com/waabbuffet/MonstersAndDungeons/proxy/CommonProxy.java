@@ -10,6 +10,7 @@ import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
 import com.waabbuffet.MonstersAndDungeons.world.MaDWorldGenerationHandler;
 
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -57,7 +58,9 @@ public class CommonProxy {
 		
 	}
 
-
+	public ModelBiped getArmorModel(int id) {
+		return null;
+	}
 	
 
 

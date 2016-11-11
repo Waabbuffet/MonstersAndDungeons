@@ -14,10 +14,10 @@ import com.waabbuffet.MonstersAndDungeons.proxy.CommonProxy;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
 @Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
-public class MonsterAndDungeons 
+public class MonstersAndDungeons 
 {
 	@Instance(Reference.MODID)
-	public static MonsterAndDungeons instance;
+	public static MonstersAndDungeons instance;
 	
 	
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.COMMON_PROXY)
