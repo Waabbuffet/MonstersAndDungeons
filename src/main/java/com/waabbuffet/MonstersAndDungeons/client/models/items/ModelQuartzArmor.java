@@ -62,7 +62,6 @@ public class ModelQuartzArmor extends ModelBiped {
 	ModelRenderer body4;
 	ModelRenderer leftleg4;
 	ModelRenderer leftleg3;
-	ModelRenderer Shape1;
 	ModelRenderer leftarm9;
 	ModelRenderer leftarm10;
 	ModelRenderer leftarm11;
@@ -71,6 +70,9 @@ public class ModelQuartzArmor extends ModelBiped {
 	ModelRenderer leftarm14;
 
 	int piece;
+	
+	float previousRightRotation, previousLeftRotation;
+
 
 	public ModelQuartzArmor(float f, int whichPiece)
 	{
@@ -565,16 +567,15 @@ public class ModelQuartzArmor extends ModelBiped {
 
 	}
 
-	//setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+    public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		super.render(entityIn, limbSwing, ageInTicks, netHeadYaw, headPitch, headPitch, scale);
+		setRotationAngles(limbSwing, ageInTicks, netHeadYaw, headPitch, headPitch, scale, entityIn);
 
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(1.2f, 1.05f, 1.2f);
 
-		if (entity.isSneaking())
+		if (entityIn.isSneaking())
 		{
 			GlStateManager.translate(0.0F, 0.2F, 0.0F);
 		}
@@ -598,22 +599,22 @@ public class ModelQuartzArmor extends ModelBiped {
 			copyModelAngles(this.bipedHead, this.head14);
 			copyModelAngles(this.bipedHead, this.head15);
 
-			head.render(f5);
-			head1.render(f5);
-			head2.render(f5);
-			head3.render(f5);
-			head4.render(f5);
-			head5.render(f5);
-			head6.render(f5);
-			head7.render(f5);
-			head8.render(f5);
-			head9.render(f5);
-			head10.render(f5);
-			head11.render(f5);
-			head12.render(f5);
-			head13.render(f5);
-			head14.render(f5);
-			head15.render(f5);
+			head.render(scale);
+			head1.render(scale);
+			head2.render(scale);
+			head3.render(scale);
+			head4.render(scale);
+			head5.render(scale);
+			head6.render(scale);
+			head7.render(scale);
+			head8.render(scale);
+			head9.render(scale);
+			head10.render(scale);
+			head11.render(scale);
+			head12.render(scale);
+			head13.render(scale);
+			head14.render(scale);
+			head15.render(scale);
 
 		}else if(this.piece == 1)
 		{
@@ -648,47 +649,62 @@ public class ModelQuartzArmor extends ModelBiped {
 
 
 
-			leftarm.render(f5);
-			RightarmArmour.render(f5);
-			RightarmArmour1.render(f5);
-			RightarmArmour2.render(f5);
-			RightarmArmour3.render(f5);
-			BodyArmour.render(f5);
-			body.render(f5);
-			BodyArmour1.render(f5);
-			leftarm1.render(f5);
-			leftarm2.render(f5);
-			leftarm3.render(f5);
-			leftarm4.render(f5);
-			leftarm5.render(f5);
-			leftarm6.render(f5);
-			leftarm7.render(f5);
-			leftarm8.render(f5);
-			BodyArmour2.render(f5);
-			BodyArmour3.render(f5);
-			BodyArmour4.render(f5);
-			BodyArmour5.render(f5);
-			BodyArmour6.render(f5);
-			BodyArmour7.render(f5);
-			LeftarmArmour.render(f5);
-			RightarmArmour4.render(f5);
-			LeftarmArmour1.render(f5);
-			RightarmArmour5.render(f5);
-			body1.render(f5);
+			leftarm.render(scale);
+			RightarmArmour.render(scale);
+			RightarmArmour1.render(scale);
+			RightarmArmour2.render(scale);
+			RightarmArmour3.render(scale);
+			BodyArmour.render(scale);
+			body.render(scale);
+			BodyArmour1.render(scale);
+			leftarm1.render(scale);
+			leftarm2.render(scale);
+			leftarm3.render(scale);
+			leftarm4.render(scale);
+			leftarm5.render(scale);
+			leftarm6.render(scale);
+			leftarm7.render(scale);
+			leftarm8.render(scale);
+			BodyArmour2.render(scale);
+			BodyArmour3.render(scale);
+			BodyArmour4.render(scale);
+			BodyArmour5.render(scale);
+			BodyArmour6.render(scale);
+			BodyArmour7.render(scale);
+			LeftarmArmour.render(scale);
+			RightarmArmour4.render(scale);
+			LeftarmArmour1.render(scale);
+			RightarmArmour5.render(scale);
+			body1.render(scale);
 
 
 		}else if(this.piece == 2)
 		{
+			//TODO make it fall slower so it isn't following the legs so accurately			
+			float rightRotationCos = MathHelper.cos(limbSwing * 0.6662F);
+			float leftRotationCos = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI);
+			float rotationConstant = 1.4F * limbSwingAmount / 1.0f;
+			float rightRotation = (rightRotationCos * rotationConstant);
+			float leftRotation = (leftRotationCos * rotationConstant);
+			float min = Math.min(rightRotation, leftRotation);
+			float max = Math.max(rightRotation, leftRotation);
+			float previousMin = Math.min(previousRightRotation, previousLeftRotation);
+			float previousMax = Math.max(previousRightRotation, previousLeftRotation);
+			float newMin = Math.min(min, previousMin);
+			float newMax = Math.max(max, previousMax);
+			
+			
+			this.rightleg.rotateAngleX = rightRotation / 6;
+			this.leftleg.rotateAngleX = leftRotation / 6;
+			
+			this.leftleg1.rotateAngleX = newMin;
+			this.leftleg2.rotateAngleX = newMax;
+			
 
-			this.rightleg.rotateAngleX  =  MathHelper.cos(f * 0.6662F) * 1.4F * f1 / 1.0f;
-			this.leftleg.rotateAngleX =  MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 / 1.0f;
 			
-			this.leftleg1.rotateAngleX =  MathHelper.cos(f * 0.6662F) * 1.4F * f1 / 1.0f;
-			this.leftleg2.rotateAngleX =  MathHelper.abs(MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 / 1.0f);
-			
-			this.leftleg4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 / 1.0f;
-			this.leftleg3.rotateAngleX =  MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 / 1.0f;
-		
+			this.leftleg3.rotateAngleX = Math.max(rightRotation, leftRotation);
+			this.leftleg4.rotateAngleX = Math.min(rightRotation, leftRotation);
+
 			
 			copyModelAngles(this.bipedBody, this.body2);
 			copyModelAngles(this.bipedBody, this.body3);
@@ -696,16 +712,19 @@ public class ModelQuartzArmor extends ModelBiped {
 			copyModelAngles(this.bipedBody, this.body5);
 
 
-			rightleg.render(f5);
-			leftleg.render(f5);
-			leftleg1.render(f5);
-			body2.render(f5);
-			leftleg2.render(f5);
-			body5.render(f5);
-			body3.render(f5);
-			body4.render(f5);
-			leftleg4.render(f5);
-			leftleg3.render(f5);
+			rightleg.render(scale);
+			leftleg.render(scale);
+			leftleg1.render(scale);
+			body2.render(scale);
+			leftleg2.render(scale);
+			//body5.render(scale);
+			//body3.render(scale);
+			//body4.render(scale);
+			leftleg4.render(scale);
+			leftleg3.render(scale);
+			
+			previousRightRotation = rightRotation;
+			previousLeftRotation = leftRotation;
 
 		}else if(this.piece == 3)
 		{
@@ -720,12 +739,12 @@ public class ModelQuartzArmor extends ModelBiped {
 			copyModelAngles(this.bipedRightLeg, this.leftarm14);
 
 
-			leftarm9.render(f5);
-			leftarm10.render(f5);
-			leftarm11.render(f5);
-			leftarm12.render(f5);
-			leftarm13.render(f5);
-			leftarm14.render(f5);
+			leftarm9.render(scale);
+			leftarm10.render(scale);
+			leftarm11.render(scale);
+			leftarm12.render(scale);
+			leftarm13.render(scale);
+			leftarm14.render(scale);
 		}
 
 		GlStateManager.popMatrix();
