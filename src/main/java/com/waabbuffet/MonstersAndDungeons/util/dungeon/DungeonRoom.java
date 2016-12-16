@@ -147,7 +147,20 @@ public class DungeonRoom implements IDungeonRoom {
 					for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 					{
 						int ID = cmp.getInteger(x + "," + y + "," + z);
+<<<<<<< HEAD
 						this.roomStructure.blocks[x][y][z] = Block.getStateById(ID);
+=======
+
+						
+						if(!Block.getStateById(ID).getBlock().equals(MaDBlocksHandler.BlockExit))
+						{
+							this.roomStructure.blocks[x][y][z] = Block.getStateById(ID);
+						}else
+						{
+							this.getExits().add(new DungeonExit(new BlockPos(x,y,z), this.getDirectionBasedOnState(Block.getStateById(ID))));
+							this.roomStructure.blocks[x][y][z] = Blocks.AIR.getDefaultState();
+						}
+>>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
 					}
 				}
 			}
@@ -470,7 +483,11 @@ public class DungeonRoom implements IDungeonRoom {
 		Random Rand = new Random();
 		int RandomNumber = 0;
 
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
 		if(this.getExits().size() > 0)
 		{
 			RandomNumber = Rand.nextInt(this.getExits().size());

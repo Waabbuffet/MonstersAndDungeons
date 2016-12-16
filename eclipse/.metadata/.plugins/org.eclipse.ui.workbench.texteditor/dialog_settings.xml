@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="Warhammer" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="WarHammer"/>
+			<item value="RomanIron"/>
+			<item value="body2"/>
+			<item value="LeftArmArmour"/>
+			<item value="RealPrevEntrancePosition"/>
+			<item value="getRot"/>
+			<item value="RealPrevExit"/>
+			<item value="TAG"/>
+		</list>
+		<list key="replacehistory">
+			<item value="GreatSword"/>
+			<item value="Quartz"/>
+			<item value="RealPrevEntrance"/>
+			<item value="RealPrevExitPosition"/>
+			<item value="PreviousEntrance"/>
+			<item value="SpawnRoomDEBUG"/>
+			<item value="blocks"/>
+			<item value=".getZ()"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="305" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="442" key="DIALOG_HEIGHT"/>
+		<item value="1166" key="DIALOG_X_ORIGIN"/>
+		<item value="391" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

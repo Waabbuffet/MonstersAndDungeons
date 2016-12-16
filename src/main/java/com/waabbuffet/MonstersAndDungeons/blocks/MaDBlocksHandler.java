@@ -67,12 +67,20 @@ public class MaDBlocksHandler {
 
 	public static void genBlocks(String Directory) throws IOException 
 	{
+<<<<<<< HEAD
 		File OldZipFile = new File(Directory + "/" + Reference.NAME +"/madresources.zip");
 
 		if(!OldZipFile.exists())
 		{
 			OldZipFile.mkdirs();
 			return;
+=======
+		File OldZipFile = new File(Directory + "/Monster and Dungeons/madresources.zip");
+
+		if(!OldZipFile.exists())
+		{
+			throw new FileNotFoundException("MAD: Could not find: " + OldZipFile.getAbsolutePath() + "Custom generation blocks will not be generated" + "make sure you installed the config folder correctly");
+>>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
 		}
 
 		ZipFile zipDirectory = new ZipFile(OldZipFile);

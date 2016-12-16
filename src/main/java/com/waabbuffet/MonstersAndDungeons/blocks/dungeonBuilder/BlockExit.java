@@ -43,10 +43,16 @@ public class BlockExit extends Block
 		setUnlocalizedName(name);
 		setRegistryName(name);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+<<<<<<< HEAD
 	
 		GameRegistry.register(this);
 		GameRegistry.register(new ItemBlock(this), getRegistryName());
 		
+=======
+		
+		GameRegistry.register(this);
+		GameRegistry.register(new ItemBlock(this), getRegistryName());
+>>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
  
 	}
 
@@ -135,6 +141,7 @@ public class BlockExit extends Block
 			float hitZ) {
 		
 		
+<<<<<<< HEAD
 		
 	
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
@@ -144,6 +151,17 @@ public class BlockExit extends Block
 	
 			DungeonAutomatons dungeon = new DungeonAutomatons(10);
 			dungeon.ConstructDungeon(worldIn, pos.up(10), dungeon.getDungeonSize());
+=======
+	
+		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
+		{
+/*
+			DungeonAutomatons dungeon = new DungeonAutomatons(15, true);
+			dungeon.constructDungeon(worldIn, pos.up(10), "WEST");
+			dungeon.unloadDungeon();	
+
+*/
+>>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
 
 		}
 		
