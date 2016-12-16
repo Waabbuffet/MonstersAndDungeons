@@ -1,10 +1,13 @@
 package com.waabbuffet.MonstersAndDungeons.items.armor;
 
-import com.waabbuffet.MonstersAndDungeons.client.models.items.ModelQuartzArmor;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.waabbuffet.MonstersAndDungeons.MonstersAndDungeons;
+import com.waabbuffet.MonstersAndDungeons.stats.Stats;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -13,65 +16,47 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemQuartzArmor extends ItemArmor {
-
-
-
-
-
-	public ItemQuartzArmor(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
-		super(materialIn, renderIndexIn, equipmentSlotIn);
-		// TODO Auto-generated constructor stub
+public class ItemQuartzArmor extends ItemMaDArmor {
+	private ArmorStat[] stats;
+	
+	public ItemQuartzArmor(ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn, String name, ArmorStat[] stats) {
+		super(materialIn, renderIndexIn, equipmentSlotIn, name);
+		this.stats = stats;
 	}
-
-
-
-
-
-
-
 
 	@SideOnly(Side.CLIENT)
 	public ModelBiped model;
 
+	@Override 	
 	@SideOnly(Side.CLIENT)
-	@Override
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped _default) {
+		public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack stack, EntityEquipmentSlot armorSlot, ModelBiped defaultModel) {
+			if (stack != null) {
+				if (stack.getItem() instanceof ItemArmor) {
+					EntityEquipmentSlot type = ((ItemArmor)stack.getItem()).armorType;
+					ModelBiped armorModel = MonstersAndDungeons.proxy.getArmorModel(armorType.getIndex());
+					
+					armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
+					armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
+					armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST)
+							|| (armorSlot == EntityEquipmentSlot.CHEST);
+					armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
+					armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
+					armorModel.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
+							|| (armorSlot == EntityEquipmentSlot.FEET);
+					armorModel.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
+							|| (armorSlot == EntityEquipmentSlot.FEET);
 
-		
+					armorModel.isSneak = defaultModel.isSneak;
+					armorModel.isRiding = defaultModel.isRiding;
+					armorModel.isChild = defaultModel.isChild;
+					armorModel.rightArmPose = defaultModel.rightArmPose;
+					armorModel.leftArmPose = defaultModel.leftArmPose;
 
-		if (model == null) 
-		{
-
-			if (armorSlot.getSlotIndex() == 4) model = new ModelQuartzArmor(1.1F, 0);
-			else if (armorSlot.getSlotIndex() == 3) model = new ModelQuartzArmor(1.1F, 1);
-			else if (armorSlot.getSlotIndex() == 2) model = new ModelQuartzArmor(1.1F, 2);
-			else model = new ModelQuartzArmor(1.1F, 3);
-
-
-		}
-
-		this.model.bipedHead.showModel = (armorSlot.getSlotIndex() == 0);
-		this.model.bipedHeadwear.showModel = (armorSlot.getSlotIndex() == 0);
-		this.model.bipedBody.showModel = ((armorSlot.getSlotIndex() == 1) || (armorSlot.getSlotIndex() == 2));
-		this.model.bipedLeftArm.showModel = (armorSlot.getSlotIndex() == 1);
-		this.model.bipedRightArm.showModel = (armorSlot.getSlotIndex() == 1);
-		this.model.bipedLeftLeg.showModel = (armorSlot.getSlotIndex() == 2 || armorSlot.getSlotIndex() == 3);
-		this.model.bipedRightLeg.showModel = (armorSlot.getSlotIndex() == 2 || armorSlot.getSlotIndex() == 3);
-
-		if (entityLiving == null) return model;
-
-		this.model.isSneak = entityLiving.isSneaking();
-		this.model.isRiding = entityLiving.isRiding();
-		this.model.isChild = entityLiving.isChild();
-
-		
-		return model;
+					return armorModel;
+				}
+			}
+			return null;
 	}
-
-
-
-
 
 
 	@Override
@@ -81,10 +66,19 @@ public class ItemQuartzArmor extends ItemArmor {
 		return Reference.MODID + ":textures/armor/Quartz Armour.png";
 	}
 
-
-
-
-
-
-
+	@Override
+	public List<ArmorStat> getArmorStats() {
+		List<ArmorStat> statList = new ArrayList<ArmorStat>();
+		for(ArmorStat stat : stats){
+			statList.add(stat);
+		}
+		return statList;
+	}
+	
+	@Override
+	public List<ArmorStat> getSetBonusStats() {
+		List<ArmorStat> statList = new ArrayList<ArmorStat>();
+		statList.add(new ArmorStat(Stats.strength));
+		return statList;
+	}
 }

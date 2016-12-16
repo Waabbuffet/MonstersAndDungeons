@@ -1,11 +1,17 @@
 package com.waabbuffet.MonstersAndDungeons.proxy;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
 import com.waabbuffet.MonstersAndDungeons.client.events.ClientEventHandler;
+import com.waabbuffet.MonstersAndDungeons.events.CommonEventHandler;
 import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
 import com.waabbuffet.MonstersAndDungeons.world.MaDWorldGenerationHandler;
 
+import net.minecraft.client.model.ModelBiped;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -17,23 +23,26 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
 
+	public static File ConfigDir;
 
-
-	public void PreInit(FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) {
 		// TODO Auto-generated method stub
 
+		this.ConfigDir = event.getModConfigurationDirectory();
+		
+		try {
+			MaDBlocksHandler.genBlocks(ConfigDir.getPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		MaDBlocksHandler.init();
-		MaDBlocksHandler.register();
-		
 		MaDItemsHandler.init();
-		MaDItemsHandler.register();
-		
 		MaDPacketHandler.init();
-		
-		
 	}
 
-	public void Init(FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
 		// TODO Auto-generated method stub
 
 
@@ -41,10 +50,7 @@ public class CommonProxy {
 		
 	}
 
-	public void PostInit(FMLPostInitializationEvent event) {
-		// TODO Auto-generated method stub
-
-
+	public void postInit(FMLPostInitializationEvent event) {
 	}
 
 	public void RegisterRenders() {
@@ -52,7 +58,9 @@ public class CommonProxy {
 		
 	}
 
-
+	public ModelBiped getArmorModel(int id) {
+		return null;
+	}
 	
 
 

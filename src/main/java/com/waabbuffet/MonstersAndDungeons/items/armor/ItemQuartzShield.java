@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,8 +16,11 @@ public class ItemQuartzShield extends ItemShield {
 
 
 
-	public ItemQuartzShield() {
-		// TODO Auto-generated constructor stub
+	public ItemQuartzShield(String name) {
+		
+		setUnlocalizedName(name);
+		setRegistryName(name);
+		
+		GameRegistry.register(this);
 	}
-
 }

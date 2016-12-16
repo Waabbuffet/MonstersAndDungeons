@@ -1,9 +1,16 @@
 package com.waabbuffet.MonstersAndDungeons.util;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
+import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
 import com.waabbuffet.MonstersAndDungeons.client.ClientProxy;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonExit;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonNBTTag;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.ExitData;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -14,17 +21,11 @@ import net.minecraft.world.World;
 
 public class Structure {
 
-
-
-
-
-
-
-
-
 	public static void StructureReaderFromWorld(World world, BlockPos point1, BlockPos point2){
 
+		int howManyExits = 0;
 		StructureData data = new StructureData();
+		List<ExitData> totalExits = new ArrayList<ExitData>();
 
 		if(point1 != null && point2 != null){
 			int minX = point1.getX() > point2.getX() ? point2.getX() : point1.getX();
@@ -36,14 +37,11 @@ public class Structure {
 
 			int placePosX = 0, placePosY = 0, placePosZ = 0;
 
-
 			int xSize = maxX - minX + 1;
 			int ySize = maxY - minY + 1;
 			int zSize = maxZ - minZ + 1;
 
-
 			data.blocks = new IBlockState[xSize][ySize][zSize];
-
 
 			for(int x = 0; x < data.blocks.length; x++) {
 				for(int y = 0; y <data.blocks[0].length; y++) {
@@ -55,10 +53,7 @@ public class Structure {
 						}else if(point1.getX() < point2.getX()){
 							placePosX = point1.getX() + x;
 						}
-
-
 						placePosY = point1.getY() + y;
-
 
 						if(point1.getZ() > point2.getZ()){
 							placePosZ = point1.getZ() - z;
@@ -66,8 +61,15 @@ public class Structure {
 							placePosZ = point1.getZ() + z;
 						}
 
+
 						data.blocks[x][y][z] =  world.getBlockState(new BlockPos(placePosX, placePosY, placePosZ));
 
+
+						if(world.getBlockState(new BlockPos(placePosX, placePosY, placePosZ)).getBlock().equals(MaDBlocksHandler.BlockExit))
+						{
+							totalExits.add(new ExitData(new BlockPos(x,y,z), DungeonRoom.getDirectionBasedOnState(data.blocks[x][y][z])));
+							howManyExits++;
+						}
 					}
 				}
 			}
@@ -82,40 +84,30 @@ public class Structure {
 
 						if(!data.blocks[x][y][z].equals(Blocks.AIR.getDefaultState())){
 
-							cmp.setInteger(x + "," + y + "," + z, Block.getStateId(data.blocks[x][y][z]));
-
-
+							cmp.setInteger(x + "," + y + "," + z, Block.getStateId(data.blocks[x][y][z]));		
 						}
-
-
 					}
 				}
-
 			}
+			for(int i = 0; i < totalExits.size(); i ++)
+			{
+				cmp.setInteger("ExitNumberX" + i, totalExits.get(i).getPos().getX());
+				cmp.setInteger("ExitNumberY" + i, totalExits.get(i).getPos().getY());
+				cmp.setInteger("ExitNumberZ" + i, totalExits.get(i).getPos().getZ());
+				cmp.setString("ExitDirection" + i, totalExits.get(i).getDirection());
+			}
+			
+			cmp.setInteger("TotalExits", howManyExits);
 			cmp.setInteger("MaxXValue", data.blocks.length);
 			cmp.setInteger("MaxYValue", data.blocks[0].length);
 			cmp.setInteger("MaxZValue", data.blocks[0][0].length);
 
-
 			File file = DungeonNBTTag.createOrGetNBTFile(new File(ClientProxy.dataDirectory, "RecentlyCreated"));
 			DungeonNBTTag.injectNBTToFile(cmp, file);
 
-
-
-		}else {
-			return;
 		}
-
 	}
-
-
-
-
-
-
-
-
-
-
-
 }
+
+
+

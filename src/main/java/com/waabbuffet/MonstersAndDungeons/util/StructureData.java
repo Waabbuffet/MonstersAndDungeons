@@ -15,8 +15,6 @@ public class StructureData {
 
 	boolean isLoaded = false;
 
-
-
 	public int getxSize() {
 		return xSize;
 	}

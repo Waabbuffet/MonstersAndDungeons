@@ -39,7 +39,7 @@ public class DungeonExit {
 		this.Direction = this.getDirectionWithRotation(rotation);
 		
 	}
-
+	
 	/**
 	 * Rotates in a clockwise direction
 	 */

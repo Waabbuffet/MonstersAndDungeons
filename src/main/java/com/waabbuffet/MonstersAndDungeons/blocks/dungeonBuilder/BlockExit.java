@@ -15,9 +15,11 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -28,15 +30,24 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockExit extends Block
 {
-	public BlockExit()
+	public BlockExit(String name)
 	{
 		super(Material.ROCK);
-		this.setCreativeTab(CreativeTabs.BUILDING_BLOCKS);   
+		
+		setUnlocalizedName(name);
+		setRegistryName(name);
+		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
+	
+		GameRegistry.register(this);
+		GameRegistry.register(new ItemBlock(this), getRegistryName());
+		
+ 
 	}
 
 
@@ -73,9 +84,6 @@ public class BlockExit extends Block
 	public static final PropertyDirection PROPERTYFACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 
-
-
-
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
@@ -89,12 +97,12 @@ public class BlockExit extends Block
 	{
 		EnumFacing facing = (EnumFacing)state.getValue(PROPERTYFACING);
 
-
 		int facingbits = facing.getHorizontalIndex();
 
 		return facingbits;
 	}
-
+	
+	
 
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
@@ -109,7 +117,7 @@ public class BlockExit extends Block
 		return new BlockStateContainer(this, new IProperty[] {PROPERTYFACING});
 	}
 
-
+	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing blockFaceClickedOn, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
@@ -127,27 +135,20 @@ public class BlockExit extends Block
 			float hitZ) {
 		
 		
-		System.out.println("" + DungeonRoom.getDirectionBasedOnState(state));
-
+		
+	
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
 		{
-
-
-
-
-			DungeonAutomatons dungeon = new DungeonAutomatons(15, true);
-			dungeon.constructDungeon(worldIn, pos.up(10), "WEST");
-			dungeon.unloadDungeon();	
-
-
+			System.out.println("whichState" + DungeonRoom.getDirectionBasedOnState(state));
+			System.out.println(Block.getStateId(this.getActualState(state, worldIn, pos)));
+	
+			DungeonAutomatons dungeon = new DungeonAutomatons(10);
+			dungeon.ConstructDungeon(worldIn, pos.up(10), dungeon.getDungeonSize());
 
 		}
 		
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem,
 				side, hitX, hitY, hitZ);
 
-
 	}
-
-
 }

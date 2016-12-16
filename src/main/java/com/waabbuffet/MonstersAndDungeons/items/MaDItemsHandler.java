@@ -9,70 +9,51 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import com.waabbuffet.MonstersAndDungeons.items.armor.ArmorStat;
 import com.waabbuffet.MonstersAndDungeons.items.armor.ItemQuartzArmor;
 import com.waabbuffet.MonstersAndDungeons.items.armor.ItemQuartzShield;
 import com.waabbuffet.MonstersAndDungeons.items.weapon.ItemQuartzGreatSword;
 import com.waabbuffet.MonstersAndDungeons.items.weapon.ItemQuartzWarHammer;
+import com.waabbuffet.MonstersAndDungeons.stats.Stats;
+import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
 
 
 public class MaDItemsHandler 
 {
-	public static ToolMaterial QuartzToolsExample = EnumHelper.addToolMaterial("RomanSpartanExample", 3, 1000, 15.0F, 4.0F, 30);
+	public static ToolMaterial toolMaterialQuartz = EnumHelper.addToolMaterial("RomanSpartanExample", 3, 1000, 15.0F, 4.0F, 30);
 	
-	public static ArmorMaterial QuartzArmorExample = EnumHelper.addArmorMaterial("RomanSpartanArmorExample", "wc:RomanArmor",16, new int[] {3, 8, 6, 3}, 30, null, 1f);
+	public static ArmorMaterial armorMaterialQuartz = EnumHelper.addArmorMaterial("RomanSpartanArmorExample", "wc:RomanArmor",16, new int[] {3, 8, 6, 3}, 30, null, 1f);
 
-	public static Item QuartzHelmet, QuartzChest, QuartzLegs, QuartzBoots, QuartzShield, QuartzWarHammer, QuartzGreatSword;
+	public static Item quartzHelmet, quartzChest, quartzLegs, quartzBoots, quartzShield, quartzWarhammer, quartzGreatSword;
 
 	public static void init()
 	{
-		QuartzHelmet = new ItemQuartzArmor(QuartzArmorExample , 1,  EntityEquipmentSlot.HEAD).setUnlocalizedName("QuartzHelmet");
-		QuartzChest  = new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.CHEST).setUnlocalizedName("QuartzChest");
-		QuartzLegs =  new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.LEGS).setUnlocalizedName("QuartzLegs");
-		QuartzBoots = new ItemQuartzArmor(QuartzArmorExample , 1, EntityEquipmentSlot.FEET).setUnlocalizedName("QuartzBoots");
-		QuartzShield = new ItemQuartzShield().setUnlocalizedName("QuartzShield");
+		quartzHelmet = new ItemQuartzArmor(armorMaterialQuartz , 1,  EntityEquipmentSlot.HEAD, "quartzHelmet", new ArmorStat[]{new ArmorStat(Stats.strength), new ArmorStat(Stats.wisdom)});
+		quartzChest  = new ItemQuartzArmor(armorMaterialQuartz , 1, EntityEquipmentSlot.CHEST, "quartzChest", new ArmorStat[]{new ArmorStat(Stats.strength, 3)});
+		quartzLegs =  new ItemQuartzArmor(armorMaterialQuartz , 1, EntityEquipmentSlot.LEGS, "quartzLegs", new ArmorStat[]{new ArmorStat(Stats.strength, 2)});
+		quartzBoots = new ItemQuartzArmor(armorMaterialQuartz , 1, EntityEquipmentSlot.FEET, "quartzBoots", new ArmorStat[]{new ArmorStat(Stats.strength)});
+		quartzShield = new ItemQuartzShield("quartzShield");
 		
-		QuartzWarHammer = new ItemQuartzWarHammer(QuartzToolsExample).setUnlocalizedName("Quartz Warhammer");
-		QuartzGreatSword = new ItemQuartzGreatSword(QuartzToolsExample).setUnlocalizedName("QuartzGreatSwordFull");
-		
-
+		quartzWarhammer = new ItemQuartzWarHammer(toolMaterialQuartz, "quartzWarhammer");
+		quartzGreatSword = new ItemQuartzGreatSword(toolMaterialQuartz, "quartzGreatSword");
 	}
-
-	public static void register()
-	{
-		
-		GameRegistry.registerItem(QuartzHelmet, QuartzHelmet.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzChest, QuartzChest.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzLegs, QuartzLegs.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzBoots, QuartzBoots.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzShield, QuartzShield.getUnlocalizedName().substring(5));
-		
-		GameRegistry.registerItem(QuartzWarHammer, QuartzWarHammer.getUnlocalizedName().substring(5));
-		GameRegistry.registerItem(QuartzGreatSword, QuartzGreatSword.getUnlocalizedName().substring(5));
-		
-	}
-
 
 	public static void registerRenders()
 	{
+		registerRender(quartzHelmet);
+		registerRender(quartzChest);
+		registerRender(quartzLegs);
+		registerRender(quartzBoots);
+		registerRender(quartzShield);
 		
-		registerRender(QuartzHelmet);
-		registerRender(QuartzChest);
-		registerRender(QuartzLegs);
-		registerRender(QuartzBoots);
-		registerRender(QuartzShield);
-		
-		registerRender(QuartzWarHammer);
-		registerRender(QuartzGreatSword);
-		
-		
-		
+		registerRender(quartzWarhammer);
+		registerRender(quartzGreatSword);
 	}
 
-	
 	public static void registerRender(Item item)
 	{
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation("monsteranddungeons:" + item.getUnlocalizedName().substring(5),"inventory"));
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Reference.MODID + ":" + item.getUnlocalizedName().substring(5),"inventory"));
 	}
 
 }
