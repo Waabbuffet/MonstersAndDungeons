@@ -69,7 +69,7 @@ public class DungeonAutomatons  extends Dungeon{
 		case 3:
 			return new DungeonRoom("assets/monsteranddungeons/generation/dungeonAutomatons/DungeonAutomatonsRoom9");
 		case 4:
-			return new DungeonRoom("assets/monsteranddungeons/generation/dungeonAutomatons/DungeonAutomatonsRoom13");
+			return new DungeonRoom("assets/monsteranddungeons/generation/dungeonAutomatons/DungeonAutomatonsRoom8");
 		case 5:
 			return new DungeonRoom("assets/monsteranddungeons/generation/dungeonAutomatons/DungeonAutomatonsRoom13"); // ore
 		default:
@@ -85,52 +85,10 @@ public class DungeonAutomatons  extends Dungeon{
 		//for(ExitData exit : getTotalExits())
 		for(int i = 0; i < getTotalExits().size(); i ++)
 		{
-<<<<<<< HEAD
 			Random rand = new Random();
 			ExitData exit = getTotalExits().get(i);
-=======
-			if(PreviousRoom != null)
-			{
 
-				DungeonExit ExitToRemove = PreviousRoom.setCorrectPath();
-				for(int j = 0; j < PreviousRoom.getExits().size(); j ++)
-				{
-					if(!PreviousRoom.getExits().get(j).getCorrectPath())
-					{
-						/*
-						//for now I am going to just throw in 1 room and thats it
-						DungeonRoom TempNextRoom = this.selectRandomRoom();
-						if(!TempNextRoom.isLoaded())
-						{
-							TempNextRoom.loadRoom();
-						}
-						if(TempNextRoom.isLoaded())
-						{
-							DungeonExit TempExit = TempNextRoom.alignWithRoom(TempNextRoom, PreviousRoom, PreviousRoom.getExits().get(j), UpdatedLocation);
-							TempNextRoom.buildRoom(TempExit.getPos(), world, TempExit.getDirection());
-						}
-						 */
-					}else
-					{
-						//if it is the correct path then load room, then align room, then build room!
-						if(!NextRoom.isLoaded())
-						{
-							NextRoom.loadRoom();
-						}
-
-						DungeonExit TempExit = NextRoom.alignWithRoom(NextRoom, PreviousRoom, PreviousRoom.getExits().get(j), UpdatedLocation);
-
-
-
-						NextRoom.setPrevBuiltDIRECTION(TempExit.getDirection());
-						NextRoom.buildRoom(TempExit.getPos(), world, TempExit.getDirection());
-						NextRoom.removeOppositeExit(ExitToRemove);	
-						UpdatedLocation = TempExit.getPos();
-					}
-				}
->>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
-
-			if(rand.nextInt(10) == 0)
+			if(rand.nextInt(8) == 0)
 			{
 				createBranch(exit, world, 3);
 			}else
@@ -139,11 +97,4 @@ public class DungeonAutomatons  extends Dungeon{
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
 }

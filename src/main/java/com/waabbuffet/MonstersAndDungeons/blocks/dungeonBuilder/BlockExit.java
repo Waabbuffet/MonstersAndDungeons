@@ -2,6 +2,7 @@ package com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder;
 
 import java.util.Random;
 
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
 import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
 import com.waabbuffet.MonstersAndDungeons.world.dungeons.DungeonAutomatons;
@@ -43,17 +44,10 @@ public class BlockExit extends Block
 		setUnlocalizedName(name);
 		setRegistryName(name);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-<<<<<<< HEAD
 	
 		GameRegistry.register(this);
 		GameRegistry.register(new ItemBlock(this), getRegistryName());
 		
-=======
-		
-		GameRegistry.register(this);
-		GameRegistry.register(new ItemBlock(this), getRegistryName());
->>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
- 
 	}
 
 
@@ -141,27 +135,15 @@ public class BlockExit extends Block
 			float hitZ) {
 		
 		
-<<<<<<< HEAD
 		
-	
+		
+		
+		
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
 		{
-			System.out.println("whichState" + DungeonRoom.getDirectionBasedOnState(state));
-			System.out.println(Block.getStateId(this.getActualState(state, worldIn, pos)));
-	
+
 			DungeonAutomatons dungeon = new DungeonAutomatons(10);
 			dungeon.ConstructDungeon(worldIn, pos.up(10), dungeon.getDungeonSize());
-=======
-	
-		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
-		{
-/*
-			DungeonAutomatons dungeon = new DungeonAutomatons(15, true);
-			dungeon.constructDungeon(worldIn, pos.up(10), "WEST");
-			dungeon.unloadDungeon();	
-
-*/
->>>>>>> 8b6081fe644657aac12a7ecef2a0266a4ca3032b
 
 		}
 		

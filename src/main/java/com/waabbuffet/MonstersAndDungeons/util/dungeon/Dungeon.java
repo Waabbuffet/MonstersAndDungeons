@@ -65,6 +65,7 @@ public abstract class Dungeon {
 						NextRoom.buildRoom(TempExit.getPos(), world, TempExit.getDirection());
 						NextRoom.removeOppositeExit(ExitToRemove);	
 					}
+
 				}
 				UpdatedLocation = TempExit.getPos();	
 			}else
@@ -176,7 +177,7 @@ public abstract class Dungeon {
 		DungeonRoom NextRoom = this.selectRandomRoom(); NextRoom.loadRoom();
 		BlockPos RealPrevEntrance = firstExit.getPos();
 		DungeonExit PreviousEntrance = firstExit.getRealExit(); // this is the exit we need to work with
-		
+
 		String Direction = getRoomRotationRoom(NextRoom, PreviousEntrance.getDirection(),PreviousEntrance.getOppositeDirection());
 		if(Direction == null)
 		{
@@ -280,7 +281,7 @@ public abstract class Dungeon {
 		NextRoom.removeOppositeExit(PreviousEntrance);
 		NextRoom.buildRoom(RealPrevEntrance, world, Direction);
 		NextRoom.setPrevBuiltDIRECTION(Direction);
-		
+
 		createBranch(world, RealPrevEntrance, DungeonSize, NextRoom, firstExit.getDirection());
 	}
 
@@ -290,7 +291,7 @@ public abstract class Dungeon {
 	 */
 	public void createBranch(ExitData startingPoint, ExitData finishingPoint, World world) // exit data contains the room the exit belongs to
 	{
-		
+
 		String facingDirection = startingPoint.getDirection();
 		String goingDirection = finishingPoint.getDirection();
 
@@ -400,14 +401,90 @@ public abstract class Dungeon {
 		return Direction;
 	}
 
+	private boolean hasEnoughRoom(ExitData exit)
+	{
+		String direction = exit.getDirection();
+
+		int posX = exit.getPos().getX();
+		int posZ = exit.getPos().getZ();
+
+		if(direction.equals("WEST")) //negative x direction 
+		{
+			for(ExitData data: totalExits)
+			{
+				if(posX > data.getPos().getX())
+				{
+					if(Math.abs((posX - data.getPos().getX())) < 15)
+					{
+						if(Math.abs((posZ - data.getPos().getZ())) < 8)
+						{
+							return false;
+						}
+					}
+				}
+			}	
+		}else if(direction.equals("EAST"))//positive x direction
+		{
+			for(ExitData data: totalExits)
+			{
+				if(posX < data.getPos().getX())
+				{
+					if(Math.abs((posX - data.getPos().getX())) < 15)
+					{
+						if(Math.abs((posZ - data.getPos().getZ())) < 8)
+						{
+							return false;
+						}
+					}
+				}
+			}	
+
+		}else if(direction.equals("NORTH"))//negative z direction
+		{
+			for(ExitData data: totalExits)
+			{
+				if(posZ > data.getPos().getZ())
+				{
+					if(posZ - data.getPos().getZ() < 10)
+					{
+						if(Math.abs((posX - data.getPos().getX())) < 10)
+						{
+							return false;
+						}
+					}
+				}
+			}	
+		}else if(direction.equals("SOUTH"))//positive z direction
+		{
+			for(ExitData data: totalExits)
+			{
+				if(posZ < data.getPos().getZ())
+				{
+					if(Math.abs((posZ - data.getPos().getZ())) < 15)
+					{
+						if(Math.abs((posX - data.getPos().getX())) < 8)
+						{
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
 	//working
 	public void closeBranch(ExitData startingPoint, World world)
 	{
-		DungeonRoom exit = selectRandomExit();
-		exit.loadRoom();
-		
-		DungeonExit tempExit = startingPoint.getPreviousRoom().TESTalignWithRoom(exit, startingPoint.getPreviousRoom(), startingPoint.getRealExit(), startingPoint.getPos());
-		exit.buildRoom(tempExit.getPos(), world, tempExit.getDirection());
+		if(hasEnoughRoom(startingPoint))
+		{
+			DungeonRoom exit = selectRandomExit();
+			exit.loadRoom();
+
+			DungeonExit tempExit = startingPoint.getPreviousRoom().TESTalignWithRoom(exit, startingPoint.getPreviousRoom(), startingPoint.getRealExit(), startingPoint.getPos());
+			exit.buildRoom(tempExit.getPos(), world, tempExit.getDirection());
+		}		
 	}
 
 

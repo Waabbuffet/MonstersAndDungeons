@@ -24,6 +24,7 @@ import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
 import com.waabbuffet.MonstersAndDungeons.client.events.ClientEventHandler;
 import com.waabbuffet.MonstersAndDungeons.client.events.ClientTickEventHandler;
 import com.waabbuffet.MonstersAndDungeons.client.models.items.ModelQuartzArmor;
+import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityHandler;
 import com.waabbuffet.MonstersAndDungeons.events.KeyBindEvent;
 import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.proxy.CommonProxy;
@@ -41,7 +42,7 @@ public class ClientProxy extends CommonProxy {
 	
 	public static List<IResourcePack> rPacks;
 	
-	//public static ResourceLoader externalResources = new ResourceLoader();
+
 	
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
@@ -73,15 +74,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new KeyBindEvent());
 		MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
 		
-		
-	//	System.out.println("" + Minecraft.getMinecraft().getTextureManager().getTexture(new ResourceLocation("" +)));
-		
-	//	Minecraft.getMinecraft().getResourceManager().getResource(location);
-		
-		/*
-		 * try to add a resource manager to the minecraft list and go from there
-		 * and then make sure the location returns that file path
-		 */
+	
 		this.RegisterRenders();
 	}
 
@@ -96,11 +89,11 @@ public class ClientProxy extends CommonProxy {
 		
 		MaDBlocksHandler.registerRenders();
 		MaDItemsHandler.registerRenders();
+		MaDEntityHandler.registerRenders();
 	}
 		
 	@Override
 	public ModelBiped getArmorModel(int id) {
 		return new ModelQuartzArmor(id);
 	}
-		
 }
