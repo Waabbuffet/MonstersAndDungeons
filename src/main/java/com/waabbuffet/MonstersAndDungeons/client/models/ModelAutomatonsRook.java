@@ -10,12 +10,12 @@ import net.minecraft.util.math.MathHelper;
 
 public class ModelAutomatonsRook extends ModelBase {
 
-	protected float[][] AttackCycle = new float[][]
+	protected float[][] SlamCycle = new float[][]
 			{//
-			{   0F  ,  0F  ,    0F, 0F,  0F ,0f  }, //lower shoulders, upper shoulders, middle piece, lower legs, translation point
-			{ -15F   , 0F   ,   0F, 0F,  0F,0f},
-			{ -30F ,   0F   ,   0F,  0F, 0F,0f },
-			{ -45F ,   -15F  ,  0F,  0F,  0F,0f},
+			{   0F  ,  0F  ,    0F, 0F,  0F , 0f}, //lower shoulders, upper shoulders, middle piece, lower legs, translation point
+			{ -15F   , 0F   ,   0F, 0F,  0F, 0f},
+			{ -30F ,   0F   ,   0F,  0F, 0F,  0f },
+			{ -45F ,   -15F  ,  0F,  0F,  0F, 0f},
 			{ -45F  , -30F  ,   0F,  0F, 0F,0f },
 			{ -60F ,  -60F  ,   0F,  0F,  0F,0f },
 			{ -60F  , -90F  ,   -5F,  0F,  0F,0f },
@@ -29,7 +29,43 @@ public class ModelAutomatonsRook extends ModelBase {
 			{   0F  , -180F  ,   15F,  15F,  10F, 0}, 
 			{   0F  , -180F  ,   30F,  30F, 20F, 0}, 
 			{   0F  , -160F  ,   45F,  75F, 50F, 1f}, 
-			{   0F  , -140F  ,   60F,  90F, 50F, 1.5f},  
+			{   0F  , -140F  ,   60F,  90F, 50F, 1.5f},
+			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
+			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
+			{   0F  , -110F  ,   50F,  75F, 15F, 1.5f},  
+			{   0F  , -80F  ,    30F,  50F, 15F, 1f},  
+			{   0F  , -40F  ,    20F,  30F, 0F, 0.5f},  
+			{   0F  ,  0F  ,    0F, 0F,  0F , 0f  }, 
+			};
+
+	protected float[][] LeftPunchCycle = new float[][]
+			{//
+			{   0F  ,   0F  ,    0F, 0F,  0F , -15f }, 
+			//left shoulder, upper shoulders, middle pieceX, middle piece Y, belt pieces, right shoulder
+			{   -90F,  15F,  15F, -15F,  -10F,  -15F}, 
+			{   -90F,  15F,  15F, -45F,  -15F,  -15F}, 
+			{   -90F,  15F,  15F, -65F,  -15F,  -15F}, 
+			{   -115F,  15F,  24F, -65F,  -15F,  -15F},
+			{   -135F,  15F,  30F, -55F,  -25F,  -15F}, 
+			{   -115F,  15F,  30F, -30F,  -20F,  -15F},
+			{   -100F,  0F,  30F, -10F,  -20F,  -15F}, 
+			{   -80F,  -15F,  30F, 20F,  -10F,  -15F},
+			{   -40F,  -40F,  30F, 40F,  10F,  -15F},
+			{    0F,  -40F,  30F, 40F,  10F,  -0F}, 
+			{    0F,  -40F,  15F, 20F,  10F,  -0F}, 
+			{    0F,   0,  0F,  0F,  0F,  0F},
+			{   -15F,  15F,  15F, 15F,  -10F,  -90F}, 
+			{   -15F,  15F,  15F, 45F,  -15F,  -90F}, 
+			{   -15F,  15F,  15F, 65F,  -15F,  -90F}, 
+			{   -15F,  15F,  24F, 65F,  -15F,  -115F},
+			{   -15F,  15F,  30F, 55F,  -25F,  -135F}, 
+			{   -15F,  15F,  30F, 30F,  -20F,  -115F},
+			{   -15F,  0F,  30F,   10F,  -20F,  -100F}, 
+			{   -15F,  -15F,  30F,  -20F,  -10F,  -80F},
+			{   -15F,  -40F,  30F,  -40F,  10F,  -40F},
+			{    -15F,  -40F,  30F, -40F,  10F,  -0F}, 
+			{    -0F,  -40F,  15F, -20F,  10F,  -0F}, 
+			{    0F,  0F,  0F, 0F,  0F,  0F}, 
 			};
 
 	ModelRenderer rightBoot;
@@ -672,7 +708,15 @@ public class ModelAutomatonsRook extends ModelBase {
 
 		convertToChild(UpperChest, Head1);
 
+		//legmiddlething	
+		convertToChild(LegMiddle1, LegMiddle2);
+		convertToChild(LegMiddle1, LegMiddle3);
+		convertToChild(LegMiddle1, LegMiddleThing);
 
+		//backPieceLeg
+		convertToChild(BackPieceLeg, smallCube2);
+		convertToChild(BackPieceLeg, smallCube);
+		convertToChild(BackPieceLeg, BackMiddleThing);
 
 		//left belt
 
@@ -681,7 +725,9 @@ public class ModelAutomatonsRook extends ModelBase {
 
 		convertToChild(LeftPieceThing, LeftShin);
 		convertToChild(LeftLegArmor, LeftPieceThing);
-		convertToChild(LeftBelt,LeftLegArmor);
+
+		convertToChild(LeftBelt, BackPieceLeg);
+		convertToChild(LeftBelt, LeftLegArmor);
 
 		//rightMiddlePiece (really right belt)
 
@@ -689,17 +735,8 @@ public class ModelAutomatonsRook extends ModelBase {
 		convertToChild(RightShin, WeakSpotLeg3);
 		convertToChild(RightPieceThing, RightShin);
 		convertToChild(RightLegArmor, RightPieceThing);
+		convertToChild(rightMiddlePiece, LegMiddle1);
 		convertToChild(rightMiddlePiece,RightLegArmor);
-
-		//legmiddlething	
-
-		convertToChild(LegMiddle1, LegMiddle2);
-		convertToChild(LegMiddle1, LegMiddle3);
-		convertToChild(LegMiddle1, LegMiddleThing);
-		//backPieceLeg
-		convertToChild(BackPieceLeg, smallCube2);
-		convertToChild(BackPieceLeg, smallCube);
-		convertToChild(BackPieceLeg, BackMiddleThing);
 
 		//chest
 		convertToChild(UpperChest, WeakSpot1);
@@ -722,13 +759,6 @@ public class ModelAutomatonsRook extends ModelBase {
 		convertToChild(UpperChest, WeakSpot18);
 
 
-		convertToChild(UpperChest, BackPieceLeg);
-		convertToChild(UpperChest, BackMiddleThing2);
-		convertToChild(UpperChest, BackMiddleThing3);
-		convertToChild(UpperChest, LegMiddleThing3);
-		convertToChild(UpperChest, LegMiddleThing2);
-		convertToChild(UpperChest, LegMiddle1);
-
 		convertToChild(UpperChest, UpperChest1);
 		convertToChild(UpperChest, UpperChest2);
 		convertToChild(UpperChest, ChestOne);
@@ -737,6 +767,7 @@ public class ModelAutomatonsRook extends ModelBase {
 
 
 	}
+
 
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
 	{
@@ -762,61 +793,68 @@ public class ModelAutomatonsRook extends ModelBase {
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 
 		float  f = 1f;
-		this.rightBoot.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-		this.LeftBoot.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
+		this.RightShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
+		this.LeftShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
 
-
-		/*Animation cycle: lower left and right shoulder 0 - 45, at 45 upper shoulders move 0 - 180, at 90 lower left and right move back to 0
-		 * then upper shoulder moves back down to 0
-		 */
 		EntityAutomatonsRook rook = (EntityAutomatonsRook) entityIn;
+
+		if(rook.SlamAttack)
+		{
+			this.slamAnimation(rook);
+		}else
+		if(rook.PunchMode)
+		{
+			this.punchAnimation(rook);
+		}
+	}
+
+	private void slamAnimation(EntityAutomatonsRook rook)
+	{
+		this.LeftShoulder1.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][1]);
+		this.RightShoulder1.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][1]);  
+		this.MiddlePiece.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][2]);
+
+		this.LeftBelt.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][3]);
+		this.rightMiddlePiece.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][3]);
+
+		this.LeftShoulder3.rotateAngleX = degToRad(0);
+		this.RightShoulder4.rotateAngleX = degToRad(0);
 		
-		this.LeftShoulder3.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][0]);
-		this.RightShoulder4.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][0]);
+		this.MiddlePiece.rotateAngleY = degToRad(0);
+		this.rightMiddlePiece.rotateAngleY = degToRad(0);
+		this.LeftBelt.rotateAngleY = degToRad(0);
+		
+		this.LeftShin.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][4]);
+		this.RightShin.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][4]);
 
-		//phase two - upper shoulders move to 90
-		this.LeftShoulder1.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][1]);
-		this.RightShoulder1.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][1]);  
-		this.MiddlePiece.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][2]);
+		this.MiddlePiece.offsetY = (float) SlamCycle[rook.getAnimationCycle()][5];
+		this.LeftBelt.offsetY= (float) SlamCycle[rook.getAnimationCycle()][5];
+		this.rightMiddlePiece.offsetY = (float) SlamCycle[rook.getAnimationCycle()][5];
+	}
 
-		this.LeftBelt.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][3]);
-		this.rightMiddlePiece.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][3]);
+	private void punchAnimation(EntityAutomatonsRook rook)
+	{
+		this.LeftShoulder3.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][5]);
+		this.RightShoulder4.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][0]);
 
-		this.LeftShin.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][4]);
-		this.RightShin.rotateAngleX = degToRad(AttackCycle[rook.getAnimationCycle()][4]);
+		this.LeftShoulder1.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][1]);  
+		this.RightShoulder1.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][1]);  
 
-		this.MiddlePiece.offsetY = (float) AttackCycle[rook.getAnimationCycle()][5];
-		this.LeftBelt.offsetY= (float) AttackCycle[rook.getAnimationCycle()][5];
-		this.rightMiddlePiece.offsetY = (float) AttackCycle[rook.getAnimationCycle()][5];
+		this.MiddlePiece.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][2]);
+		this.MiddlePiece.rotateAngleY = degToRad(LeftPunchCycle[rook.getAnimationCycle()][3]);
 
-		/*
-		 *   final values
-        this.LeftShoulder3.rotateAngleX = degToRad(0);
-        this.RightShoulder4.rotateAngleX = degToRad(0);
+		this.rightMiddlePiece.rotateAngleY = degToRad(LeftPunchCycle[rook.getAnimationCycle()][4]);
+		this.LeftBelt.rotateAngleY = degToRad(LeftPunchCycle[rook.getAnimationCycle()][4]);
 
-        //phase two - upper shoulders move to 90
-        this.LeftShoulder1.rotateAngleX = degToRad(-180);
-        this.RightShoulder1.rotateAngleX = degToRad(-180);
-        this.MiddlePiece.rotateAngleX = degToRad(90);
+	}
 
-        this.LeftBelt.rotateAngleX = degToRad(75);
-        this.rightMiddlePiece.rotateAngleX = degToRad(75);
+	private void idolAnimation(EntityAutomatonsRook rook)
+	{
 
-        this.LeftShin.rotateAngleX = degToRad(50);
-        this.RightShin.rotateAngleX = degToRad(50);
+	}
 
-        this.MiddlePiece.offsetY = (float) 1.5;
-        this.LeftBelt.offsetY= (float) 1.5;
-        this.rightMiddlePiece.offsetY = (float) 1.5;
-		 */
-
-
-
-		/*****************************************************************/
-
-
-
-
+	private void halfHpAnimation(EntityAutomatonsRook rook)
+	{
 
 	}
 

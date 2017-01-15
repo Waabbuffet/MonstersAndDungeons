@@ -41,7 +41,7 @@ public abstract class Dungeon {
 
 		DungeonRoom NextRoom = this.selectRandomRoom();
 		BlockPos UpdatedLocation = startingLocation;
-
+		
 		for(int i = 0; i < DungeonSize; i ++)
 		{
 			if(PreviousRoom != null)

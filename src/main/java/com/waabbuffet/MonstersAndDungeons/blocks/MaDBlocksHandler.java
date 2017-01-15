@@ -25,6 +25,7 @@ import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlo
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlockSlab;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlockStairs;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlocks;
+import com.waabbuffet.MonstersAndDungeons.blocks.miscellaneous.BlockEntityStatue;
 import com.waabbuffet.MonstersAndDungeons.blocks.miscellaneous.BlockStonePagoda;
 import com.waabbuffet.MonstersAndDungeons.items.genBlocks.ItemGenBlockSlab;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
@@ -33,7 +34,7 @@ import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
 public class MaDBlocksHandler {
 
-	public static Block BlockExit, BlockRotten, BlockStonePagoda;
+	public static Block BlockExit, BlockRotten, BlockStonePagoda, BlockEntityStatue;
 
 	public static List<Block> genBlocks = new ArrayList<Block>();
 	public static List<ItemGenBlockSlab> genSlab = new ArrayList<ItemGenBlockSlab>();
@@ -44,6 +45,7 @@ public class MaDBlocksHandler {
 		
 		BlockExit = new BlockExit("BlockExit");		
 		BlockRotten = new BlockRotten("BlockRotten");
+		BlockEntityStatue = new BlockEntityStatue("BlockEntityStatue");
 		
 		BlockStonePagoda = new BlockStonePagoda("Stone Pagoda");
 	}
@@ -53,6 +55,7 @@ public class MaDBlocksHandler {
 		registerRender(BlockExit);
 		registerRender(BlockRotten);
 		registerRender(BlockStonePagoda);
+		registerRender(BlockEntityStatue);
 
 		for(int i  = 0; i < genBlocks.size() ; i ++)
 		{
