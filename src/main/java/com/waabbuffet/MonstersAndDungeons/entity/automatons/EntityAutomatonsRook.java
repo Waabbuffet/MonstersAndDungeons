@@ -1,54 +1,28 @@
 package com.waabbuffet.MonstersAndDungeons.entity.automatons;
 
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Random;
 
-import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
-import com.waabbuffet.MonstersAndDungeons.entity.AI.EntityAIRookAttack;
-import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
-=======
-
-import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
-import com.waabbuffet.MonstersAndDungeons.entity.AI.EntityAIRookAttack;
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
-import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
-import com.waabbuffet.MonstersAndDungeons.packet.UpdateClientEntityAnimation;
-
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityAIZombieAttack;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-<<<<<<< HEAD
-import net.minecraft.item.Item;
-=======
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
+import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
+import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
+import com.waabbuffet.MonstersAndDungeons.packet.UpdateClientEntityAnimation;
+
+
 
 public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 
@@ -61,11 +35,10 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	public EntityAutomatonsRook(World worldIn) {
 		super(worldIn);
 		this.setSize(1.4f, 3.7f);
-<<<<<<< HEAD
+
 		this.setHealth(300);
-=======
 		this.setHealth(500);
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
+
 
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityPigZombie.class}));
@@ -80,20 +53,18 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-<<<<<<< HEAD
+
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300D);
-=======
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(500D);
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
+
 		this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(5D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(7.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
 	}
-<<<<<<< HEAD
-	
-	
+
+
+
 	@Override
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		// TODO Auto-generated method stub
@@ -124,9 +95,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 		default:
 		}
 	}
-=======
 
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 	public int getAnimationCycle() {
 		return animationCycle;
 	}
@@ -153,7 +122,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 			break;
 		}
 	}
-	
+
 	@Override
 	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
 
@@ -162,7 +131,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 			super.damageEntity(damageSrc, damageAmount);
 		}
 	}
-	
+
 	/** 0 = slam, 1 = punch
 	 * @param attackNumber
 	 */
@@ -240,30 +209,30 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 
 
 		}else
-		if(this.PunchMode)
-		{
-			if(TickCount == 0)
+			if(this.PunchMode)
 			{
-				TickCount = 1;
-				if(animationCycle < 24)
+				if(TickCount == 0)
 				{
-					animationCycle ++;
-
-					if((animationCycle >= 8 && animationCycle <= 10) || (animationCycle >= 20 && animationCycle <= 22))
+					TickCount = 1;
+					if(animationCycle < 24)
 					{
-						this.activateAttack(1);
+						animationCycle ++;
+
+						if((animationCycle >= 8 && animationCycle <= 10) || (animationCycle >= 20 && animationCycle <= 22))
+						{
+							this.activateAttack(1);
+						}
 					}
-				}
-				else
+					else
+					{
+						animationCycle = 0;
+						this.PunchMode = false;
+					}
+				}else
 				{
-					animationCycle = 0;
-					this.PunchMode = false;
+					TickCount --;
 				}
-			}else
-			{
-				TickCount --;
 			}
-		}
 	}
 
 
@@ -271,48 +240,42 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	public void onUpdate() {
 		super.onUpdate();
 
-			if(this.getAttackTarget() != null)
+		if(this.getAttackTarget() != null)
+		{
+			BlockPos pos = this.getAttackTarget().getPosition();
+
+			if(this.getPosition().distanceSq(pos.getX(), pos.getY(), pos.getZ()) <= 15)
 			{
-				BlockPos pos = this.getAttackTarget().getPosition();
-	
-				if(this.getPosition().distanceSq(pos.getX(), pos.getY(), pos.getZ()) <= 15)
+				if(this.getAnimationCycle() == 0)
 				{
-					if(this.getAnimationCycle() == 0)
+					if(this.getHealth() <= 150)
+
 					{
-<<<<<<< HEAD
-						if(this.getHealth() <= 150)
-=======
-						if(this.getHealth() <= 250)
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
-						{
-							this.startAnimation(0);
-							this.setSlamAttack(true);
-						}else
-						{
-							this.startAnimation(1);
-							this.setPunchMode(true);
-						}
-						this.getLookHelper().setLookPositionWithEntity(this.getAttackTarget(), 30.0F, 30.0F);
+						this.startAnimation(0);
+						this.setSlamAttack(true);
+					}else
+					{
+						this.startAnimation(1);
+						this.setPunchMode(true);
 					}
-				}else
-					this.getNavigator().setPath(this.getNavigator().getPathToEntityLiving(this.getAttackTarget()), 0.4);
-			}
+					this.getLookHelper().setLookPositionWithEntity(this.getAttackTarget(), 30.0F, 30.0F);
+				}
+			}else
+				this.getNavigator().setPath(this.getNavigator().getPathToEntityLiving(this.getAttackTarget()), 0.4);
+		}
 		inAnimation();
 
 	}
-	
-<<<<<<< HEAD
-=======
 
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
+
 	@Override
 	public NBTTagCompound getNBTData() {
-		
+
 		NBTTagCompound compound = new NBTTagCompound();
-		
+
 		compound.setFloat("Health", this.getHealth());
 		compound.setInteger("EntityID", 0);
-		
+
 		return compound;
 	}
 }

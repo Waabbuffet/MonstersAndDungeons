@@ -29,11 +29,6 @@ public class MaDItemsHandler
 
 	public static void init()
 	{
-<<<<<<< HEAD
-		
-=======
-		/*
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 		quartzHelmet = new ItemQuartzArmor(armorMaterialQuartz , 1,  EntityEquipmentSlot.HEAD, "quartzHelmet", new ArmorStat[]{new ArmorStat(Stats.strength), new ArmorStat(Stats.wisdom)});
 		quartzChest  = new ItemQuartzArmor(armorMaterialQuartz , 1, EntityEquipmentSlot.CHEST, "quartzChest", new ArmorStat[]{new ArmorStat(Stats.strength, 3)});
 		quartzLegs =  new ItemQuartzArmor(armorMaterialQuartz , 1, EntityEquipmentSlot.LEGS, "quartzLegs", new ArmorStat[]{new ArmorStat(Stats.strength, 2)});
@@ -42,20 +37,12 @@ public class MaDItemsHandler
 		
 		quartzWarhammer = new ItemQuartzWarHammer(toolMaterialQuartz, "quartzWarhammer");
 		quartzGreatSword = new ItemQuartzGreatSword(toolMaterialQuartz, "quartzGreatSword");
-<<<<<<< HEAD
-		
-=======
-		*/
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
+
 	}
 
 	public static void registerRenders()
 	{
-<<<<<<< HEAD
-		
-=======
-		/*
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
+
 		registerRender(quartzHelmet);
 		registerRender(quartzChest);
 		registerRender(quartzLegs);
@@ -64,11 +51,7 @@ public class MaDItemsHandler
 		
 		registerRender(quartzWarhammer);
 		registerRender(quartzGreatSword);
-<<<<<<< HEAD
-		
-=======
-		*/
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
+
 	}
 
 	public static void registerRender(Item item)
