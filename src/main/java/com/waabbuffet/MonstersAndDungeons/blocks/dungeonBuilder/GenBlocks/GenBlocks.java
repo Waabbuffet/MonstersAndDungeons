@@ -18,5 +18,5 @@ public class GenBlocks extends Block{
 		GameRegistry.register(this);
 		GameRegistry.register(new ItemBlock(this), getRegistryName());
 	}
-
+	
 }

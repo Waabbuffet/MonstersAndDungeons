@@ -17,7 +17,7 @@ public class MaDPacketHandler {
 	    
 	 public static void init() 
 	 {
-		 // INSTANCE.registerMessage(SpawnRoomDEBUG.class, SpawnRoomDEBUG.class, 0, Side.SERVER);
+		  INSTANCE.registerMessage(UpdateClientEntityAnimation.class, UpdateClientEntityAnimation.class, 0, Side.CLIENT);
 	    
 	 }	
 }

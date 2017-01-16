@@ -29,6 +29,7 @@ public class MaDItemsHandler
 
 	public static void init()
 	{
+		
 		quartzHelmet = new ItemQuartzArmor(armorMaterialQuartz , 1,  EntityEquipmentSlot.HEAD, "quartzHelmet", new ArmorStat[]{new ArmorStat(Stats.strength), new ArmorStat(Stats.wisdom)});
 		quartzChest  = new ItemQuartzArmor(armorMaterialQuartz , 1, EntityEquipmentSlot.CHEST, "quartzChest", new ArmorStat[]{new ArmorStat(Stats.strength, 3)});
 		quartzLegs =  new ItemQuartzArmor(armorMaterialQuartz , 1, EntityEquipmentSlot.LEGS, "quartzLegs", new ArmorStat[]{new ArmorStat(Stats.strength, 2)});
@@ -37,10 +38,12 @@ public class MaDItemsHandler
 		
 		quartzWarhammer = new ItemQuartzWarHammer(toolMaterialQuartz, "quartzWarhammer");
 		quartzGreatSword = new ItemQuartzGreatSword(toolMaterialQuartz, "quartzGreatSword");
+		
 	}
 
 	public static void registerRenders()
 	{
+		
 		registerRender(quartzHelmet);
 		registerRender(quartzChest);
 		registerRender(quartzLegs);
@@ -49,6 +52,7 @@ public class MaDItemsHandler
 		
 		registerRender(quartzWarhammer);
 		registerRender(quartzGreatSword);
+		
 	}
 
 	public static void registerRender(Item item)

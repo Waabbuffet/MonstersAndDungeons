@@ -1,0 +1,14 @@
+package com.waabbuffet.MonstersAndDungeons.entity.automatons;
+
+import net.minecraft.world.World;
+
+import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
+
+public class EntityWitePawns extends MaDEntityMonsterBase {
+
+	public EntityWitePawns(World worldIn) {
+		super(worldIn);
+		// TODO Auto-generated constructor stub
+	}
+
+}

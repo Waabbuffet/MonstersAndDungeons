@@ -2,6 +2,7 @@ package com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder;
 
 import java.util.Random;
 
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
 import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
 import com.waabbuffet.MonstersAndDungeons.world.dungeons.DungeonAutomatons;
@@ -43,10 +44,10 @@ public class BlockExit extends Block
 		setUnlocalizedName(name);
 		setRegistryName(name);
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-		
+	
 		GameRegistry.register(this);
 		GameRegistry.register(new ItemBlock(this), getRegistryName());
- 
+		
 	}
 
 
@@ -96,12 +97,12 @@ public class BlockExit extends Block
 	{
 		EnumFacing facing = (EnumFacing)state.getValue(PROPERTYFACING);
 
-
 		int facingbits = facing.getHorizontalIndex();
 
 		return facingbits;
 	}
-
+	
+	
 
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
@@ -134,21 +135,15 @@ public class BlockExit extends Block
 			float hitZ) {
 		
 		
-	
+		
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
 		{
-/*
-			DungeonAutomatons dungeon = new DungeonAutomatons(15, true);
-			dungeon.constructDungeon(worldIn, pos.up(10), "WEST");
-			dungeon.unloadDungeon();	
-
-*/
-
+			DungeonAutomatons dungeon = new DungeonAutomatons(15);
+			dungeon.ConstructDungeon(worldIn, pos.up(10), dungeon.getDungeonSize());
 		}
 		
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem,
 				side, hitX, hitY, hitZ);
-
 
 	}
 }

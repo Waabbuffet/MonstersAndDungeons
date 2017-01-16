@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,6 +34,16 @@ public class DungeonNBTTag {
 			}
 		}
 	}
+	
+	public static NBTTagCompound getTagCompoundInFile(InputStream f) {
+		try {
+			NBTTagCompound cmp = CompressedStreamTools.readCompressed(f);
+			return cmp;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
 	
 	public static File createOrGetNBTFile(File f) {
 		try {

@@ -2,7 +2,6 @@ package com.waabbuffet.MonstersAndDungeons.blocks;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,9 +17,7 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockRotten;
@@ -28,6 +25,8 @@ import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlo
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlockSlab;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlockStairs;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlocks;
+import com.waabbuffet.MonstersAndDungeons.blocks.miscellaneous.BlockEntityStatue;
+import com.waabbuffet.MonstersAndDungeons.blocks.miscellaneous.BlockStonePagoda;
 import com.waabbuffet.MonstersAndDungeons.items.genBlocks.ItemGenBlockSlab;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
@@ -35,7 +34,7 @@ import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
 public class MaDBlocksHandler {
 
-	public static Block BlockExit, BlockRotten;
+	public static Block BlockExit, BlockRotten, BlockStonePagoda, BlockEntityStatue;
 
 	public static List<Block> genBlocks = new ArrayList<Block>();
 	public static List<ItemGenBlockSlab> genSlab = new ArrayList<ItemGenBlockSlab>();
@@ -43,14 +42,20 @@ public class MaDBlocksHandler {
 
 	public static void init()
 	{
+		
 		BlockExit = new BlockExit("BlockExit");		
 		BlockRotten = new BlockRotten("BlockRotten");
+		BlockEntityStatue = new BlockEntityStatue("BlockEntityStatue");
+		
+		BlockStonePagoda = new BlockStonePagoda("Stone Pagoda");
 	}
 
 	public static void registerRenders()
 	{
 		registerRender(BlockExit);
 		registerRender(BlockRotten);
+		registerRender(BlockStonePagoda);
+		registerRender(BlockEntityStatue);
 
 		for(int i  = 0; i < genBlocks.size() ; i ++)
 		{
@@ -67,11 +72,12 @@ public class MaDBlocksHandler {
 
 	public static void genBlocks(String Directory) throws IOException 
 	{
-		File OldZipFile = new File(Directory + "/Monster and Dungeons/madresources.zip");
+		File OldZipFile = new File(Directory + "/" + Reference.NAME +"/madresources.zip");
 
 		if(!OldZipFile.exists())
 		{
-			throw new FileNotFoundException("MAD: Could not find: " + OldZipFile.getAbsolutePath() + "Custom generation blocks will not be generated" + "make sure you installed the config folder correctly");
+			OldZipFile.mkdirs();
+			return;
 		}
 
 		ZipFile zipDirectory = new ZipFile(OldZipFile);

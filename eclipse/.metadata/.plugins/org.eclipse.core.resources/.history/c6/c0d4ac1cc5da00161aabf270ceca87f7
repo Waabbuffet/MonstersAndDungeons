@@ -1,0 +1,38 @@
+package com.waabbuffet.MonstersAndDungeons.entity.AI;
+
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
+
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+
+public class EntityAIRookAttack extends EntityAIAttackMelee{
+
+	EntityAutomatonsRook rook;
+
+
+	public EntityAIRookAttack(EntityAutomatonsRook creature, double speedIn, boolean useLongMemory) {
+		super(creature, speedIn, useLongMemory);
+		rook = creature;
+
+
+	}
+
+	@Override
+	public void startExecuting() {
+
+		if(this.rook.getAnimationCycle() == 0)
+		{
+			if(this.rook.getHealth() <= 250)
+			{
+				System.out.println(this.rook.getHealth());
+				this.rook.startAnimation(0);
+				this.rook.setSlamAttack(true);
+			}else
+			{
+				this.rook.startAnimation(1);
+				this.rook.setPunchMode(true);
+			}
+		}
+	}
+
+}

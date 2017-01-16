@@ -1,0 +1,5 @@
+package com.waabbuffet.MonstersAndDungeons.entity.AI;
+
+public class EntityMeleeRookSlam {
+
+}
