@@ -18,7 +18,10 @@ import com.waabbuffet.MonstersAndDungeons.util.dungeon.ExitData;
 
 public class DungeonAutomatons  extends Dungeon{
 
+<<<<<<< HEAD
 	DungeonRoom bossRoom = new DungeonRoom("assets/monsteranddungeons/generation/dungeonAutomatons/DungeonAutomatonsBossRoom");
+=======
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 
 	public DungeonAutomatons(int dungeonSize)
 	{
@@ -83,6 +86,7 @@ public class DungeonAutomatons  extends Dungeon{
 	@Override
 	public void ConstructDungeon(World world, BlockPos startingLocation, int DungeonSize) {
 		createBranch(world, startingLocation, DungeonSize, null, "RANDOM");
+<<<<<<< HEAD
 		
 		System.out.println("BUILDING");
 		boolean hasbuildBossRoom = true;
@@ -141,5 +145,22 @@ public class DungeonAutomatons  extends Dungeon{
 	public DungeonRoom getBossRoom() {
 		// TODO Auto-generated method stub
 		return bossRoom;
+=======
+
+		//for(ExitData exit : getTotalExits())
+		for(int i = 0; i < getTotalExits().size(); i ++)
+		{
+			Random rand = new Random();
+			ExitData exit = getTotalExits().get(i);
+
+			if(rand.nextInt(8) == 0)
+			{
+				createBranch(exit, world, 3);
+			}else
+			{
+				closeBranch(exit, world);
+			}
+		}
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 	}
 }

@@ -169,6 +169,7 @@ public class DungeonRoom implements IDungeonRoom {
 			this.roomStructure.xSize = cmp.getInteger("MaxXValue");
 			this.roomStructure.ySize = cmp.getInteger("MaxYValue");
 			this.roomStructure.zSize = cmp.getInteger("MaxZValue");
+			
 
 
 			this.roomStructure.blocks = new IBlockState[this.roomStructure.xSize][this.roomStructure.ySize][this.roomStructure.zSize];
@@ -184,6 +185,7 @@ public class DungeonRoom implements IDungeonRoom {
 					}
 				}
 			}
+<<<<<<< HEAD
 
 			HowManyExits = cmp.getInteger("TotalExits");
 			for(int i = 0; i < HowManyExits; i ++)
@@ -193,6 +195,17 @@ public class DungeonRoom implements IDungeonRoom {
 				int Z =	cmp.getInteger("ExitNumberZ" + i);
 				String dir = cmp.getString("ExitDirection" + i);
 
+=======
+			
+			HowManyExits = cmp.getInteger("TotalExits");
+			for(int i = 0; i < HowManyExits; i ++)
+			{
+				int X =	cmp.getInteger("ExitNumberX" + i);
+				int Y =	cmp.getInteger("ExitNumberY" + i);
+				int Z =	cmp.getInteger("ExitNumberZ" + i);
+				String dir = cmp.getString("ExitDirection" + i);
+
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 				this.getExits().add(new DungeonExit(new BlockPos(X,Y,Z), dir));
 				this.roomStructure.blocks[X][Y][Z] = Blocks.AIR.getDefaultState();
 			}
@@ -231,7 +244,11 @@ public class DungeonRoom implements IDungeonRoom {
 		String PreviousBuiltDirection = PreviousRoom.getPrevBuiltDIRECTION();
 		String Direction = "";
 		DungeonExit exit = null;
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 		int j =0;
 		here:
 			do{
@@ -346,6 +363,7 @@ public class DungeonRoom implements IDungeonRoom {
 			if(PreviousEntrance.getDirection().contains("WEST"))
 			{
 				RealPrevEntrance = RealPrevEntrance.south(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
+<<<<<<< HEAD
 
 			}else if(PreviousEntrance.getDirection().contains("NORTH"))
 			{
@@ -411,6 +429,73 @@ public class DungeonRoom implements IDungeonRoom {
 				j++;
 			}while(j < 4);
 
+=======
+	
+			}else if(PreviousEntrance.getDirection().contains("NORTH"))
+			{
+				RealPrevEntrance =	RealPrevEntrance.west(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
+	
+			}else if(PreviousEntrance.getDirection().contains("EAST"))
+			{
+				RealPrevEntrance = RealPrevEntrance.north(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
+	
+			}else if(PreviousEntrance.getDirection().contains("SOUTH"))
+			{
+				RealPrevEntrance =RealPrevEntrance.east(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
+	
+			}
+		}
+		
+		return new DungeonExit(RealPrevEntrance, Direction);
+	}
+	
+	//only method that uses this is close, but is just for testing purposes
+	public DungeonExit TESTalignWithRoom(DungeonRoom Nextroom, DungeonRoom PreviousRoom, DungeonExit PreviousEntrance, BlockPos StartingPosition) {
+
+		BlockPos RealPrevEntrance = StartingPosition;
+		String PreviousBuiltDirection = PreviousRoom.getPrevBuiltDIRECTION();
+		String Direction = "";
+		DungeonExit exit = null;
+
+		int j =0;
+		here:
+			do{
+				for(int i = 0; i < Nextroom.getExits().size(); i ++)// 0 = west, 1 = north, 2 = east, 3 = south
+				{
+					if(Nextroom.getExits().get(i).getDirectionWithRotation(j).contains(PreviousEntrance.getOppositeDirection()))
+					{
+						if(j == 0)
+						{
+							//on west take its z position and subtract
+							Direction = "WEST";
+						}else if(j == 1)
+						{
+							//on north take its x position and add
+							Direction = "NORTH";
+						}else if(j == 2)
+						{
+							//on east take its z position and 
+							Direction = "EAST";
+						}else if(j == 3)
+						{
+							///on south take its x and subtract
+							Direction = "SOUTH";
+						}
+						exit = Nextroom.getExits().get(i);
+
+						for(int l = 0; l < Nextroom.getExits().size(); l ++)
+						{
+							Nextroom.getExits().get(l).setRotation(j);
+						}
+
+						break here;
+					}
+				}
+
+				j++;
+			}while(j < 4);
+
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 		if(PreviousEntrance.getDirection().contains("EAST"))
 		{
 			if(Direction.contains("NORTH"))
@@ -466,12 +551,17 @@ public class DungeonRoom implements IDungeonRoom {
 			}
 
 		}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 		if(exit != null)
 		{
 			if(PreviousEntrance.getDirection().contains("WEST"))
 			{
 				RealPrevEntrance = RealPrevEntrance.south(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
+<<<<<<< HEAD
 
 			}else if(PreviousEntrance.getDirection().contains("NORTH"))
 			{
@@ -488,6 +578,24 @@ public class DungeonRoom implements IDungeonRoom {
 			}
 		}
 
+=======
+	
+			}else if(PreviousEntrance.getDirection().contains("NORTH"))
+			{
+				RealPrevEntrance =	RealPrevEntrance.west(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
+	
+			}else if(PreviousEntrance.getDirection().contains("EAST"))
+			{
+				RealPrevEntrance = RealPrevEntrance.north(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
+	
+			}else if(PreviousEntrance.getDirection().contains("SOUTH"))
+			{
+				RealPrevEntrance =RealPrevEntrance.east(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
+	
+			}
+		}
+		
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 		return new DungeonExit(RealPrevEntrance, Direction);
 	}
 
@@ -512,6 +620,22 @@ public class DungeonRoom implements IDungeonRoom {
 		}
 
 		return null;
+	}
+	
+	
+	public DungeonExit setCorrectPath(String Direction) {
+		// TODO Auto-generated method stub
+
+		for(DungeonExit tree : exits)
+		{
+			if(tree.getDirection().equals(Direction))
+			{
+				tree.setCorrectPath(true);
+				return tree;
+			}
+		}
+	
+		return setCorrectPath();
 	}
 
 

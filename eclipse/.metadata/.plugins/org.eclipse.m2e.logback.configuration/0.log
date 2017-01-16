@@ -80,6 +80,7 @@ org.eclipse.jdt.core.JavaModelException: QuartzArmor.java [in com.waabbuffet.Mon
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) [na:1.8.0_101]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) [na:1.8.0_101]
 	at java.lang.Thread.run(Unknown Source) [na:1.8.0_101]
+<<<<<<< HEAD
 2017-01-14 22:29:45,005 [Recommenders-Timeout-Manager] ERROR o.e.r.i.rcp.JavaElementSelections - Failed to resolve selection in '=MDKExample/src\/main\/java<com.waabbuffet.MonstersAndDungeons.client.models{ModelWite.java' at offset 0
 org.eclipse.jdt.core.JavaModelException: ModelWite.java [in com.waabbuffet.MonstersAndDungeons.client.models [in src/main/java [in MDKExample]]] does not exist
 	at org.eclipse.jdt.internal.core.JavaElement.newJavaModelException(JavaElement.java:544) ~[org.eclipse.jdt.core_3.10.0.v20140604-1726.jar:na]
@@ -128,3 +129,5 @@ org.eclipse.jdt.core.JavaModelException: ModelWite.java [in com.waabbuffet.Monst
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) [na:1.8.0_101]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) [na:1.8.0_101]
 	at java.lang.Thread.run(Unknown Source) [na:1.8.0_101]
+=======
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274

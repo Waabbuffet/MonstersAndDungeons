@@ -96,12 +96,17 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 							this.spawnOnce = false;
 						}
 						
+<<<<<<< HEAD
 						this.worldObj.setBlockToAir(this.getPos());
 						this.worldObj.removeTileEntity(this.getPos());
 					}else
 					{
 						this.worldObj.setBlockToAir(this.getPos());
 						this.worldObj.removeTileEntity(this.getPos());
+=======
+						this.worldObj.removeTileEntity(this.getPos());
+						this.worldObj.setBlockToAir(this.getPos());
+>>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 					}
 				}
 		}else
