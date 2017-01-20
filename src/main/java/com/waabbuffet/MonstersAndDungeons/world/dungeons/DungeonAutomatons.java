@@ -96,7 +96,7 @@ public class DungeonAutomatons  extends Dungeon{
 
 			if(rand.nextInt(8) == 0)
 			{
-				createBranch(exit, world, 5);
+				createBranch(exit, world, 4);
 			}else
 			{
 				closeBranch(exit, world, false);

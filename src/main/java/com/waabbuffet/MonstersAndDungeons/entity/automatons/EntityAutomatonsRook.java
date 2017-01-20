@@ -28,17 +28,15 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 
 
 	@SideOnly(Side.CLIENT)
-	int animationCycle, TickCount = 0;
+	int animationCycle = 0, TickCount = 0;
 	public boolean SlamAttack, PunchMode;
 
 
 	public EntityAutomatonsRook(World worldIn) {
 		super(worldIn);
-		this.setSize(1.4f, 3.7f);
+		this.setSize(1.4f, 3.4f);
 
 		this.setHealth(300);
-		this.setHealth(500);
-
 
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityPigZombie.class}));
@@ -57,7 +55,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300D);
 
 		this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(5D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(7.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0D);
@@ -69,7 +67,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
 		// TODO Auto-generated method stub
 		Random rand = new Random();
-		switch(rand.nextInt(20))
+		switch(rand.nextInt(15))
 		{
 		case 0:
 			this.dropItem(MaDItemsHandler.quartzBoots, 1);
@@ -126,7 +124,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	@Override
 	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
 
-		if(!damageSrc.isExplosion() && !damageSrc.isFireDamage())
+		if(!damageSrc.isExplosion() && !damageSrc.isFireDamage() && !damageSrc.isProjectile() && !damageSrc.isMagicDamage())
 		{
 			super.damageEntity(damageSrc, damageAmount);
 		}
@@ -187,7 +185,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 			if(TickCount == 0)
 			{
 				TickCount = 1;
-				if(animationCycle < 22)
+				if(animationCycle < 26)
 				{
 					animationCycle ++;
 
@@ -206,8 +204,6 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 			{
 				TickCount --;
 			}
-
-
 		}else
 			if(this.PunchMode)
 			{
@@ -249,7 +245,6 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 				if(this.getAnimationCycle() == 0)
 				{
 					if(this.getHealth() <= 150)
-
 					{
 						this.startAnimation(0);
 						this.setSlamAttack(true);
@@ -258,13 +253,17 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 						this.startAnimation(1);
 						this.setPunchMode(true);
 					}
-					this.getLookHelper().setLookPositionWithEntity(this.getAttackTarget(), 30.0F, 30.0F);
+	
+					if(!this.PunchMode && !this.SlamAttack)
+						this.getLookHelper().setLookPositionWithEntity(this.getAttackTarget(), 30.0F, 30.0F);
 				}
 			}else
-				this.getNavigator().setPath(this.getNavigator().getPathToEntityLiving(this.getAttackTarget()), 0.4);
+			{
+				if(!this.PunchMode && !this.SlamAttack)
+					this.getNavigator().setPath(this.getNavigator().getPathToEntityLiving(this.getAttackTarget()), this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+			}
 		}
 		inAnimation();
-
 	}
 
 

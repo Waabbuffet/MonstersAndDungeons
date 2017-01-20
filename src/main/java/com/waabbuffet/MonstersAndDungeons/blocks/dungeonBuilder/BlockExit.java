@@ -136,7 +136,7 @@ public class BlockExit extends Block
 		
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
 		{
-			DungeonAutomatons dungeon = new DungeonAutomatons(15);
+			DungeonAutomatons dungeon = new DungeonAutomatons(12);
 			dungeon.ConstructDungeon(worldIn, pos.up(10), dungeon.getDungeonSize());
 		}
 		

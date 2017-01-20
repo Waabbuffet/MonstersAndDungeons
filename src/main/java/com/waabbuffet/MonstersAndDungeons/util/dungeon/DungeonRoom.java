@@ -80,7 +80,7 @@ public class DungeonRoom implements IDungeonRoom {
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
 							world.setBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z), this.roomStructure.blocks[x][y][z]);
-							if(rand.nextInt(100) == 0 && y == 1 && (!world.getBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z)).equals(Blocks.AIR)))
+							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z)).equals(Blocks.AIR)))
 							{
 
 								EntityWitePawns pawn = new EntityWitePawns(world);
@@ -100,7 +100,7 @@ public class DungeonRoom implements IDungeonRoom {
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
 							world.setBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z), this.roomStructure.blocks[x][y][z]);
-							if(rand.nextInt(100) == 0 && y == 1 && (!world.getBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z)).equals(Blocks.AIR)))
+							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z)).equals(Blocks.AIR)))
 							{
 
 								EntityWitePawns pawn = new EntityWitePawns(world);
@@ -122,7 +122,7 @@ public class DungeonRoom implements IDungeonRoom {
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
 							world.setBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x), this.roomStructure.blocks[x][y][z]);
-							if(rand.nextInt(100) == 0 && y == 1 && (!world.getBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x)).equals(Blocks.AIR)))
+							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x)).equals(Blocks.AIR)))
 							{
 
 								EntityWitePawns pawn = new EntityWitePawns(world);
@@ -143,7 +143,7 @@ public class DungeonRoom implements IDungeonRoom {
 						{
 							world.setBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x), this.roomStructure.blocks[x][y][z]);
 
-							if(rand.nextInt(200) == 0 && y == 1 && (!world.getBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x)).equals(Blocks.AIR)))
+							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x)).equals(Blocks.AIR)))
 							{
 								EntityWitePawns pawn = new EntityWitePawns(world);
 								pawn.setPosition(startPos.getX() - z, startPos.getY() + y + 2,startPos.getZ() + x);
@@ -155,6 +155,24 @@ public class DungeonRoom implements IDungeonRoom {
 			}
 		}
 	}
+	
+	private boolean canSpawnWite(int x, int y, int z)
+	{
+		
+		if(x != this.roomStructure.blocks.length && x != 0)
+		{
+			if(y == 1)
+			{
+				if(z != this.roomStructure.blocks[0][0].length && z != 0)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+			
 
 	@Override
 	public boolean loadRoom() {

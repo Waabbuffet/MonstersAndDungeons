@@ -19,7 +19,7 @@ public class EntityWitePawns extends MaDEntityMonsterBase {
 		super(worldIn);
 		// TODO Auto-generated constructor stub
 		
-		this.setHealth(50);
+		this.setHealth(15);
 		
 		this.tasks.addTask(0, new EntityAIAttackMelee(this, 0.7D, false));
 		this.tasks.addTask(7, new EntityAIWander(this, 0.7D));
@@ -34,7 +34,7 @@ public class EntityWitePawns extends MaDEntityMonsterBase {
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50D);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
@@ -49,8 +49,7 @@ public class EntityWitePawns extends MaDEntityMonsterBase {
 		
 		compound.setFloat("Health", this.getHealth());
 		compound.setInteger("EntityID", 1);
-		
-		
+			
 		return compound;
 	}
 }

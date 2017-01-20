@@ -32,6 +32,10 @@ public class ModelAutomatonsRook extends ModelBase {
 			{   0F  , -140F  ,   60F,  90F, 50F, 1.5f},
 			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
 			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
+			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
+			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
+			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
+			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
 			{   0F  , -110F  ,   50F,  75F, 15F, 1.5f},  
 			{   0F  , -80F  ,    30F,  50F, 15F, 1f},  
 			{   0F  , -40F  ,    20F,  30F, 0F, 0.5f},  
@@ -67,6 +71,7 @@ public class ModelAutomatonsRook extends ModelBase {
 			{    -0F,  -40F,  15F, -20F,  10F,  -0F}, 
 			{    0F,  0F,  0F, 0F,  0F,  0F}, 
 			};
+	
 
 	ModelRenderer rightBoot;
 	ModelRenderer LeftBoot;
@@ -805,6 +810,9 @@ public class ModelAutomatonsRook extends ModelBase {
 		if(rook.PunchMode)
 		{
 			this.punchAnimation(rook);
+		}else
+		{
+			this.idolAnimation(rook);
 		}
 	}
 
@@ -850,7 +858,23 @@ public class ModelAutomatonsRook extends ModelBase {
 
 	private void idolAnimation(EntityAutomatonsRook rook)
 	{
+		this.LeftShoulder1.rotateAngleX = degToRad(0);
+		this.RightShoulder1.rotateAngleX = degToRad(0);  
+		this.MiddlePiece.rotateAngleX = degToRad(0);
 
+		this.LeftBelt.rotateAngleX = degToRad(0);
+		this.rightMiddlePiece.rotateAngleX = degToRad(0);
+
+		this.LeftShoulder3.rotateAngleX = degToRad(0);
+		this.RightShoulder4.rotateAngleX = degToRad(0);
+		
+		this.MiddlePiece.rotateAngleY = degToRad(0);
+		this.rightMiddlePiece.rotateAngleY = degToRad(0);
+		this.LeftBelt.rotateAngleY = degToRad(0);
+		
+		this.MiddlePiece.offsetY = (float) 0;
+		this.LeftBelt.offsetY= (float) 0;
+		this.rightMiddlePiece.offsetY = 0;
 	}
 
 	private void halfHpAnimation(EntityAutomatonsRook rook)

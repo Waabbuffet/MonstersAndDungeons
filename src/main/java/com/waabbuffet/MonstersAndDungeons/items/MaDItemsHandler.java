@@ -23,7 +23,7 @@ public class MaDItemsHandler
 {
 	public static ToolMaterial toolMaterialQuartz = EnumHelper.addToolMaterial("RomanSpartanExample", 3, 1000, 15.0F, 4.0F, 30);
 	
-	public static ArmorMaterial armorMaterialQuartz = EnumHelper.addArmorMaterial("RomanSpartanArmorExample", "wc:RomanArmor",16, new int[] {3, 8, 6, 3}, 30, null, 1f);
+	public static ArmorMaterial armorMaterialQuartz = EnumHelper.addArmorMaterial("RomanSpartanArmorExample", "wc:RomanArmor", 16, new int[] {3, 8, 6, 3}, 20, null, 1f);
 
 	public static Item quartzHelmet, quartzChest, quartzLegs, quartzBoots, quartzShield, quartzWarhammer, quartzGreatSword;
 
