@@ -1,0 +1,11 @@
+#eclipse
+/bin
+/.settings
+/.classpath
+
+#In case people make their workspace in the repo
+/eclipse/
+
+#gradle
+/build
+/.gradle
