@@ -7,5 +7,5 @@ cls
 pause
 call gradlew setupDecompWorkspace
 echo(
-echo The script has finished. You may want to run "setup eclipse.bat" now. Press any button to close this window...
+echo The script has finished. You might want to run "setup eclipse.bat" now. Press any button to close this window...
 pause >nul
