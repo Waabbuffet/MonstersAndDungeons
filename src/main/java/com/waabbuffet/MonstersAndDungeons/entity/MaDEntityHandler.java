@@ -6,6 +6,7 @@ import com.waabbuffet.MonstersAndDungeons.client.models.ModelWitePawns;
 import com.waabbuffet.MonstersAndDungeons.client.renderer.RenderAutomatonsRook;
 import com.waabbuffet.MonstersAndDungeons.client.renderer.RenderWhitePawns;
 import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityTameablePawn;
 import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
 
 import net.minecraft.entity.Entity;
@@ -20,18 +21,18 @@ public class MaDEntityHandler {
 	
 	public static void registerEntities() {
 		registerEntity(EntityAutomatonsRook.class, "AutomatonsRook", 80, 3, false);
-		registerEntity(EntityWhitePawns.class, "WitePawns", 80, 3, false);
-		
+		registerEntity(EntityWhitePawns.class, "WhitePawns", 80, 3, false);
+		registerEntity(EntityTameablePawn.class, "tameablePawn", 80, 3, false);
 	}
+	
 	private static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
 		EntityRegistry.registerModEntity(entityClass, entityName, entityID++, MonstersAndDungeons.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void registerRenders()
-	{
+	public static void registerRenders(){
 		RenderingRegistry.registerEntityRenderingHandler(EntityAutomatonsRook.class, new RenderAutomatonsRook(new ModelAutomatonsRook()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityWhitePawns.class, new RenderWhitePawns(new ModelWitePawns()));
-		
+		RenderingRegistry.registerEntityRenderingHandler(EntityTameablePawn.class, new RenderWhitePawns(new ModelWitePawns()));		
 	}
 }

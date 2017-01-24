@@ -18,12 +18,10 @@ public abstract class MaDEntityMonsterBase extends EntityMob
 	
 	public MaDEntityMonsterBase(World worldIn) {
 		super(worldIn);
-		// TODO Auto-generated constructor stub
 	}
 		
 	@Override
 	protected boolean canDespawn() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	

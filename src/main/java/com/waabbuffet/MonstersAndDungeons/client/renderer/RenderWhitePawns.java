@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderWhitePawns extends RenderLiving<EntityWhitePawns>{
+public class RenderWhitePawns extends RenderLiving<EntityLiving>{
 
 	
 	ResourceLocation location = new ResourceLocation(Reference.MODID + ":textures/models/whitePawn.png");
@@ -21,16 +21,8 @@ public class RenderWhitePawns extends RenderLiving<EntityWhitePawns>{
 		modelEntity = ((ModelBase) mainModel);
 	}
 		
-	public void renderAutomatonsRook(EntityWhitePawns entity, double x, double y, double z, float u, float v){
-		super.doRender(entity, x, y, z, u, v);
-	}
-	
-	public void doRenderLiving(EntityLiving entityLiving, double x, double y, double z, float u, float v){
-		renderAutomatonsRook((EntityWhitePawns)entityLiving, x, y, z, u , v);
-	}
-	
-	public void doRender(EntityWhitePawns entity, double x, double y, double z, float u, float v){
-		renderAutomatonsRook((EntityWhitePawns)entity, x, y, z, u , v);
+    public void doRender(EntityLiving entity, double x, double y, double z, float entityYaw, float partialTicks){
+		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
 	@Override
@@ -39,7 +31,7 @@ public class RenderWhitePawns extends RenderLiving<EntityWhitePawns>{
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityWhitePawns entity) {
+	protected ResourceLocation getEntityTexture(EntityLiving entity) {
 		return location;
 	}
 }
