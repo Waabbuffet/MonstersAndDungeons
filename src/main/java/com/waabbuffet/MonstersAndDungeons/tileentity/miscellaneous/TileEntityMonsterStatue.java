@@ -12,7 +12,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
 import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWitePawns;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
 
 public class TileEntityMonsterStatue extends TileEntity implements ITickable { 
 
@@ -82,7 +82,7 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 
 						break;
 					case 1:
-						entityToSpawn = new EntityWitePawns(this.worldObj);
+						entityToSpawn = new EntityWhitePawns(this.worldObj);
 						break;
 					}
 

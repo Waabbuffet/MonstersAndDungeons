@@ -9,7 +9,7 @@ import java.util.Random;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWitePawns;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
 import com.waabbuffet.MonstersAndDungeons.util.StructureData;
 
 import net.minecraft.block.Block;
@@ -83,7 +83,7 @@ public class DungeonRoom implements IDungeonRoom {
 							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z)).equals(Blocks.AIR)))
 							{
 
-								EntityWitePawns pawn = new EntityWitePawns(world);
+								EntityWhitePawns pawn = new EntityWhitePawns(world);
 								pawn.setPosition(startPos.getX() + x, startPos.getY() + y + 2,startPos.getZ() + z);
 								world.spawnEntityInWorld(pawn);
 
@@ -103,7 +103,7 @@ public class DungeonRoom implements IDungeonRoom {
 							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z)).equals(Blocks.AIR)))
 							{
 
-								EntityWitePawns pawn = new EntityWitePawns(world);
+								EntityWhitePawns pawn = new EntityWhitePawns(world);
 								pawn.setPosition(startPos.getX() - x, startPos.getY() + y + 2,startPos.getZ() - z);
 								world.spawnEntityInWorld(pawn);
 
@@ -125,7 +125,7 @@ public class DungeonRoom implements IDungeonRoom {
 							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x)).equals(Blocks.AIR)))
 							{
 
-								EntityWitePawns pawn = new EntityWitePawns(world);
+								EntityWhitePawns pawn = new EntityWhitePawns(world);
 								pawn.setPosition(startPos.getX() + z, startPos.getY() + y + 2,startPos.getZ() - x);
 								world.spawnEntityInWorld(pawn);
 
@@ -145,7 +145,7 @@ public class DungeonRoom implements IDungeonRoom {
 
 							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x)).equals(Blocks.AIR)))
 							{
-								EntityWitePawns pawn = new EntityWitePawns(world);
+								EntityWhitePawns pawn = new EntityWhitePawns(world);
 								pawn.setPosition(startPos.getX() - z, startPos.getY() + y + 2,startPos.getZ() + x);
 								world.spawnEntityInWorld(pawn);
 							}

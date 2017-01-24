@@ -6,10 +6,10 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWitePawns;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
-public class RenderWitePawns extends RenderLiving<EntityWitePawns>{
+public class RenderWitePawns extends RenderLiving<EntityWhitePawns>{
 
 	
 	ResourceLocation location = new ResourceLocation(Reference.MODID + ":textures/models/Wite Pawn.png");
@@ -21,16 +21,16 @@ public class RenderWitePawns extends RenderLiving<EntityWitePawns>{
 		modelEntity = ((ModelBase) mainModel);
 	}
 		
-	public void renderAutomatonsRook(EntityWitePawns entity, double x, double y, double z, float u, float v){
+	public void renderAutomatonsRook(EntityWhitePawns entity, double x, double y, double z, float u, float v){
 		super.doRender(entity, x, y, z, u, v);
 	}
 	
 	public void doRenderLiving(EntityLiving entityLiving, double x, double y, double z, float u, float v){
-		renderAutomatonsRook((EntityWitePawns)entityLiving, x, y, z, u , v);
+		renderAutomatonsRook((EntityWhitePawns)entityLiving, x, y, z, u , v);
 	}
 	
-	public void doRender(EntityWitePawns entity, double x, double y, double z, float u, float v){
-		renderAutomatonsRook((EntityWitePawns)entity, x, y, z, u , v);
+	public void doRender(EntityWhitePawns entity, double x, double y, double z, float u, float v){
+		renderAutomatonsRook((EntityWhitePawns)entity, x, y, z, u , v);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class RenderWitePawns extends RenderLiving<EntityWitePawns>{
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityWitePawns entity) {
+	protected ResourceLocation getEntityTexture(EntityWhitePawns entity) {
 		// TODO Auto-generated method stub
 		return location;
 	}

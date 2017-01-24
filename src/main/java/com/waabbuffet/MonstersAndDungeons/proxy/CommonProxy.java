@@ -9,6 +9,7 @@ import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityHandler;
 import com.waabbuffet.MonstersAndDungeons.events.CommonEventHandler;
 import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
+import com.waabbuffet.MonstersAndDungeons.sound.MaDSoundsHandler;
 import com.waabbuffet.MonstersAndDungeons.tileentity.MaDTileEntityHandler;
 import com.waabbuffet.MonstersAndDungeons.world.MaDWorldGenerationHandler;
 
@@ -46,7 +47,7 @@ public class CommonProxy {
 		MaDPacketHandler.init();
 		MaDTileEntityHandler.register();
 		MaDEntityHandler.registerEntities();
-		
+		MaDSoundsHandler.init();
 	}
 
 	public void init(FMLInitializationEvent event) {
