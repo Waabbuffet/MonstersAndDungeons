@@ -30,14 +30,16 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		// TODO Auto-generated method stub
 
-		this.ConfigDir = event.getModConfigurationDirectory();
-		
-		try {
-			MaDBlocksHandler.genBlocks(ConfigDir.getPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		/*
+			this.ConfigDir = event.getModConfigurationDirectory();
+			
+			try {
+				MaDBlocksHandler.genBlocks(ConfigDir.getPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			*/
 		
 		MaDBlocksHandler.init();
 		MaDItemsHandler.init();
@@ -67,6 +69,4 @@ public class CommonProxy {
 		return null;
 	}
 	
-
-
 }

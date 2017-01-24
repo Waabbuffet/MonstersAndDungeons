@@ -2,14 +2,14 @@ package com.waabbuffet.MonstersAndDungeons.blocks.miscellaneous;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+
 
 public class BlockEntityStatue extends Block{
 
@@ -24,5 +24,18 @@ public class BlockEntityStatue extends Block{
 		
 		// TODO Auto-generated constructor stub
 	}
+
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos)
+	{
+		return NULL_AABB;
+	}
+	
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState iBlockState) {
+		return EnumBlockRenderType.INVISIBLE;
+	}
+
 }
 

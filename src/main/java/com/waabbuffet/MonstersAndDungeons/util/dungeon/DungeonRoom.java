@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWitePawns;
 import com.waabbuffet.MonstersAndDungeons.util.StructureData;
 
 import net.minecraft.block.Block;
@@ -27,6 +28,7 @@ public class DungeonRoom implements IDungeonRoom {
 	String PrevBuiltDIRECTION;
 
 	List<DungeonExit> exits = new ArrayList<DungeonExit>();
+	Random rand = new Random();
 
 	public DungeonRoom(String FileName) {
 		// TODO Auto-generated constructor stub
@@ -78,6 +80,14 @@ public class DungeonRoom implements IDungeonRoom {
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
 							world.setBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z), this.roomStructure.blocks[x][y][z]);
+							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z)).equals(Blocks.AIR)))
+							{
+
+								EntityWitePawns pawn = new EntityWitePawns(world);
+								pawn.setPosition(startPos.getX() + x, startPos.getY() + y + 2,startPos.getZ() + z);
+								world.spawnEntityInWorld(pawn);
+
+							}
 						}
 					}
 				}
@@ -90,7 +100,15 @@ public class DungeonRoom implements IDungeonRoom {
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
 							world.setBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z), this.roomStructure.blocks[x][y][z]);
-						}
+							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z)).equals(Blocks.AIR)))
+							{
+
+								EntityWitePawns pawn = new EntityWitePawns(world);
+								pawn.setPosition(startPos.getX() - x, startPos.getY() + y + 2,startPos.getZ() - z);
+								world.spawnEntityInWorld(pawn);
+
+							}
+						}	
 					}
 				}
 
@@ -104,7 +122,15 @@ public class DungeonRoom implements IDungeonRoom {
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
 							world.setBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x), this.roomStructure.blocks[x][y][z]);
-						}
+							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x)).equals(Blocks.AIR)))
+							{
+
+								EntityWitePawns pawn = new EntityWitePawns(world);
+								pawn.setPosition(startPos.getX() + z, startPos.getY() + y + 2,startPos.getZ() - x);
+								world.spawnEntityInWorld(pawn);
+
+							}
+						}	
 					}
 				}
 			}else if(Direction.contains("SOUTH"))
@@ -116,12 +142,37 @@ public class DungeonRoom implements IDungeonRoom {
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
 							world.setBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x), this.roomStructure.blocks[x][y][z]);
+
+							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x)).equals(Blocks.AIR)))
+							{
+								EntityWitePawns pawn = new EntityWitePawns(world);
+								pawn.setPosition(startPos.getX() - z, startPos.getY() + y + 2,startPos.getZ() + x);
+								world.spawnEntityInWorld(pawn);
+							}
 						}
 					}
 				}
 			}
 		}
 	}
+	
+	private boolean canSpawnWite(int x, int y, int z)
+	{
+		
+		if(x != this.roomStructure.blocks.length && x != 0)
+		{
+			if(y == 1)
+			{
+				if(z != this.roomStructure.blocks[0][0].length && z != 0)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+			
 
 	@Override
 	public boolean loadRoom() {
@@ -138,6 +189,7 @@ public class DungeonRoom implements IDungeonRoom {
 			this.roomStructure.zSize = cmp.getInteger("MaxZValue");
 			
 
+
 			this.roomStructure.blocks = new IBlockState[this.roomStructure.xSize][this.roomStructure.ySize][this.roomStructure.zSize];
 
 			for(int x = 0; x < this.roomStructure.blocks.length; x ++)
@@ -151,7 +203,8 @@ public class DungeonRoom implements IDungeonRoom {
 					}
 				}
 			}
-			
+
+
 			HowManyExits = cmp.getInteger("TotalExits");
 			for(int i = 0; i < HowManyExits; i ++)
 			{
@@ -198,7 +251,7 @@ public class DungeonRoom implements IDungeonRoom {
 		String PreviousBuiltDirection = PreviousRoom.getPrevBuiltDIRECTION();
 		String Direction = "";
 		DungeonExit exit = null;
-		
+
 		int j =0;
 		here:
 			do{
@@ -433,28 +486,28 @@ public class DungeonRoom implements IDungeonRoom {
 			}
 
 		}
-	
+
 		if(exit != null)
 		{
 			if(PreviousEntrance.getDirection().contains("WEST"))
 			{
 				RealPrevEntrance = RealPrevEntrance.south(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
-	
+
 			}else if(PreviousEntrance.getDirection().contains("NORTH"))
 			{
 				RealPrevEntrance =	RealPrevEntrance.west(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
-	
+
 			}else if(PreviousEntrance.getDirection().contains("EAST"))
 			{
 				RealPrevEntrance = RealPrevEntrance.north(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
-	
+
 			}else if(PreviousEntrance.getDirection().contains("SOUTH"))
 			{
 				RealPrevEntrance =RealPrevEntrance.east(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
-	
+
 			}
 		}
-		
+
 		return new DungeonExit(RealPrevEntrance, Direction);
 	}
 
@@ -481,7 +534,6 @@ public class DungeonRoom implements IDungeonRoom {
 		return null;
 	}
 	
-	
 	public DungeonExit setCorrectPath(String Direction) {
 		// TODO Auto-generated method stub
 
@@ -493,7 +545,7 @@ public class DungeonRoom implements IDungeonRoom {
 				return tree;
 			}
 		}
-	
+
 		return setCorrectPath();
 	}
 

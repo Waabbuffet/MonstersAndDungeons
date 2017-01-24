@@ -134,17 +134,10 @@ public class BlockExit extends Block
 			ItemStack heldItem, EnumFacing side, float hitX, float hitY,
 			float hitZ) {
 		
-		
-		
-		
-		
-		
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
 		{
-
-			DungeonAutomatons dungeon = new DungeonAutomatons(10);
+			DungeonAutomatons dungeon = new DungeonAutomatons(12);
 			dungeon.ConstructDungeon(worldIn, pos.up(10), dungeon.getDungeonSize());
-
 		}
 		
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem,

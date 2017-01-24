@@ -181,7 +181,9 @@ public abstract class Dungeon {
 		String Direction = getRoomRotationRoom(NextRoom, PreviousEntrance.getDirection(),PreviousEntrance.getOppositeDirection());
 		if(Direction == null)
 		{
-			closeBranch(firstExit, world);
+
+			closeBranch(firstExit, world, false);
+
 			return;
 		}
 		if(PreviousEntrance.getDirection().contains("EAST"))
@@ -401,7 +403,9 @@ public abstract class Dungeon {
 		return Direction;
 	}
 
-	private boolean hasEnoughRoom(ExitData exit)
+
+	protected boolean hasEnoughRoom(ExitData exit, int xRange, int zRange)
+
 	{
 		String direction = exit.getDirection();
 
@@ -414,9 +418,11 @@ public abstract class Dungeon {
 			{
 				if(posX > data.getPos().getX())
 				{
-					if(Math.abs((posX - data.getPos().getX())) < 15)
+
+					if(Math.abs((posX - data.getPos().getX())) < xRange)
 					{
-						if(Math.abs((posZ - data.getPos().getZ())) < 8)
+						if(Math.abs((posZ - data.getPos().getZ())) < zRange)
+
 						{
 							return false;
 						}
@@ -429,9 +435,11 @@ public abstract class Dungeon {
 			{
 				if(posX < data.getPos().getX())
 				{
-					if(Math.abs((posX - data.getPos().getX())) < 15)
+
+					if(Math.abs((posX - data.getPos().getX())) < xRange)
 					{
-						if(Math.abs((posZ - data.getPos().getZ())) < 8)
+						if(Math.abs((posZ - data.getPos().getZ())) < zRange)
+
 						{
 							return false;
 						}
@@ -445,9 +453,11 @@ public abstract class Dungeon {
 			{
 				if(posZ > data.getPos().getZ())
 				{
-					if(posZ - data.getPos().getZ() < 10)
+
+					if(posZ - data.getPos().getZ() < zRange)
 					{
-						if(Math.abs((posX - data.getPos().getX())) < 10)
+						if(Math.abs((posX - data.getPos().getX())) < xRange)
+
 						{
 							return false;
 						}
@@ -460,9 +470,11 @@ public abstract class Dungeon {
 			{
 				if(posZ < data.getPos().getZ())
 				{
-					if(Math.abs((posZ - data.getPos().getZ())) < 15)
+
+					if(Math.abs((posZ - data.getPos().getZ())) < zRange)
 					{
-						if(Math.abs((posX - data.getPos().getX())) < 8)
+						if(Math.abs((posX - data.getPos().getX())) < xRange)
+
 						{
 							return false;
 						}
@@ -475,11 +487,14 @@ public abstract class Dungeon {
 	}
 
 	//working
-	public void closeBranch(ExitData startingPoint, World world)
+
+	public void closeBranch(ExitData startingPoint, World world, boolean spawnBoss)
 	{
-		if(hasEnoughRoom(startingPoint))
+		if(hasEnoughRoom(startingPoint, 15, 10))
 		{
-			DungeonRoom exit = selectRandomExit();
+			DungeonRoom exit = spawnBoss ? getBossRoom() : selectRandomExit();
+	
+
 			exit.loadRoom();
 
 			DungeonExit tempExit = startingPoint.getPreviousRoom().TESTalignWithRoom(exit, startingPoint.getPreviousRoom(), startingPoint.getRealExit(), startingPoint.getPos());
@@ -490,6 +505,7 @@ public abstract class Dungeon {
 
 	public abstract DungeonRoom selectRandomRoom();
 	public abstract DungeonRoom selectRandomExit();
+	public abstract DungeonRoom getBossRoom();
 	public abstract void ConstructDungeon(World world, BlockPos startingLocation, int DungeonSize);
 
 }

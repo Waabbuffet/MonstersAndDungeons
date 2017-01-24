@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.Dungeon;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonExit;
@@ -16,6 +17,9 @@ import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.ExitData;
 
 public class DungeonAutomatons  extends Dungeon{
+
+
+	DungeonRoom bossRoom = new DungeonRoom("assets/monsteranddungeons/generation/dungeonAutomatons/DungeonAutomatonsBossRoom");
 
 
 	public DungeonAutomatons(int dungeonSize)
@@ -82,7 +86,9 @@ public class DungeonAutomatons  extends Dungeon{
 	public void ConstructDungeon(World world, BlockPos startingLocation, int DungeonSize) {
 		createBranch(world, startingLocation, DungeonSize, null, "RANDOM");
 
-		//for(ExitData exit : getTotalExits())
+		System.out.println("BUILDING");
+		boolean hasbuildBossRoom = true;
+
 		for(int i = 0; i < getTotalExits().size(); i ++)
 		{
 			Random rand = new Random();
@@ -90,11 +96,53 @@ public class DungeonAutomatons  extends Dungeon{
 
 			if(rand.nextInt(8) == 0)
 			{
-				createBranch(exit, world, 3);
+				createBranch(exit, world, 4);
 			}else
 			{
-				closeBranch(exit, world);
+				closeBranch(exit, world, false);
 			}
 		}
+		
+		for(int i = 0; i < getTotalExits().size(); i ++)
+		{
+			ExitData exit = getTotalExits().get(i);
+			
+			if(hasbuildBossRoom)
+			{
+				if(hasEnoughRoom(exit, 100, 100))
+				{
+					closeBranch(exit, world, true);
+					
+					EntityAutomatonsRook rook = new EntityAutomatonsRook(world);
+					BlockPos pos = exit.getPos();
+					
+					if(exit.getDirection().equals("WEST"))
+					{
+						rook.setPosition(pos.getX() - 43, pos.getY(), pos.getZ());
+							
+					}else if(exit.getDirection().equals("EAST"))
+					{
+						rook.setPosition(pos.getX() + 43, pos.getY(), pos.getZ());
+					}else if(exit.getDirection().equals("SOUTH"))
+					{
+						rook.setPosition(pos.getX(), pos.getY(), pos.getZ() + 43);
+					}else if(exit.getDirection().equals("NORTH"))
+					{
+						rook.setPosition(pos.getX(), pos.getY(), pos.getZ() - 43);
+					}
+					world.spawnEntityInWorld(rook);
+					
+					hasbuildBossRoom = false;
+					return;
+				}
+			}
+		}
+	}
+
+	@Override
+	public DungeonRoom getBossRoom() {
+		// TODO Auto-generated method stub
+		return bossRoom;
+
 	}
 }
