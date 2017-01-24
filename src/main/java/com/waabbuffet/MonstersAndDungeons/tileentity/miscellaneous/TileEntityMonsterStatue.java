@@ -1,7 +1,10 @@
 package com.waabbuffet.MonstersAndDungeons.tileentity.miscellaneous;
 
-import java.util.Collections;
 import java.util.List;
+
+import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,10 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
-
-import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
 
 public class TileEntityMonsterStatue extends TileEntity implements ITickable { 
 

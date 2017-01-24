@@ -1,23 +1,19 @@
 package com.waabbuffet.MonstersAndDungeons.util.dungeon;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
-import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
 import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
 import com.waabbuffet.MonstersAndDungeons.util.StructureData;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockOre;
+import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -25,13 +21,12 @@ public class DungeonRoom implements IDungeonRoom {
 
 	StructureData roomStructure = new StructureData();
 	String filename;
-	String PrevBuiltDIRECTION;
+	EnumDirection prevBuiltDirection;
 
 	List<DungeonExit> exits = new ArrayList<DungeonExit>();
 	Random rand = new Random();
 
 	public DungeonRoom(String FileName) {
-		// TODO Auto-generated constructor stub
 		this.filename = FileName;
 	}
 
@@ -48,8 +43,8 @@ public class DungeonRoom implements IDungeonRoom {
 		return Yes;
 	}
 
-	public void setPrevBuiltDIRECTION(String prevBuiltDIRECTION) {
-		PrevBuiltDIRECTION = prevBuiltDIRECTION;
+	public void setPrevBuiltDirection(EnumDirection prevBuiltDirection) {
+		this.prevBuiltDirection = prevBuiltDirection;
 	}
 
 
@@ -66,12 +61,10 @@ public class DungeonRoom implements IDungeonRoom {
 	}
 
 	@Override
-	public void buildRoom(BlockPos startPos, World world, String Direction) {
-		// TODO Auto-generated method stub
-
+	public void buildRoom(BlockPos startPos, World world, EnumDirection direction) {
 		if(this.isLoaded())
 		{
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
 				for(int x = 0; x < this.roomStructure.blocks.length; x ++)
 				{
@@ -79,10 +72,19 @@ public class DungeonRoom implements IDungeonRoom {
 					{
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
-							world.setBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z), this.roomStructure.blocks[x][y][z]);
-							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z)).equals(Blocks.AIR)))
+							BlockPos blockPos = new BlockPos(startPos.getX() + x, startPos.getY() + y, startPos.getZ() + z);
+							if(this.roomStructure.blocks[x][y][z].getBlock() == Blocks.STONE){
+								if(!(world.getBlockState(blockPos).getBlock() instanceof BlockOre) && !(world.getBlockState(blockPos).getBlock() instanceof BlockRedstoneOre)){
+									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+								}//if the dungeon block to place is stone, then do not replace the ore that has already been generated.
+							}else if(y-1 == this.roomStructure.blocks[0].length && this.roomStructure.blocks[x][y][z].getBlock() == Blocks.AIR){
+								//Don't force air at the top layer
+							}
+							else{
+								world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+							}
+							if(rand.nextInt(300) == 0 && canSpawnWhite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z)).equals(Blocks.AIR)))
 							{
-
 								EntityWhitePawns pawn = new EntityWhitePawns(world);
 								pawn.setPosition(startPos.getX() + x, startPos.getY() + y + 2,startPos.getZ() + z);
 								world.spawnEntityInWorld(pawn);
@@ -91,7 +93,7 @@ public class DungeonRoom implements IDungeonRoom {
 						}
 					}
 				}
-			}else if(Direction.contains("WEST"))
+			}else if(direction == EnumDirection.WEST)
 			{
 				for(int x = 0; x < this.roomStructure.blocks.length; x ++)
 				{
@@ -99,8 +101,18 @@ public class DungeonRoom implements IDungeonRoom {
 					{
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
-							world.setBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z), this.roomStructure.blocks[x][y][z]);
-							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z)).equals(Blocks.AIR)))
+							BlockPos blockPos = new BlockPos(startPos.getX() - x, startPos.getY() + y, startPos.getZ() - z);
+							if(this.roomStructure.blocks[x][y][z].getBlock() == Blocks.STONE){
+								if(!(world.getBlockState(blockPos).getBlock() instanceof BlockOre) && !(world.getBlockState(blockPos).getBlock() instanceof BlockRedstoneOre)){
+									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+								}//if the dungeon block to place is stone, then do not replace the ore that has already been generated.
+							}else if(y-1 == this.roomStructure.blocks[0].length && this.roomStructure.blocks[x][y][z].getBlock() == Blocks.AIR){
+								//Don't force air at the top layer
+							}
+							else{
+								world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+							}
+							if(rand.nextInt(300) == 0 && canSpawnWhite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z)).equals(Blocks.AIR)))
 							{
 
 								EntityWhitePawns pawn = new EntityWhitePawns(world);
@@ -112,7 +124,7 @@ public class DungeonRoom implements IDungeonRoom {
 					}
 				}
 
-			}else if(Direction.contains("NORTH"))
+			}else if(direction == EnumDirection.NORTH)
 			{
 
 				for(int x = 0; x < this.roomStructure.blocks.length; x ++)
@@ -121,8 +133,18 @@ public class DungeonRoom implements IDungeonRoom {
 					{
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
-							world.setBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x), this.roomStructure.blocks[x][y][z]);
-							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x)).equals(Blocks.AIR)))
+							BlockPos blockPos = new BlockPos(startPos.getX() + z, startPos.getY() + y, startPos.getZ() - x);
+							if(this.roomStructure.blocks[x][y][z].getBlock() == Blocks.STONE){
+								if(!(world.getBlockState(blockPos).getBlock() instanceof BlockOre) && !(world.getBlockState(blockPos).getBlock() instanceof BlockRedstoneOre)){
+									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+								}//if the dungeon block to place is stone, then do not replace the ore that has already been generated.
+							}else if(y-1 == this.roomStructure.blocks[0].length && this.roomStructure.blocks[x][y][z].getBlock() == Blocks.AIR){
+								//Don't force air at the top layer
+							}
+							else{
+								world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+							}
+							if(rand.nextInt(300) == 0 && canSpawnWhite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x)).equals(Blocks.AIR)))
 							{
 
 								EntityWhitePawns pawn = new EntityWhitePawns(world);
@@ -133,7 +155,7 @@ public class DungeonRoom implements IDungeonRoom {
 						}	
 					}
 				}
-			}else if(Direction.contains("SOUTH"))
+			}else if(direction == EnumDirection.SOUTH)
 			{
 				for(int x = 0; x < this.roomStructure.blocks.length; x ++)
 				{
@@ -141,9 +163,19 @@ public class DungeonRoom implements IDungeonRoom {
 					{
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
-							world.setBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x), this.roomStructure.blocks[x][y][z]);
-
-							if(rand.nextInt(300) == 0 && canSpawnWite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x)).equals(Blocks.AIR)))
+							BlockPos blockPos = new BlockPos(startPos.getX() - z, startPos.getY() + y, startPos.getZ() + x);
+							if(this.roomStructure.blocks[x][y][z].getBlock() == Blocks.STONE){
+								if(!(world.getBlockState(blockPos).getBlock() instanceof BlockOre) && !(world.getBlockState(blockPos).getBlock() instanceof BlockRedstoneOre)){
+									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+								}//if the dungeon block to place is stone, then do not replace the ore that has already been generated.
+							}else if(y-1 == this.roomStructure.blocks[0].length && this.roomStructure.blocks[x][y][z].getBlock() == Blocks.AIR){
+								//Don't force air at the top layer
+							}
+							else{
+								world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+							}
+						
+							if(rand.nextInt(300) == 0 && canSpawnWhite(x, y, z) && (!world.getBlockState(new BlockPos(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x)).equals(Blocks.AIR)))
 							{
 								EntityWhitePawns pawn = new EntityWhitePawns(world);
 								pawn.setPosition(startPos.getX() - z, startPos.getY() + y + 2,startPos.getZ() + x);
@@ -152,13 +184,12 @@ public class DungeonRoom implements IDungeonRoom {
 						}
 					}
 				}
-			}
+			}	
 		}
 	}
 	
-	private boolean canSpawnWite(int x, int y, int z)
+	private boolean canSpawnWhite(int x, int y, int z)
 	{
-		
 		if(x != this.roomStructure.blocks.length && x != 0)
 		{
 			if(y == 1)
@@ -176,9 +207,8 @@ public class DungeonRoom implements IDungeonRoom {
 
 	@Override
 	public boolean loadRoom() {
-		// TODO Auto-generated method stub
 		InputStream dungeonRoom = getClass().getClassLoader().getResourceAsStream(this.filename);
-		int HowManyExits;			
+		int howManyExits;			
 		if(dungeonRoom != null)
 		{
 			this.roomStructure.setLoaded(true);
@@ -205,13 +235,13 @@ public class DungeonRoom implements IDungeonRoom {
 			}
 
 
-			HowManyExits = cmp.getInteger("TotalExits");
-			for(int i = 0; i < HowManyExits; i ++)
+			howManyExits = cmp.getInteger("TotalExits");
+			for(int i = 0; i < howManyExits; i ++)
 			{
 				int X =	cmp.getInteger("ExitNumberX" + i);
 				int Y =	cmp.getInteger("ExitNumberY" + i);
 				int Z =	cmp.getInteger("ExitNumberZ" + i);
-				String dir = cmp.getString("ExitDirection" + i);
+				EnumDirection dir = EnumDirection.getDirectionFromID(cmp.getInteger("ExitDirection" + i));
 
 				this.getExits().add(new DungeonExit(new BlockPos(X,Y,Z), dir));
 				this.roomStructure.blocks[X][Y][Z] = Blocks.AIR.getDefaultState();
@@ -221,66 +251,32 @@ public class DungeonRoom implements IDungeonRoom {
 	}
 
 
-	public static String getDirectionBasedOnState(IBlockState state)
-	{
-		int meta = state.getBlock().getMetaFromState(state);
-		String Direction = "";
-
-		if(meta == 0)
-		{
-			Direction = "NORTH";
-		}else if(meta == 1)
-		{
-			Direction = "EAST";
-		}else if(meta == 2)
-		{
-			Direction = "SOUTH";
-		}else if(meta == 3)
-		{
-			Direction = "WEST";
-		}
-		return Direction;
-
-	}
+	/*public static EnumDirection getDirectionBasedOnState(IBlockState state){
+		return EnumDirection.getDirectionFromID(state.getBlock().getMetaFromState(state));
+	}*/
 
 
 	@Override
-	public DungeonExit alignWithRoom(DungeonRoom Nextroom, DungeonRoom PreviousRoom, DungeonExit PreviousEntrance, BlockPos StartingPosition) {
+	public DungeonExit alignWithRoom(DungeonRoom nextRoom, DungeonRoom previousRoom, DungeonExit previousEntrance, BlockPos startingPosition) {
 
-		BlockPos RealPrevEntrance = null;
-		String PreviousBuiltDirection = PreviousRoom.getPrevBuiltDIRECTION();
-		String Direction = "";
+		BlockPos realPrevEntrance = null;
+		EnumDirection PreviousBuiltDirection = previousRoom.getPrevBuiltDIRECTION();
+		EnumDirection direction = null;
 		DungeonExit exit = null;
 
-		int j =0;
+		int j = 0;
 		here:
 			do{
-				for(int i = 0; i < Nextroom.getExits().size(); i ++)// 0 = west, 1 = north, 2 = east, 3 = south
+				for(int i = 0; i < nextRoom.getExits().size(); i ++)// 0 = west, 1 = north, 2 = east, 3 = south
 				{
-					if(Nextroom.getExits().get(i).getDirectionWithRotation(j).contains(PreviousEntrance.getOppositeDirection()))
+					if(nextRoom.getExits().get(i).getDirectionWithRotation(j) == previousEntrance.getOppositeDirection())
 					{
-						if(j == 0)
-						{
-							//on west take its z position and subtract
-							Direction = "WEST";
-						}else if(j == 1)
-						{
-							//on north take its x position and add
-							Direction = "NORTH";
-						}else if(j == 2)
-						{
-							//on east take its z position and 
-							Direction = "EAST";
-						}else if(j == 3)
-						{
-							///on south take its x and subtract
-							Direction = "SOUTH";
-						}
-						exit = Nextroom.getExits().get(i);
+						direction = EnumDirection.getDirectionFromID(j);
+						exit = nextRoom.getExits().get(i);
 
-						for(int l = 0; l < Nextroom.getExits().size(); l ++)
+						for(int l = 0; l < nextRoom.getExits().size(); l ++)
 						{
-							Nextroom.getExits().get(l).setRotation(j);
+							nextRoom.getExits().get(l).setRotation(j);
 						}
 
 						break here;
@@ -292,131 +288,115 @@ public class DungeonRoom implements IDungeonRoom {
 
 
 
-		if(PreviousBuiltDirection.contains("WEST")) // gets the entrance actual position
+		if(PreviousBuiltDirection == EnumDirection.WEST) // gets the entrance actual position
 		{
-			RealPrevEntrance = new BlockPos(StartingPosition.getX() - PreviousEntrance.getPos().getX(), StartingPosition.getY(), StartingPosition.getZ() - PreviousEntrance.getPos().getZ());
-		}else if(PreviousBuiltDirection.contains("EAST"))
+			realPrevEntrance = new BlockPos(startingPosition.getX() - previousEntrance.getPos().getX(), startingPosition.getY(), startingPosition.getZ() - previousEntrance.getPos().getZ());
+		}else if(PreviousBuiltDirection == EnumDirection.EAST)
 		{
-			RealPrevEntrance = new BlockPos(StartingPosition.getX() + PreviousEntrance.getPos().getX(), StartingPosition.getY(), StartingPosition.getZ() + PreviousEntrance.getPos().getZ());
-		}else if(PreviousBuiltDirection.contains("NORTH"))
+			realPrevEntrance = new BlockPos(startingPosition.getX() + previousEntrance.getPos().getX(), startingPosition.getY(), startingPosition.getZ() + previousEntrance.getPos().getZ());
+		}else if(PreviousBuiltDirection == EnumDirection.NORTH)
 		{
-			RealPrevEntrance = new BlockPos(StartingPosition.getX() + PreviousEntrance.getPos().getZ(), StartingPosition.getY(), StartingPosition.getZ() - PreviousEntrance.getPos().getX());
-		}else if(PreviousBuiltDirection.contains("SOUTH"))
+			realPrevEntrance = new BlockPos(startingPosition.getX() + previousEntrance.getPos().getZ(), startingPosition.getY(), startingPosition.getZ() - previousEntrance.getPos().getX());
+		}else if(PreviousBuiltDirection == EnumDirection.SOUTH)
 		{
-			RealPrevEntrance = new BlockPos(StartingPosition.getX() - PreviousEntrance.getPos().getZ(), StartingPosition.getY(), StartingPosition.getZ() + PreviousEntrance.getPos().getX());
+			realPrevEntrance = new BlockPos(startingPosition.getX() - previousEntrance.getPos().getZ(), startingPosition.getY(), startingPosition.getZ() + previousEntrance.getPos().getX());
 		}
 
-		if(PreviousEntrance.getDirection().contains("EAST"))
+		if(previousEntrance.getDirection() == EnumDirection.EAST)
 		{
-			if(Direction.contains("NORTH"))
+			if(direction == EnumDirection.NORTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() + this.roomStructure.zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() + this.roomStructure.zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("WEST"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + this.roomStructure.xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() + this.roomStructure.zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + this.roomStructure.xSize, realPrevEntrance.getY(), realPrevEntrance.getZ() + this.roomStructure.zSize);
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("WEST"))
+		}else if(previousEntrance.getDirection() == EnumDirection.WEST)
 		{
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.xSize , RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - this.roomStructure.xSize , realPrevEntrance.getY(), realPrevEntrance.getZ() - this.roomStructure.zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("NORTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - this.roomStructure.zSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.NORTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() - this.roomStructure.zSize);
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("NORTH"))
+		}else if(previousEntrance.getDirection() == EnumDirection.NORTH)
 		{
 			//RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.zSize);
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() - this.roomStructure.zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
 
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + this.roomStructure.zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.xSize);
-			}else if(Direction.contains("WEST"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + this.roomStructure.zSize, realPrevEntrance.getY(), realPrevEntrance.getZ() - this.roomStructure.xSize);
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + this.roomStructure.xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("SOUTH"))
+		}else if(previousEntrance.getDirection() == EnumDirection.SOUTH)
 		{
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("NORTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - this.roomStructure.xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.NORTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() + this.roomStructure.xSize);
-			}else if(Direction.contains("WEST"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - this.roomStructure.zSize, realPrevEntrance.getY(), realPrevEntrance.getZ() + this.roomStructure.xSize);
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() + this.roomStructure.zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() + this.roomStructure.zSize);
 			}
 
 		}
 		if(exit != null)
 		{
-			if(PreviousEntrance.getDirection().contains("WEST"))
+			if(previousEntrance.getDirection() == EnumDirection.WEST)
 			{
-				RealPrevEntrance = RealPrevEntrance.south(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
+				realPrevEntrance = realPrevEntrance.south(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
 	
-			}else if(PreviousEntrance.getDirection().contains("NORTH"))
+			}else if(previousEntrance.getDirection() == EnumDirection.NORTH)
 			{
-				RealPrevEntrance =	RealPrevEntrance.west(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
+				realPrevEntrance =	realPrevEntrance.west(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
 	
-			}else if(PreviousEntrance.getDirection().contains("EAST"))
+			}else if(previousEntrance.getDirection() == EnumDirection.EAST)
 			{
-				RealPrevEntrance = RealPrevEntrance.north(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
+				realPrevEntrance = realPrevEntrance.north(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
 	
-			}else if(PreviousEntrance.getDirection().contains("SOUTH"))
+			}else if(previousEntrance.getDirection() == EnumDirection.SOUTH)
 			{
-				RealPrevEntrance =RealPrevEntrance.east(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
+				realPrevEntrance = realPrevEntrance.east(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
 	
 			}
 		}
 		
-		return new DungeonExit(RealPrevEntrance, Direction);
+		return new DungeonExit(realPrevEntrance, direction);
 	}
 	
 	//only method that uses this is close, but is just for testing purposes
 	public DungeonExit TESTalignWithRoom(DungeonRoom Nextroom, DungeonRoom PreviousRoom, DungeonExit PreviousEntrance, BlockPos StartingPosition) {
 
-		BlockPos RealPrevEntrance = StartingPosition;
-		String PreviousBuiltDirection = PreviousRoom.getPrevBuiltDIRECTION();
-		String Direction = "";
+		BlockPos realPrevEntrance = StartingPosition;
+		EnumDirection PreviousBuiltDirection = PreviousRoom.getPrevBuiltDIRECTION();
+		EnumDirection direction = null;
 		DungeonExit exit = null;
 
 		int j =0;
 		here:
-			do{
+			while(j < 4){
 				for(int i = 0; i < Nextroom.getExits().size(); i ++)// 0 = west, 1 = north, 2 = east, 3 = south
 				{
-					if(Nextroom.getExits().get(i).getDirectionWithRotation(j).contains(PreviousEntrance.getOppositeDirection()))
+					if(Nextroom.getExits().get(i).getDirectionWithRotation(j) == PreviousEntrance.getOppositeDirection())
 					{
-						if(j == 0)
-						{
-							//on west take its z position and subtract
-							Direction = "WEST";
-						}else if(j == 1)
-						{
-							//on north take its x position and add
-							Direction = "NORTH";
-						}else if(j == 2)
-						{
-							//on east take its z position and 
-							Direction = "EAST";
-						}else if(j == 3)
-						{
-							///on south take its x and subtract
-							Direction = "SOUTH";
-						}
+						direction = EnumDirection.getDirectionFromID(j);
 						exit = Nextroom.getExits().get(i);
 
 						for(int l = 0; l < Nextroom.getExits().size(); l ++)
@@ -429,86 +409,85 @@ public class DungeonRoom implements IDungeonRoom {
 				}
 
 				j++;
-			}while(j < 4);
-
-		if(PreviousEntrance.getDirection().contains("EAST"))
+			}
+		if(PreviousEntrance.getDirection() == EnumDirection.EAST)
 		{
-			if(Direction.contains("NORTH"))
+			if(direction == EnumDirection.NORTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() + this.roomStructure.zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() + this.roomStructure.zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("WEST"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + this.roomStructure.xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() + this.roomStructure.zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + this.roomStructure.xSize, realPrevEntrance.getY(), realPrevEntrance.getZ() + this.roomStructure.zSize);
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("WEST"))
+		}else if(PreviousEntrance.getDirection() == EnumDirection.WEST)
 		{
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.xSize , RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - this.roomStructure.xSize , realPrevEntrance.getY(), realPrevEntrance.getZ() - this.roomStructure.zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("NORTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - this.roomStructure.zSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.NORTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() - this.roomStructure.zSize);
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("NORTH"))
+		}else if(PreviousEntrance.getDirection() == EnumDirection.NORTH)
 		{
 			//RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.zSize);
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() - this.roomStructure.zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
 
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + this.roomStructure.zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() - this.roomStructure.xSize);
-			}else if(Direction.contains("WEST"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + this.roomStructure.zSize, realPrevEntrance.getY(), realPrevEntrance.getZ() - this.roomStructure.xSize);
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + this.roomStructure.xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("SOUTH"))
+		}else if(PreviousEntrance.getDirection() == EnumDirection.SOUTH)
 		{
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("NORTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - this.roomStructure.xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.NORTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - this.roomStructure.zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() + this.roomStructure.xSize);
-			}else if(Direction.contains("WEST"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - this.roomStructure.zSize, realPrevEntrance.getY(), realPrevEntrance.getZ() + this.roomStructure.xSize);
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() + this.roomStructure.zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() + this.roomStructure.zSize);
 			}
 
 		}
 
 		if(exit != null)
 		{
-			if(PreviousEntrance.getDirection().contains("WEST"))
+			if(PreviousEntrance.getDirection() == EnumDirection.WEST)
 			{
-				RealPrevEntrance = RealPrevEntrance.south(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
+				realPrevEntrance = realPrevEntrance.south(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
 
-			}else if(PreviousEntrance.getDirection().contains("NORTH"))
+			}else if(PreviousEntrance.getDirection() == EnumDirection.NORTH)
 			{
-				RealPrevEntrance =	RealPrevEntrance.west(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
+				realPrevEntrance =	realPrevEntrance.west(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
 
-			}else if(PreviousEntrance.getDirection().contains("EAST"))
+			}else if(PreviousEntrance.getDirection() == EnumDirection.EAST)
 			{
-				RealPrevEntrance = RealPrevEntrance.north(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
+				realPrevEntrance = realPrevEntrance.north(j % 2 == 0 ? exit.getPos().getZ() : exit.getPos().getX());
 
-			}else if(PreviousEntrance.getDirection().contains("SOUTH"))
+			}else if(PreviousEntrance.getDirection() == EnumDirection.SOUTH)
 			{
-				RealPrevEntrance =RealPrevEntrance.east(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
+				realPrevEntrance = realPrevEntrance.east(j % 2 == 0 ? exit.getPos().getX() : exit.getPos().getZ());
 
 			}
 		}
 
-		return new DungeonExit(RealPrevEntrance, Direction);
+		return new DungeonExit(realPrevEntrance, direction);
 	}
 
 	@Override
@@ -519,9 +498,8 @@ public class DungeonRoom implements IDungeonRoom {
 
 	@Override
 	public DungeonExit setCorrectPath() {
-		// TODO Auto-generated method stub
 		Random Rand = new Random();
-		int RandomNumber = 0;
+		int RandomNumber;
 
 
 		if(this.getExits().size() > 0)
@@ -534,13 +512,9 @@ public class DungeonRoom implements IDungeonRoom {
 		return null;
 	}
 	
-	public DungeonExit setCorrectPath(String Direction) {
-		// TODO Auto-generated method stub
-
-		for(DungeonExit tree : exits)
-		{
-			if(tree.getDirection().equals(Direction))
-			{
+	public DungeonExit setCorrectPath(EnumDirection enumDirection) {
+		for(DungeonExit tree : exits){
+			if(tree.getDirection() == enumDirection){
 				tree.setCorrectPath(true);
 				return tree;
 			}
@@ -562,8 +536,8 @@ public class DungeonRoom implements IDungeonRoom {
 		}
 	}
 
-	public String getPrevBuiltDIRECTION() {
-		return PrevBuiltDIRECTION;
+	public EnumDirection getPrevBuiltDIRECTION() {
+		return prevBuiltDirection;
 	}
 
 

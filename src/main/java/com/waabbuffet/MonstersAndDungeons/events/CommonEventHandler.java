@@ -1,7 +1,5 @@
 package com.waabbuffet.MonstersAndDungeons.events;
 
-import java.util.Vector;
-
 import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
 import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.items.armor.ArmorStat;
@@ -11,8 +9,6 @@ import com.waabbuffet.MonstersAndDungeons.stats.Stats;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

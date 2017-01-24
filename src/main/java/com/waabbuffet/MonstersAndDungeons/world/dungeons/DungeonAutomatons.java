@@ -1,25 +1,20 @@
 package com.waabbuffet.MonstersAndDungeons.world.dungeons;
 
-import java.io.File;
 import java.util.Random;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.Dungeon;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.EnumDirection;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.ExitData;
+
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
-import com.waabbuffet.MonstersAndDungeons.util.Reference;
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.Dungeon;
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonExit;
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonNBTTag;
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.ExitData;
 
 public class DungeonAutomatons  extends Dungeon{
 
 
-	DungeonRoom bossRoom = new DungeonRoom("assets/monsteranddungeons/generation/dungeonAutomatons/DungeonAutomatonsBossRoom");
+	private DungeonRoom bossRoom = new DungeonRoom("assets/monsteranddungeons/generation/dungeonAutomatons/DungeonAutomatonsBossRoom");
 
 
 	public DungeonAutomatons(int dungeonSize)
@@ -84,10 +79,10 @@ public class DungeonAutomatons  extends Dungeon{
 
 	@Override
 	public void ConstructDungeon(World world, BlockPos startingLocation, int DungeonSize) {
-		createBranch(world, startingLocation, DungeonSize, null, "RANDOM");
+		createBranch(world, startingLocation, DungeonSize, null, null);
 
 		System.out.println("BUILDING");
-		boolean hasbuildBossRoom = true;
+		boolean hasBuiltBossRoom = true;
 
 		for(int i = 0; i < getTotalExits().size(); i ++)
 		{
@@ -107,7 +102,7 @@ public class DungeonAutomatons  extends Dungeon{
 		{
 			ExitData exit = getTotalExits().get(i);
 			
-			if(hasbuildBossRoom)
+			if(hasBuiltBossRoom)
 			{
 				if(hasEnoughRoom(exit, 100, 100))
 				{
@@ -116,23 +111,25 @@ public class DungeonAutomatons  extends Dungeon{
 					EntityAutomatonsRook rook = new EntityAutomatonsRook(world);
 					BlockPos pos = exit.getPos();
 					
-					if(exit.getDirection().equals("WEST"))
-					{
+					switch (exit.getDirection()) {
+					case WEST:
 						rook.setPosition(pos.getX() - 43, pos.getY(), pos.getZ());
-							
-					}else if(exit.getDirection().equals("EAST"))
-					{
+						break;
+					case EAST:
 						rook.setPosition(pos.getX() + 43, pos.getY(), pos.getZ());
-					}else if(exit.getDirection().equals("SOUTH"))
-					{
+						break;
+					case SOUTH:
 						rook.setPosition(pos.getX(), pos.getY(), pos.getZ() + 43);
-					}else if(exit.getDirection().equals("NORTH"))
-					{
+						break;
+					case NORTH:
 						rook.setPosition(pos.getX(), pos.getY(), pos.getZ() - 43);
+						break;
+					default:
+						break;
 					}
 					world.spawnEntityInWorld(rook);
 					
-					hasbuildBossRoom = false;
+					hasBuiltBossRoom = false;
 					return;
 				}
 			}
@@ -141,8 +138,6 @@ public class DungeonAutomatons  extends Dungeon{
 
 	@Override
 	public DungeonRoom getBossRoom() {
-		// TODO Auto-generated method stub
 		return bossRoom;
-
 	}
 }

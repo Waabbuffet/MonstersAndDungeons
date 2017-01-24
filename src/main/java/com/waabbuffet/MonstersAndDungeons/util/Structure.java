@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
-import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
 import com.waabbuffet.MonstersAndDungeons.client.ClientProxy;
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonExit;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonNBTTag;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
+import com.waabbuffet.MonstersAndDungeons.util.dungeon.EnumDirection;
 import com.waabbuffet.MonstersAndDungeons.util.dungeon.ExitData;
 
 import net.minecraft.block.Block;
@@ -67,7 +66,7 @@ public class Structure {
 
 						if(world.getBlockState(new BlockPos(placePosX, placePosY, placePosZ)).getBlock().equals(MaDBlocksHandler.BlockExit))
 						{
-							totalExits.add(new ExitData(new BlockPos(x,y,z), DungeonRoom.getDirectionBasedOnState(data.blocks[x][y][z])));
+							totalExits.add(new ExitData(new BlockPos(x,y,z), EnumDirection.getDirectionFromBlockState(data.blocks[x][y][z])));
 							howManyExits++;
 						}
 					}
@@ -94,7 +93,7 @@ public class Structure {
 				cmp.setInteger("ExitNumberX" + i, totalExits.get(i).getPos().getX());
 				cmp.setInteger("ExitNumberY" + i, totalExits.get(i).getPos().getY());
 				cmp.setInteger("ExitNumberZ" + i, totalExits.get(i).getPos().getZ());
-				cmp.setString("ExitDirection" + i, totalExits.get(i).getDirection());
+				cmp.setInteger("ExitDirection" + i, totalExits.get(i).getDirection().getID());
 			}
 			
 			cmp.setInteger("TotalExits", howManyExits);

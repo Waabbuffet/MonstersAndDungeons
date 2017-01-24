@@ -1,14 +1,5 @@
 package com.waabbuffet.MonstersAndDungeons.items;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.waabbuffet.MonstersAndDungeons.items.armor.ArmorStat;
 import com.waabbuffet.MonstersAndDungeons.items.armor.ItemQuartzArmor;
 import com.waabbuffet.MonstersAndDungeons.items.armor.ItemQuartzShield;
@@ -16,6 +7,14 @@ import com.waabbuffet.MonstersAndDungeons.items.weapon.ItemQuartzGreatSword;
 import com.waabbuffet.MonstersAndDungeons.items.weapon.ItemQuartzWarHammer;
 import com.waabbuffet.MonstersAndDungeons.stats.Stats;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraftforge.common.util.EnumHelper;
 
 
 

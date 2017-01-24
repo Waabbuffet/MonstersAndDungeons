@@ -1,22 +1,22 @@
 package com.waabbuffet.MonstersAndDungeons.client.renderer;
 
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
+import com.waabbuffet.MonstersAndDungeons.util.Reference;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
-import com.waabbuffet.MonstersAndDungeons.util.Reference;
-
-public class RenderWitePawns extends RenderLiving<EntityWhitePawns>{
+public class RenderWhitePawns extends RenderLiving<EntityWhitePawns>{
 
 	
-	ResourceLocation location = new ResourceLocation(Reference.MODID + ":textures/models/Wite Pawn.png");
+	ResourceLocation location = new ResourceLocation(Reference.MODID + ":textures/models/whitePawn.png");
 	protected ModelBase modelEntity;
 	
 
-	public RenderWitePawns(ModelBase base) {
+	public RenderWhitePawns(ModelBase base) {
 		super(Minecraft.getMinecraft().getRenderManager(), base,1f);
 		modelEntity = ((ModelBase) mainModel);
 	}
@@ -40,7 +40,6 @@ public class RenderWitePawns extends RenderLiving<EntityWhitePawns>{
 
 	@Override
 	protected ResourceLocation getEntityTexture(EntityWhitePawns entity) {
-		// TODO Auto-generated method stub
 		return location;
 	}
 }

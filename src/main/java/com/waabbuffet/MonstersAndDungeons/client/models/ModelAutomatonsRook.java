@@ -3,7 +3,6 @@ package com.waabbuffet.MonstersAndDungeons.client.models;
 import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -803,15 +802,13 @@ public class ModelAutomatonsRook extends ModelBase {
 
 		EntityAutomatonsRook rook = (EntityAutomatonsRook) entityIn;
 
-		if(rook.SlamAttack)
-		{
+		if(rook.SlamAttack){
 			this.slamAnimation(rook);
-		}else
-		if(rook.PunchMode)
-		{
+		}
+		else if(rook.PunchMode){
 			this.punchAnimation(rook);
-		}else
-		{
+		}
+		else{
 			this.idolAnimation(rook);
 		}
 	}

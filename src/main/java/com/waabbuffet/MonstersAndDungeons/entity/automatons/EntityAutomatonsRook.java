@@ -3,6 +3,11 @@ package com.waabbuffet.MonstersAndDungeons.entity.automatons;
 import java.util.List;
 import java.util.Random;
 
+import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
+import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
+import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
+import com.waabbuffet.MonstersAndDungeons.packet.UpdateClientEntityAnimation;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -16,11 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
-import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
-import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
-import com.waabbuffet.MonstersAndDungeons.packet.UpdateClientEntityAnimation;
 
 
 

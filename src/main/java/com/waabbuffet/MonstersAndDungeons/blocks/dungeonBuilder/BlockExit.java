@@ -1,22 +1,13 @@
 package com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder;
 
-import java.util.Random;
-
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
-import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
 import com.waabbuffet.MonstersAndDungeons.world.dungeons.DungeonAutomatons;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +17,6 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
