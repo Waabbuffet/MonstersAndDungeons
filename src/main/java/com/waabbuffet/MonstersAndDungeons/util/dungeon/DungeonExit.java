@@ -5,16 +5,16 @@ import net.minecraft.util.math.BlockPos;
 public class DungeonExit {
 
 
-	String Direction;
-	BlockPos pos; //Not this is only the distance from the starting point to the exit (0, 0, 0) Not actual position
+	EnumDirection direction;
+	BlockPos pos; //Note this is only the distance from the starting point to the exit (0, 0, 0) Not actual position
 	boolean isCorrectPath;
 	int rotation;
 
 
 
-	public DungeonExit(BlockPos pos, String Direction)
+	public DungeonExit(BlockPos pos, EnumDirection direction)
 	{
-		this.Direction = Direction;
+		this.direction = direction;
 		this.pos = pos;
 
 	}
@@ -29,69 +29,65 @@ public class DungeonExit {
 	}
 
 
-	public String getDirection() {
-		return this.Direction;
+	public EnumDirection getDirection() {
+		return this.direction;
 	}
 	
 	public void setRotation(int rotation)
 	{
 		this.rotation = rotation;
-		this.Direction = this.getDirectionWithRotation(rotation);
+		this.direction = this.getDirectionWithRotation(rotation);
 		
 	}
 	
 	/**
 	 * Rotates in a clockwise direction
 	 */
-	public String getDirectionWithRotation(int Times)
+	public EnumDirection getDirectionWithRotation(int times)
 	{
-		String RotatedDirection = this.getDirection(); //WEST
+		EnumDirection rotatedDirection = this.getDirection(); //WEST
 		
-		for(int i =0; i < Times; i ++)
+		for(int i = 0; i < times; i ++)
 		{
-			if(RotatedDirection.contains("EAST"))
-			{
-				RotatedDirection = "SOUTH";
-			}else if(RotatedDirection.contains("WEST"))
-			{
-				RotatedDirection = "NORTH";
-			}else if(RotatedDirection.contains("NORTH"))
-			{
-				RotatedDirection = "EAST";
-			}else if(RotatedDirection.contains("SOUTH"))
-			{
-				RotatedDirection = "WEST";
-			}
-					
+			switch(rotatedDirection){
+			case EAST:
+				rotatedDirection = EnumDirection.SOUTH;
+				continue;
+			case NORTH:
+				rotatedDirection = EnumDirection.EAST;
+				continue;
+			case SOUTH:
+				rotatedDirection = EnumDirection.WEST;
+				continue;
+			case WEST:
+				rotatedDirection = EnumDirection.NORTH;
+				continue;
+			default:
+				continue;
+			}		
 		}
-		return RotatedDirection;
+		return rotatedDirection;
 	}
 	
 	
-	public String getOppositeDirection()
-	{
-		String RotatedDirection = this.getDirection();
-		
-		if(RotatedDirection .contains("EAST"))
-		{
-			RotatedDirection = "WEST";
-		}else if(RotatedDirection .contains("WEST"))
-		{
-			RotatedDirection = "EAST";
-		}else if(RotatedDirection .contains("NORTH"))
-		{
-			RotatedDirection = "SOUTH";
-		}else if(RotatedDirection .contains("SOUTH"))
-		{
-			RotatedDirection = "NORTH";
-		}
-		
-		return RotatedDirection;
+	public EnumDirection getOppositeDirection(){
+		switch(this.getDirection()){
+		case EAST:
+			return EnumDirection.WEST;
+		case NORTH:
+			return EnumDirection.SOUTH;
+		case SOUTH:
+			return EnumDirection.NORTH;
+		case WEST:
+			return EnumDirection.EAST;
+		default:
+			return this.getDirection();
+		}	
 	}
 	
 	
-	public void setDirection(String direction) {
-		Direction = direction;
+	public void setDirection(EnumDirection direction) {
+		this.direction = direction;
 	}
 
 	public BlockPos getPos() {

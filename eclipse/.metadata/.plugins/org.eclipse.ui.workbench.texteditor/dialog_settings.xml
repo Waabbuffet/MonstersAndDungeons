@@ -2,68 +2,22 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-<<<<<<< HEAD
-		<item value="getPosition" key="selection"/>
-=======
-		<item value="Warhammer" key="selection"/>
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
+		<item value="EntityIn" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-<<<<<<< HEAD
-			<item value="getPos"/>
-			<item value="Activated"/>
-			<item value="EntityAutomatonsRook"/>
-			<item value="PlaceAirBlock"/>
-			<item value="PunchCycle"/>
-			<item value="AttackCycle"/>
-			<item value="leftLeg"/>
-			<item value="lefts"/>
+			<item value="entityIn"/>
 		</list>
 		<list key="replacehistory">
-			<item value="getPosition"/>
-			<item value="EntityWitePawns"/>
-			<item value="UpdateClientEntityAnimation"/>
-			<item value="LeftPunchCycle"/>
-			<item value="SlamCycle"/>
-			<item value="AutomatonsRook"/>
-			<item value="firstExit.getRealExit()"/>
-			<item value="NextRoom.getRoomStructure()"/>
-=======
-			<item value="WarHammer"/>
-			<item value="RomanIron"/>
-			<item value="body2"/>
-			<item value="LeftArmArmour"/>
-			<item value="RealPrevEntrancePosition"/>
-			<item value="getRot"/>
-			<item value="RealPrevExit"/>
-			<item value="TAG"/>
-		</list>
-		<list key="replacehistory">
-			<item value="GreatSword"/>
-			<item value="Quartz"/>
-			<item value="RealPrevEntrance"/>
-			<item value="RealPrevExitPosition"/>
-			<item value="PreviousEntrance"/>
-			<item value="SpawnRoomDEBUG"/>
-			<item value="blocks"/>
-			<item value=".getZ()"/>
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="305" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-<<<<<<< HEAD
-		<item value="466" key="DIALOG_HEIGHT"/>
-		<item value="763" key="DIALOG_X_ORIGIN"/>
-		<item value="316" key="DIALOG_Y_ORIGIN"/>
-=======
 		<item value="442" key="DIALOG_HEIGHT"/>
-		<item value="1166" key="DIALOG_X_ORIGIN"/>
-		<item value="391" key="DIALOG_Y_ORIGIN"/>
->>>>>>> 25bdae1c78d9f4310ef6b72aa0f5102d77b2e274
+		<item value="1187" key="DIALOG_X_ORIGIN"/>
+		<item value="239" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

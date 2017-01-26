@@ -3,9 +3,9 @@ package com.waabbuffet.MonstersAndDungeons.tileentity;
 
 
 
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.waabbuffet.MonstersAndDungeons.tileentity.miscellaneous.TileEntityMonsterStatue;
+
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 
 

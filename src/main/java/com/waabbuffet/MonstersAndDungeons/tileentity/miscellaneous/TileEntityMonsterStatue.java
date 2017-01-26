@@ -1,7 +1,10 @@
 package com.waabbuffet.MonstersAndDungeons.tileentity.miscellaneous;
 
-import java.util.Collections;
 import java.util.List;
+
+import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
+import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWhitePawns;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,10 +12,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
-
-import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
-import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityWitePawns;
 
 public class TileEntityMonsterStatue extends TileEntity implements ITickable { 
 
@@ -76,13 +75,14 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 					Entity entityToSpawn = null;
 
 					switch(EntityID)
+
 					{
 					case 0:
 						entityToSpawn = new EntityAutomatonsRook(this.worldObj);
 
 						break;
 					case 1:
-						entityToSpawn = new EntityWitePawns(this.worldObj);
+						entityToSpawn = new EntityWhitePawns(this.worldObj);
 						break;
 					}
 
@@ -95,6 +95,7 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 
 						this.spawnOnce = false;
 					}
+
 
 
 					this.worldObj.setBlockToAir(this.getPos());

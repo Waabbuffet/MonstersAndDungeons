@@ -5,14 +5,14 @@ import net.minecraft.util.math.BlockPos;
 public class ExitData
 {
 	BlockPos pos;
-	String Direction;
+	EnumDirection direction;
 	DungeonRoom previousRoom;
 	DungeonExit RealExit;
 	
-	public ExitData(BlockPos pos, String Direction) 
+	public ExitData(BlockPos pos, EnumDirection enumDirection) 
 	{
 		this.pos = pos;
-		this.Direction = Direction;
+		this.direction = enumDirection;
 	}
 	
 	public ExitData(BlockPos pos, DungeonExit exit, DungeonRoom room)
@@ -26,8 +26,8 @@ public class ExitData
 		return pos;
 	}
 	
-	public String getDirection() {
-		return Direction;
+	public EnumDirection getDirection() {
+		return direction;
 	}
 	
 	public DungeonRoom getPreviousRoom() {

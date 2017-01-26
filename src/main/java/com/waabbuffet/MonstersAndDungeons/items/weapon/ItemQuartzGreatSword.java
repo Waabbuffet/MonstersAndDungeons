@@ -2,7 +2,6 @@ package com.waabbuffet.MonstersAndDungeons.items.weapon;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemSword;
-import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemQuartzGreatSword extends ItemSword {

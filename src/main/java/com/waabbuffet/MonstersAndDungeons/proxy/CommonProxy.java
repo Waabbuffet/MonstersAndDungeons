@@ -1,20 +1,16 @@
 package com.waabbuffet.MonstersAndDungeons.proxy;
 
 import java.io.File;
-import java.io.IOException;
 
 import com.waabbuffet.MonstersAndDungeons.blocks.MaDBlocksHandler;
-import com.waabbuffet.MonstersAndDungeons.client.events.ClientEventHandler;
 import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityHandler;
-import com.waabbuffet.MonstersAndDungeons.events.CommonEventHandler;
 import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
 import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
+import com.waabbuffet.MonstersAndDungeons.sound.MaDSoundsHandler;
 import com.waabbuffet.MonstersAndDungeons.tileentity.MaDTileEntityHandler;
 import com.waabbuffet.MonstersAndDungeons.world.MaDWorldGenerationHandler;
 
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -46,7 +42,7 @@ public class CommonProxy {
 		MaDPacketHandler.init();
 		MaDTileEntityHandler.register();
 		MaDEntityHandler.registerEntities();
-		
+		MaDSoundsHandler.init();
 	}
 
 	public void init(FMLInitializationEvent event) {
