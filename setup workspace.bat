@@ -4,7 +4,6 @@ color 0a
 type madsetupworkspace.txt
 pause >nul
 cls
-pause
 call gradlew setupDecompWorkspace
 echo(
 echo The script has finished. You might want to run "setup eclipse.bat" now. Press any button to close this window...

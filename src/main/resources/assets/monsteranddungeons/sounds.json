@@ -1,9 +1,0 @@
-{
-  "automaton_hurt": {
-    "category": "hostile",
-    "subtitle": "monsteranddungeons.subtitle.hurtAutomaton",
-    "sounds": [
-        "monsteranddungeons:automaton_hurt1"
-    ]
-  }
-}
