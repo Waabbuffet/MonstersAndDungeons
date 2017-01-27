@@ -1,7 +1,7 @@
 @echo off
 title [Monster and Dungeons] Setup Decompiled Workspace
 color 0a
-type madsetupupworkspace.txt
+type madsetupworkspace.txt
 pause >nul
 cls
 pause
