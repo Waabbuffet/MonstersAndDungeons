@@ -1,4 +1,4 @@
-package com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks;
+package monstersanddungeons.blocks.dungeonbuilder.genblocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
