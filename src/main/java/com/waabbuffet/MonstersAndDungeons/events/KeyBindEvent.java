@@ -5,7 +5,6 @@ import org.lwjgl.input.Keyboard;
 import com.waabbuffet.MonstersAndDungeons.client.ClientProxy;
 import com.waabbuffet.MonstersAndDungeons.util.Structure;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.math.BlockPos;

@@ -2,8 +2,6 @@ package com.waabbuffet.MonstersAndDungeons.world;
 
 import java.util.Random;
 
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonExit;
-import com.waabbuffet.MonstersAndDungeons.util.dungeon.DungeonRoom;
 import com.waabbuffet.MonstersAndDungeons.world.dungeons.DungeonAutomatons;
 
 import net.minecraft.util.EnumHand;

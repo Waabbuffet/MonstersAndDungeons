@@ -3,7 +3,13 @@ package com.waabbuffet.MonstersAndDungeons.entity.automatons;
 import java.util.List;
 import java.util.Random;
 
+import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
+import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
+import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
+import com.waabbuffet.MonstersAndDungeons.packet.UpdateClientEntityAnimation;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -13,23 +19,20 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.waabbuffet.MonstersAndDungeons.entity.MaDEntityMonsterBase;
-import com.waabbuffet.MonstersAndDungeons.items.MaDItemsHandler;
-import com.waabbuffet.MonstersAndDungeons.packet.MaDPacketHandler;
-import com.waabbuffet.MonstersAndDungeons.packet.UpdateClientEntityAnimation;
-
 
 
 public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 
 
-	@SideOnly(Side.CLIENT)
 	int animationCycle = 0, TickCount = 0;
-	public boolean SlamAttack, PunchMode;
+
+	int kickCD, chargeCD;
+	public boolean SlamAttack, PunchMode, KickMode, chargeMode;
+
 
 
 	public EntityAutomatonsRook(World worldIn) {
@@ -51,9 +54,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300D);
-
 		this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(5D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5);
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
@@ -102,9 +103,23 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	{
 		this.animationCycle = number;
 	}
+	public void setKickMode(boolean kickMode) {
+		KickMode = kickMode;
+	}
+	public void setChargeMode(boolean chargeMode) {
+		this.chargeMode = chargeMode;
+	}
+
+	public void setKickCD(int kickCD) {
+		this.kickCD = kickCD;
+	}
+
+	public void setChargeCD(int chargeCD) {
+		this.chargeCD = chargeCD;
+	}
 
 	/**
-	 * @param animationID - 0 = slam, 1 = punch, 2 = half hp animation, 3 = death animation
+	 * @param animationID - 0 = slam, 1 = punch, 2 = leg kick, 3 = charge, 4 = death, 5 = half hp animation
 	 */
 	public void acivateAnimationby(int animationID)
 	{
@@ -117,6 +132,10 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 			this.setPunchMode(true);
 			break;
 		case 2:
+			this.setKickMode(true);
+			break;
+		case 3:
+			this.setChargeMode(true);
 			break;
 		}
 	}
@@ -157,6 +176,16 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 					this.attackEntityAsMob(this.getAttackTarget());
 				}
 			}
+		}else if (attackNumber == 2) // kick 
+		{
+			if(this.getAttackTarget() != null)
+			{
+				if(this.getAttackTarget().getDistanceToEntity(this) <= 3)
+				{
+					this.getAttackTarget().knockBack(this, (float)7, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+					this.attackEntityAsMob(this.getAttackTarget());
+				}
+			}
 		}
 	}
 
@@ -168,7 +197,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 		PunchMode = punchMode;
 	}
 	/**
-	 * @param animationID - 0 = slam, 1 = punch, 2 = half hp animation, 3 = death animation
+	 * @param animationID - 0 = slam, 1 = punch, 2 = leg kick, 3 = charge, 4 = death, 5 = half hp animation
 	 */
 	public void startAnimation(int animation)
 	{
@@ -204,33 +233,71 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 			{
 				TickCount --;
 			}
-		}else
-			if(this.PunchMode)
-			{
-				if(TickCount == 0)
-				{
-					TickCount = 1;
-					if(animationCycle < 24)
-					{
-						animationCycle ++;
+		}else if(this.PunchMode)
+		{
 
-						if((animationCycle >= 8 && animationCycle <= 10) || (animationCycle >= 20 && animationCycle <= 22))
-						{
-							this.activateAttack(1);
-						}
-					}
-					else
-					{
-						animationCycle = 0;
-						this.PunchMode = false;
-					}
-				}else
+			if(TickCount == 0)
+			{
+				TickCount = 1;
+				if(animationCycle < 24)
 				{
-					TickCount --;
+					animationCycle ++;
+
+					if((animationCycle >= 8 && animationCycle <= 10) || (animationCycle >= 20 && animationCycle <= 22))
+					{
+						this.activateAttack(1);
+					}
+				}
+				else
+				{
+					animationCycle = 0;
+					this.PunchMode = false;
+				}
+			}else
+			{
+				TickCount --;
+			}
+		}else if(this.KickMode)
+		{
+			if(TickCount == 0)
+			{
+				TickCount = 1;
+				if(animationCycle < 16)
+				{
+					animationCycle ++;
+
+					if((animationCycle == 13 || animationCycle == 14))
+					{
+						this.activateAttack(2);
+					}
+				}
+				else
+				{
+					animationCycle = 0;
+					this.KickMode = false;
+				}
+			}else
+			{
+				TickCount --;
+			}
+		}else if(this.chargeMode)
+		{
+			animationCycle ++;
+
+			if(this.getAttackTarget() != null)
+			{
+				BlockPos pos = this.getAttackTarget().getPosition();
+
+				if((animationCycle > 200) || this.getPosition().distanceSq(pos.getX(), pos.getY(), pos.getZ()) <= 7)
+				{
+					this.activateAttack(1);
+					this.SlamAttack = false;
+					this.animationCycle = 0;
 				}
 			}
-	}
+		}
 
+	}
 
 	@Override
 	public void onUpdate() {
@@ -240,27 +307,49 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 		{
 			BlockPos pos = this.getAttackTarget().getPosition();
 
-			if(this.getPosition().distanceSq(pos.getX(), pos.getY(), pos.getZ()) <= 15)
+			if(this.getPosition().distanceSq(pos.getX(), pos.getY(), pos.getZ()) <= 7)
 			{
 				if(this.getAnimationCycle() == 0)
 				{
-					if(this.getHealth() <= 150)
+					if(this.kickCD != 0)
 					{
-						this.startAnimation(0);
-						this.setSlamAttack(true);
+						this.kickCD--;
+						if(this.getHealth() <= 150)
+						{
+							this.startAnimation(0);
+							this.setSlamAttack(true);
+						}else
+						{
+							this.startAnimation(1);
+							this.setPunchMode(true);
+						}
 					}else
 					{
-						this.startAnimation(1);
-						this.setPunchMode(true);
+						this.KickMode = true;
+						this.kickCD = 7;
+						this.startAnimation(2);
 					}
-	
-					if(!this.PunchMode && !this.SlamAttack)
+
+					if(!this.PunchMode && !this.SlamAttack && !this.KickMode)
 						this.getLookHelper().setLookPositionWithEntity(this.getAttackTarget(), 30.0F, 30.0F);
 				}
 			}else
 			{
-				if(!this.PunchMode && !this.SlamAttack)
+				/*
+			}
+				if((this.getPosition().distanceSq(pos.getX(), pos.getY(), pos.getZ()) > 150) && this.chargeCD <= 0)
+				{
+					this.getNavigator().setPath(this.getNavigator().getPathToEntityLiving(this.getAttackTarget()), 2);
+					this.startAnimation(3);
+					this.chargeCD = 300;
+					this.setChargeMode(true);
+				}else
+				{
+					this.chargeCD--;
+				 */
+				if(!this.PunchMode && !this.SlamAttack && !this.KickMode && !this.chargeMode)
 					this.getNavigator().setPath(this.getNavigator().getPathToEntityLiving(this.getAttackTarget()), this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+
 			}
 		}
 		inAnimation();

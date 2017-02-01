@@ -2,21 +2,14 @@ package com.waabbuffet.MonstersAndDungeons.util;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import com.waabbuffet.MonstersAndDungeons.client.ClientProxy;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.FileResourcePack;
-import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.MetadataSerializer;
-import net.minecraft.util.ResourceLocation;
 
 public class ResourceLoader extends FileResourcePack {
 

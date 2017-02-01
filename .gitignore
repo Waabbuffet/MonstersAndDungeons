@@ -1,8 +1,16 @@
-/bin/
-/build/
+#eclipse
+/bin
+/.settings
+/.classpath
+
+#In case people make their workspace in the repo
+/eclipse/
 /run/
-/.settings/
-/.gradle/
-.project
+
+#gradle
+/build
+/.gradle
+
+#other stuff
 *.launch
-.classpath
+.project

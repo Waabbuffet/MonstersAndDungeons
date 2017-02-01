@@ -2,7 +2,6 @@ package com.waabbuffet.MonstersAndDungeons.entity.AI;
 
 import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
 
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 
 @Deprecated

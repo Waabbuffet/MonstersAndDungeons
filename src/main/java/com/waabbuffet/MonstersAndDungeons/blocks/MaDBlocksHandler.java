@@ -12,13 +12,6 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockRotten;
 import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.GenBlocks.GenBlockDoubleSlab;
@@ -29,6 +22,13 @@ import com.waabbuffet.MonstersAndDungeons.blocks.miscellaneous.BlockEntityStatue
 import com.waabbuffet.MonstersAndDungeons.blocks.miscellaneous.BlockStonePagoda;
 import com.waabbuffet.MonstersAndDungeons.items.genBlocks.ItemGenBlockSlab;
 import com.waabbuffet.MonstersAndDungeons.util.Reference;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 
 
 

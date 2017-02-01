@@ -2,16 +2,9 @@ package com.waabbuffet.MonstersAndDungeons.util.dungeon;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import com.waabbuffet.MonstersAndDungeons.blocks.dungeonBuilder.BlockExit;
-import com.waabbuffet.MonstersAndDungeons.util.Reference;
 
 public abstract class Dungeon {
 
@@ -35,10 +28,9 @@ public abstract class Dungeon {
 	 * This method will create a random branch at a starting location heading in a specific direction
 	 * @param world
 	 * @param startingLocation - "WEST" , "EAST", "NORTH", "SOUTH";
-	 * @param Direction
+	 * @param enumDirection
 	 */
-	public void createBranch(World world, BlockPos startingLocation, int DungeonSize, DungeonRoom PreviousRoom, String Direction) {
-
+	public void createBranch(World world, BlockPos startingLocation, int DungeonSize, DungeonRoom PreviousRoom, EnumDirection enumDirection) {
 		DungeonRoom NextRoom = this.selectRandomRoom();
 		BlockPos UpdatedLocation = startingLocation;
 		
@@ -46,7 +38,7 @@ public abstract class Dungeon {
 		{
 			if(PreviousRoom != null)
 			{
-				DungeonExit ExitToRemove = PreviousRoom.setCorrectPath(Direction);
+				DungeonExit ExitToRemove = PreviousRoom.setCorrectPath(enumDirection);
 				DungeonExit TempExit = null;
 				for(int j = 0; j < PreviousRoom.getExits().size(); j ++)
 				{
@@ -61,7 +53,7 @@ public abstract class Dungeon {
 							NextRoom.loadRoom();
 						}
 						TempExit = NextRoom.alignWithRoom(NextRoom, PreviousRoom, PreviousRoom.getExits().get(j), UpdatedLocation);
-						NextRoom.setPrevBuiltDIRECTION(TempExit.getDirection());
+						NextRoom.setPrevBuiltDirection(TempExit.getDirection());
 						NextRoom.buildRoom(TempExit.getPos(), world, TempExit.getDirection());
 						NextRoom.removeOppositeExit(ExitToRemove);	
 					}
@@ -74,8 +66,8 @@ public abstract class Dungeon {
 				{
 					NextRoom.loadRoom();
 				}
-				NextRoom.buildRoom(startingLocation, world, "WEST");
-				NextRoom.setPrevBuiltDIRECTION("WEST");
+				NextRoom.buildRoom(startingLocation, world, EnumDirection.WEST);
+				NextRoom.setPrevBuiltDirection(EnumDirection.WEST);
 			}
 			PreviousRoom = NextRoom;
 			NextRoom = this.selectRandomRoom();
@@ -84,19 +76,19 @@ public abstract class Dungeon {
 
 	private BlockPos getExitActualCoord(DungeonExit exit, BlockPos tempExit, DungeonRoom previousRoom)
 	{
-		String PreviousBuiltDirection = previousRoom.getPrevBuiltDIRECTION();
+		EnumDirection prevBuiltDirection = previousRoom.getPrevBuiltDIRECTION();
 		BlockPos RealPrevEntrance = null;
 
-		if(PreviousBuiltDirection.contains("WEST")) // gets the entrance actual position
+		if(prevBuiltDirection == EnumDirection.WEST) // gets the entrance actual position
 		{
 			RealPrevEntrance = new BlockPos(tempExit.getX() - exit.getPos().getX(), tempExit.getY(), tempExit.getZ() - exit.getPos().getZ());
-		}else if(PreviousBuiltDirection.contains("EAST"))
+		}else if(prevBuiltDirection == EnumDirection.EAST)
 		{
 			RealPrevEntrance = new BlockPos(tempExit.getX() + exit.getPos().getX(), tempExit.getY(), tempExit.getZ() + exit.getPos().getZ());
-		}else if(PreviousBuiltDirection.contains("NORTH"))
+		}else if(prevBuiltDirection == EnumDirection.NORTH)
 		{
 			RealPrevEntrance = new BlockPos(tempExit.getX() + exit.getPos().getZ(), tempExit.getY(), tempExit.getZ() - exit.getPos().getX());
-		}else if(PreviousBuiltDirection.contains("SOUTH"))
+		}else if(prevBuiltDirection == EnumDirection.SOUTH)
 		{
 			RealPrevEntrance = new BlockPos(tempExit.getX() - exit.getPos().getZ(), tempExit.getY(), tempExit.getZ() + exit.getPos().getX());
 		}
@@ -119,7 +111,7 @@ public abstract class Dungeon {
 
 		for(ExitData exit : totalExits)
 		{	
-			if(data.getDirection().equals("WEST"))
+			if(data.getDirection() == EnumDirection.WEST)
 			{
 				if(exit.getPos().getX() < data.getPos().getX())
 				{
@@ -132,7 +124,7 @@ public abstract class Dungeon {
 					}
 				}
 
-			}else if(data.getDirection().equals("EAST"))
+			}else if(data.getDirection() == EnumDirection.EAST)
 			{
 				if(exit.getPos().getX() > data.getPos().getX())
 				{
@@ -145,14 +137,14 @@ public abstract class Dungeon {
 					}
 				}
 
-			}else if(data.getDirection().equals("NORTH"))
+			}else if(data.getDirection() == EnumDirection.NORTH)
 			{
 				if(exit.getPos().getZ() < data.getPos().getZ())
 				{
 					mostProbable = exit;
 				}
 
-			}else if(data.getDirection().equals("SOUTH"))
+			}else if(data.getDirection() == EnumDirection.SOUTH)
 			{
 				if(exit.getPos().getZ() > data.getPos().getZ())
 				{
@@ -173,118 +165,95 @@ public abstract class Dungeon {
 	 */
 	public void createBranch(ExitData firstExit, World world, int DungeonSize)
 	{
-		DungeonRoom PreviousRoom = firstExit.getPreviousRoom();
-		DungeonRoom NextRoom = this.selectRandomRoom(); NextRoom.loadRoom();
-		BlockPos RealPrevEntrance = firstExit.getPos();
-		DungeonExit PreviousEntrance = firstExit.getRealExit(); // this is the exit we need to work with
+		DungeonRoom previousRoom = firstExit.getPreviousRoom();
+		DungeonRoom nextRoom = this.selectRandomRoom();
+		nextRoom.loadRoom();
+		BlockPos realPrevEntrance = firstExit.getPos();
+		DungeonExit previousEntrance = firstExit.getRealExit(); // this is the exit we need to work with
 
-		String Direction = getRoomRotationRoom(NextRoom, PreviousEntrance.getDirection(),PreviousEntrance.getOppositeDirection());
-		if(Direction == null)
-		{
-
+		EnumDirection direction = getRoomRotationRoom(nextRoom, previousEntrance.getDirection(),previousEntrance.getOppositeDirection());
+		if(direction == null){
 			closeBranch(firstExit, world, false);
 
 			return;
 		}
-		if(PreviousEntrance.getDirection().contains("EAST"))
-		{
-			if(Direction.contains("NORTH"))
+		if(previousEntrance.getDirection() == EnumDirection.EAST){
+			if(direction == EnumDirection.NORTH){
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() + nextRoom.getRoomStructure().zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() + NextRoom.getRoomStructure().zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + nextRoom.getRoomStructure().xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + NextRoom.getRoomStructure().xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("WEST"))
-			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + NextRoom.getRoomStructure().xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() + NextRoom.getRoomStructure().zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + nextRoom.getRoomStructure().xSize, realPrevEntrance.getY(), realPrevEntrance.getZ() + nextRoom.getRoomStructure().zSize);
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("WEST"))
+		}else if(previousEntrance.getDirection() == EnumDirection.WEST)
 		{
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - NextRoom.getRoomStructure().xSize , RealPrevEntrance.getY(), RealPrevEntrance.getZ() - NextRoom.getRoomStructure().zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - nextRoom.getRoomStructure().xSize , realPrevEntrance.getY(), realPrevEntrance.getZ() - nextRoom.getRoomStructure().zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - NextRoom.getRoomStructure().zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("NORTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - nextRoom.getRoomStructure().zSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.NORTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() - NextRoom.getRoomStructure().zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() - nextRoom.getRoomStructure().zSize);
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("NORTH"))
+		}else if(previousEntrance.getDirection() == EnumDirection.NORTH)
 		{
 			//RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - NextRoom.getRoomStructure().xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() - NextRoom.getRoomStructure().zSize);
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() - NextRoom.getRoomStructure().zSize);
-			}else if(Direction.contains("SOUTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() - nextRoom.getRoomStructure().zSize);
+			}else if(direction == EnumDirection.SOUTH)
 			{
 
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + NextRoom.getRoomStructure().zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() - NextRoom.getRoomStructure().xSize);
-			}else if(Direction.contains("WEST"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + nextRoom.getRoomStructure().zSize, realPrevEntrance.getY(), realPrevEntrance.getZ() - nextRoom.getRoomStructure().xSize);
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() + NextRoom.getRoomStructure().xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() + nextRoom.getRoomStructure().xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
 			}
 
-		}else if(PreviousEntrance.getDirection().contains("SOUTH"))
+		}else if(previousEntrance.getDirection() == EnumDirection.SOUTH)
 		{
-			if(Direction.contains("EAST"))
+			if(direction == EnumDirection.EAST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - NextRoom.getRoomStructure().xSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ());
-			}else if(Direction.contains("NORTH"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - nextRoom.getRoomStructure().xSize, realPrevEntrance.getY(), realPrevEntrance.getZ());
+			}else if(direction == EnumDirection.NORTH)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX() - NextRoom.getRoomStructure().zSize, RealPrevEntrance.getY(), RealPrevEntrance.getZ() + NextRoom.getRoomStructure().xSize);
-			}else if(Direction.contains("WEST"))
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX() - nextRoom.getRoomStructure().zSize, realPrevEntrance.getY(), realPrevEntrance.getZ() + nextRoom.getRoomStructure().xSize);
+			}else if(direction == EnumDirection.WEST)
 			{
-				RealPrevEntrance = new BlockPos(RealPrevEntrance.getX(), RealPrevEntrance.getY(), RealPrevEntrance.getZ() + NextRoom.getRoomStructure().zSize);
+				realPrevEntrance = new BlockPos(realPrevEntrance.getX(), realPrevEntrance.getY(), realPrevEntrance.getZ() + nextRoom.getRoomStructure().zSize);
 			}
 
 		}
-		int j = 0;
-		if(Direction.equals("WEST"))
-		{
-			//on west take its z position and subtract
-			j = 0;
-		}else if(Direction.equals("NORTH"))
-		{
-			//on north take its x position and add
-			j = 1;
-		}else if(Direction.equals("EAST"))
-		{
-			//on east take its z position and
-			j = 2;
-		}else if(Direction.equals("SOUTH"))
-		{
-			///on south take its x and subtract
-			j = 3;
-		}
+		int j = direction.getID();
 
 		if(firstExit.getRealExit().getDirection() != null)
 		{
-			if(firstExit.getDirection().contains("WEST"))
-			{
-				RealPrevEntrance = RealPrevEntrance.south(j % 2 == 0 ? firstExit.getRealExit().getPos().getZ() : firstExit.getRealExit().getPos().getX());
-
-			}else if(firstExit.getDirection().contains("NORTH"))
-			{
-				RealPrevEntrance =	RealPrevEntrance.west(j % 2 == 0 ? firstExit.getRealExit().getPos().getX() : firstExit.getRealExit().getPos().getZ());
-
-			}else if(firstExit.getDirection().contains("EAST"))
-			{
-				RealPrevEntrance = RealPrevEntrance.north(j % 2 == 0 ? firstExit.getRealExit().getPos().getZ() : firstExit.getRealExit().getPos().getX());
-
-			}else if(firstExit.getDirection().contains("SOUTH"))
-			{
-				RealPrevEntrance =RealPrevEntrance.east(j % 2 == 0 ? firstExit.getRealExit().getPos().getX() : firstExit.getRealExit().getPos().getZ());
-
+			switch (firstExit.getDirection()) {
+			case WEST:
+				realPrevEntrance = realPrevEntrance.south(j % 2 == 0 ? firstExit.getRealExit().getPos().getZ() : firstExit.getRealExit().getPos().getX());
+				break;
+			case NORTH:
+				realPrevEntrance = realPrevEntrance.west(j % 2 == 0 ? firstExit.getRealExit().getPos().getX() : firstExit.getRealExit().getPos().getZ());
+				break;
+			case EAST:
+				realPrevEntrance = realPrevEntrance.north(j % 2 == 0 ? firstExit.getRealExit().getPos().getZ() : firstExit.getRealExit().getPos().getX());
+				break;
+			case SOUTH:
+				realPrevEntrance = realPrevEntrance.east(j % 2 == 0 ? firstExit.getRealExit().getPos().getX() : firstExit.getRealExit().getPos().getZ());
+				break;
 			}
 		}
-		NextRoom.removeOppositeExit(PreviousEntrance);
-		NextRoom.buildRoom(RealPrevEntrance, world, Direction);
-		NextRoom.setPrevBuiltDIRECTION(Direction);
+		nextRoom.removeOppositeExit(previousEntrance);
+		nextRoom.buildRoom(realPrevEntrance, world, direction);
+		nextRoom.setPrevBuiltDirection(direction);
 
-		createBranch(world, RealPrevEntrance, DungeonSize, NextRoom, firstExit.getDirection());
+		createBranch(world, realPrevEntrance, DungeonSize, nextRoom, firstExit.getDirection());
 	}
 
 	/** DOES NOT WORK YET!
@@ -294,8 +263,8 @@ public abstract class Dungeon {
 	public void createBranch(ExitData startingPoint, ExitData finishingPoint, World world) // exit data contains the room the exit belongs to
 	{
 
-		String facingDirection = startingPoint.getDirection();
-		String goingDirection = finishingPoint.getDirection();
+		EnumDirection facingDirection = startingPoint.getDirection();
+		EnumDirection goingDirection = finishingPoint.getDirection();
 
 		BlockPos currentLocation = startingPoint.getPos();
 		//how far on the x and z, choose random room see if possible then build it, re check how far on x and z, choose random room
@@ -303,7 +272,7 @@ public abstract class Dungeon {
 		int disX = Math.abs(startingPoint.getPos().getX() - startingPoint.getPos().getZ());
 		int disY = Math.abs(startingPoint.getPos().getZ() - startingPoint.getPos().getZ());
 
-		if(facingDirection.equals("WEST") || facingDirection.equals("EAST"))
+		if(facingDirection == EnumDirection.WEST || facingDirection == EnumDirection.EAST)
 		{
 			DungeonRoom PreviousRoom = startingPoint.getPreviousRoom();
 			DungeonRoom NextRoom = this.selectRandomRoom();
@@ -351,9 +320,9 @@ public abstract class Dungeon {
 	 * This method will the return the rotation that has both exits or null if not possible...Also this method prepares the room
 	 * by rotating all of the exits when the value is found. Easier to build
 	 */
-	private String getRoomRotationRoom(DungeonRoom Nextroom, String firstExit, String secondExit)
+	private EnumDirection getRoomRotationRoom(DungeonRoom Nextroom, EnumDirection firstExit, EnumDirection secondExit)
 	{
-		String Direction = null;
+		EnumDirection direction = null;
 
 		int j =0;
 		here:
@@ -362,34 +331,18 @@ public abstract class Dungeon {
 
 				for(int i = 0; i < Nextroom.getExits().size(); i ++)// 0 = west, 1 = north, 2 = east, 3 = south
 				{
-					if(Nextroom.getExits().get(i).getDirectionWithRotation(j).contains(firstExit))
+					if(Nextroom.getExits().get(i).getDirectionWithRotation(j) == firstExit)
 					{
 						hasFirstExit =  true;
 					}else
-						if(Nextroom.getExits().get(i).getDirectionWithRotation(j).contains(secondExit))
+						if(Nextroom.getExits().get(i).getDirectionWithRotation(j) == secondExit)
 						{
 							hasSecondExit = true;
 						}
 
 					if(hasFirstExit && hasSecondExit)
 					{
-						if(j == 0)
-						{
-							//on west take its z position and subtract
-							Direction = "WEST";
-						}else if(j == 1)
-						{
-							//on north take its x position and add
-							Direction = "NORTH";
-						}else if(j == 2)
-						{
-							//on east take its z position and 
-							Direction = "EAST";
-						}else if(j == 3)
-						{
-							///on south take its x and subtract
-							Direction = "SOUTH";
-						}
+						direction = EnumDirection.getDirectionFromID(j);
 
 						for(int l = 0; l < Nextroom.getExits().size(); l ++)
 						{
@@ -400,20 +353,19 @@ public abstract class Dungeon {
 				}
 				j++;
 			}while(j < 4);
-		return Direction;
+		return direction;
 	}
 
 
-	protected boolean hasEnoughRoom(ExitData exit, int xRange, int zRange)
 
-	{
-		String direction = exit.getDirection();
+	protected boolean hasEnoughRoom(ExitData exit, int xRange, int zRange){
+		EnumDirection direction = exit.getDirection();
+
 
 		int posX = exit.getPos().getX();
 		int posZ = exit.getPos().getZ();
 
-		if(direction.equals("WEST")) //negative x direction 
-		{
+		if (direction == EnumDirection.WEST) {
 			for(ExitData data: totalExits)
 			{
 				if(posX > data.getPos().getX())
@@ -428,9 +380,8 @@ public abstract class Dungeon {
 						}
 					}
 				}
-			}	
-		}else if(direction.equals("EAST"))//positive x direction
-		{
+			}
+		} else if (direction == EnumDirection.EAST) {
 			for(ExitData data: totalExits)
 			{
 				if(posX < data.getPos().getX())
@@ -445,10 +396,8 @@ public abstract class Dungeon {
 						}
 					}
 				}
-			}	
-
-		}else if(direction.equals("NORTH"))//negative z direction
-		{
+			}
+		} else if (direction == EnumDirection.NORTH) {
 			for(ExitData data: totalExits)
 			{
 				if(posZ > data.getPos().getZ())
@@ -463,14 +412,12 @@ public abstract class Dungeon {
 						}
 					}
 				}
-			}	
-		}else if(direction.equals("SOUTH"))//positive z direction
-		{
+			}
+		} else if (direction == EnumDirection.SOUTH) {
 			for(ExitData data: totalExits)
 			{
 				if(posZ < data.getPos().getZ())
 				{
-
 					if(Math.abs((posZ - data.getPos().getZ())) < zRange)
 					{
 						if(Math.abs((posX - data.getPos().getX())) < xRange)

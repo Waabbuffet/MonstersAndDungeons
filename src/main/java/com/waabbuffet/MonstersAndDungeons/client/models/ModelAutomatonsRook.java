@@ -3,7 +3,6 @@ package com.waabbuffet.MonstersAndDungeons.client.models;
 import com.waabbuffet.MonstersAndDungeons.entity.automatons.EntityAutomatonsRook;
 
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -70,6 +69,27 @@ public class ModelAutomatonsRook extends ModelBase {
 			{    -15F,  -40F,  30F, -40F,  10F,  -0F}, 
 			{    -0F,  -40F,  15F, -20F,  10F,  -0F}, 
 			{    0F,  0F,  0F, 0F,  0F,  0F}, 
+			};
+	
+	protected float[][] KickAnimation = new float[][]
+			{//
+			{   0F, 0F,  0F,  0F}, // middle piece, right belt, right shin,
+			{   10F, 0F,  10F, 0F},
+			{   20F, 20F,  20F, 0F},
+			{   30F, 30F,  30F, 0F},
+			{   30F, 30F,  45F, 0F},
+			{   30F, 30F,  45F, 0F},
+			{   15F, 20F,  30F, 0F},
+			{   15F, 20F,  30F, 0F},
+			{   10F, 10F,  10F, 0F},
+			{   10F, 10F,  10F, 0F},
+			{   -10F, 0F,  0F,  0F},
+			{   -10F, -20F,  -10F,  0F},
+			{   -10F, -20F,  -10F,  0F},//12
+			{   -10F, -20F,  -40F,  0F},//13
+			{   -10F, -30F,  -60F,  0F},//14
+			{   -10F, -20F,  -40F,  0F},//15
+			{   -10F, -20F,  -10F,  0F},//16
 			};
 	
 
@@ -802,18 +822,42 @@ public class ModelAutomatonsRook extends ModelBase {
 		this.LeftShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
 
 		EntityAutomatonsRook rook = (EntityAutomatonsRook) entityIn;
-
-		if(rook.SlamAttack)
-		{
+		
+		if(rook.SlamAttack){
 			this.slamAnimation(rook);
-		}else
-		if(rook.PunchMode)
-		{
+		}
+		else if(rook.PunchMode){
 			this.punchAnimation(rook);
+		}else if(rook.KickMode)
+		{
+			this.kickAnimation(rook);
 		}else
 		{
 			this.idolAnimation(rook);
 		}
+	}
+	
+	private void kickAnimation(EntityAutomatonsRook rook)
+	{
+		
+		this.LeftShoulder1.rotateAngleX = degToRad(0);
+		this.RightShoulder1.rotateAngleX = degToRad(0);  
+		this.MiddlePiece.rotateAngleX = degToRad(KickAnimation[rook.getAnimationCycle()][0]);
+
+		this.LeftBelt.rotateAngleX = degToRad(0);
+		this.rightMiddlePiece.rotateAngleX = degToRad(KickAnimation[rook.getAnimationCycle()][1]);
+
+		this.LeftShoulder3.rotateAngleX = degToRad(0);
+		this.RightShoulder4.rotateAngleX = degToRad(0);
+		
+		this.MiddlePiece.rotateAngleY = degToRad(0);
+		this.rightMiddlePiece.rotateAngleY = degToRad(0);
+		this.LeftBelt.rotateAngleY = degToRad(0);
+		
+		this.LeftShin.rotateAngleX = degToRad(0);
+		this.RightShin.rotateAngleX = degToRad(KickAnimation[rook.getAnimationCycle()][2]);
+		
+
 	}
 
 	private void slamAnimation(EntityAutomatonsRook rook)
