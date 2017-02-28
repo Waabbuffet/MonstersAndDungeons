@@ -1,7 +1,7 @@
 @echo off
 title [Monster and Dungeons] Setup Eclipse Workspace
 color 0a
-type madsetupupeclipse.txt
+type madsetupeclipse.txt
 pause >nul
 cls
 call gradlew eclipse
