@@ -27,6 +27,7 @@ public class EntityWhitePawns extends MaDEntityMonsterBase {
 		
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityWhitePawns.class}));
+		
 	}
 
 	
@@ -45,19 +46,6 @@ public class EntityWhitePawns extends MaDEntityMonsterBase {
 	protected SoundEvent getHurtSound() {
 		return MaDSoundsHandler.automatonHurtStone;
 	}
-
-
-	@Override
-	public NBTTagCompound getNBTData() {
-		
-		NBTTagCompound compound = new NBTTagCompound();
-		
-		compound.setFloat("Health", this.getHealth());
-		compound.setInteger("EntityID", 1);
-			
-		return compound;
-	}
-	
 	
 	@Override
 	protected void damageEntity(DamageSource damageSrc, float damageAmount) {
@@ -66,5 +54,26 @@ public class EntityWhitePawns extends MaDEntityMonsterBase {
 		{
 			super.damageEntity(damageSrc, damageAmount);
 		}
+	}
+
+
+	@Override
+	public int getMonsterID() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
+
+	@Override
+	public void acivateAnimationby(int animation, int phase) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void resetAnimation() {
+		// TODO Auto-generated method stub
+		
 	}
 }

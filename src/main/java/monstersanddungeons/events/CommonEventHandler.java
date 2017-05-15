@@ -1,17 +1,37 @@
 package monstersanddungeons.events;
 
+import java.util.List;
+
+import monstersanddungeons.client.ClientProxy;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRook;
+import monstersanddungeons.entity.automatons.EntityAutomatonsRookBoss;
 import monstersanddungeons.items.MaDItemsHandler;
 import monstersanddungeons.items.armor.ArmorStat;
 import monstersanddungeons.items.armor.ItemQuartzArmor;
 import monstersanddungeons.stats.StatDamageSources;
 import monstersanddungeons.stats.Stats;
+import monstersanddungeons.util.entity.IMaDBoss;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class CommonEventHandler {
+	
+	
+	int cooldown = 0;
+	ResourceLocation old = new ResourceLocation("textures/gui/icons.png");
+	
 	@SubscribeEvent
 	public void onEntityAttack(LivingAttackEvent event){
 		
@@ -53,9 +73,59 @@ public class CommonEventHandler {
 							event.setCanceled(true);
 						}
 					}
-				}		
+				}else if(event.getEntityLiving() instanceof EntityAutomatonsRookBoss)	
+				{
+					if(event.getSource().getSourceOfDamage().getLookVec().dotProduct(event.getEntity().getLookVec()) < 0.5 && ((EntityAutomatonsRookBoss) event.getEntityLiving()).getWeakenedCD() > 0)
+					{
+						if(event.isCancelable())
+						{
+							event.setCanceled(true);
+						}
+					}
+				}
 			}
 		}
 	}
 	
+	@SubscribeEvent
+	public void onPlayerTickEvent(PlayerTickEvent e)
+	{
+		if(this.cooldown == 0)
+		{
+			World world = e.player.worldObj;
+			List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(e.player, new AxisAlignedBB(e.player.getPosition().getX() - 50, e.player.getPosition().getY() - 50, e.player.getPosition().getZ() - 50, e.player.getPosition().getX() + 50, e.player.getPosition().getY() + 50, e.player.getPosition().getZ() + 50));
+			this.cooldown = 20;
+			
+			for(Entity entity : entities)
+			{
+				if(entity instanceof IMaDBoss)
+				{
+					ClientProxy.shouldRenderHpBar = (IMaDBoss) entity;
+					return;
+				}
+			}
+			ClientProxy.shouldRenderHpBar = null;
+		}else
+			this.cooldown--;
+	
+	}
+	
+	@SubscribeEvent
+	public void renderGameOverlayEvent(RenderGameOverlayEvent.Post e)
+	{
+		if(ClientProxy.shouldRenderHpBar != null)
+		{
+			GlStateManager.pushMatrix();
+			GlStateManager.enableBlend();
+			GlStateManager.color(1f, 1f, 1f, 1f);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(ClientProxy.shouldRenderHpBar.getBossName());
+			GuiScreen.drawModalRectWithCustomSizedTexture(180, 10, 0,  0,  95, 16,  95, 16);
+			
+			Minecraft.getMinecraft().getTextureManager().bindTexture(ClientProxy.shouldRenderHpBar.getIcon());
+			GuiScreen.drawModalRectWithCustomSizedTexture(140, 30, ClientProxy.shouldRenderHpBar.getStartingX(true),  ClientProxy.shouldRenderHpBar.getStartingY(true),  ClientProxy.shouldRenderHpBar.getWidth(true), ClientProxy.shouldRenderHpBar.getHeight(true),  180, 50);
+			GuiScreen.drawModalRectWithCustomSizedTexture(140, 30, ClientProxy.shouldRenderHpBar.getStartingX(false),  ClientProxy.shouldRenderHpBar.getStartingY(false),  ClientProxy.shouldRenderHpBar.getWidth(false), ClientProxy.shouldRenderHpBar.getHeight(false),  180, 50);
+			GlStateManager.popMatrix();
+			Minecraft.getMinecraft().getTextureManager().bindTexture(old);
+		}
+	}
 }

@@ -3,6 +3,7 @@ package monstersanddungeons.blocks.miscellaneous;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +26,18 @@ public class BlockEntityStatue extends Block{
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
+	@Override
+	public BlockRenderLayer getBlockLayer() {
+		// TODO Auto-generated method stub
+		return BlockRenderLayer.CUTOUT;
+	}
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos)
 	{
@@ -36,6 +48,8 @@ public class BlockEntityStatue extends Block{
 	public EnumBlockRenderType getRenderType(IBlockState iBlockState) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
+	
+	
 
 }
 

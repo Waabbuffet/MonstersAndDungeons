@@ -2,6 +2,7 @@ package monstersanddungeons.blocks;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,11 +42,11 @@ public class MaDBlocksHandler {
 
 	public static void init()
 	{
-		
+
 		BlockExit = new BlockExit("BlockExit");		
 		BlockRotten = new BlockRotten("BlockRotten");
 		BlockEntityStatue = new BlockEntityStatue("BlockEntityStatue");
-		
+
 		BlockStonePagoda = new BlockStonePagoda("Stone Pagoda");
 	}
 
@@ -79,7 +80,15 @@ public class MaDBlocksHandler {
 			return;
 		}
 
-		ZipFile zipDirectory = new ZipFile(OldZipFile);
+
+		ZipFile zipDirectory;
+		try
+		{
+			zipDirectory= new ZipFile(OldZipFile);
+		}catch(FileNotFoundException e){
+			return;
+		}
+
 
 		List<ZipEntry> missingBlockState = new ArrayList<ZipEntry>(); 
 		List<ZipEntry> missingModels = new ArrayList<ZipEntry>(); 
@@ -103,7 +112,7 @@ public class MaDBlocksHandler {
 						{
 							Block block = new Block(Material.ROCK);
 							BlockStairs block_stairs = new GenBlockStairs(block.getDefaultState(), name);
-							
+
 							genBlocks.add(block_stairs);
 
 						}else if(name.contains("_slab"))
@@ -256,7 +265,7 @@ public class MaDBlocksHandler {
 		for(ZipEntry entry : modelList)
 		{
 			String name = entry.getName().substring(36, entry.getName().length()- 4);
-		
+
 			if(name.contains("_stairs"))
 			{
 				String stairreg = Reference.genBlocks_Stairs_model_reg;
@@ -271,7 +280,7 @@ public class MaDBlocksHandler {
 				ZipEntry newEntryInner = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_inner" + ".json");
 				ZipEntry newEntryOuter = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_outer" +".json");
 				ZipEntry newItemEntry = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/item/" + name + ".json");
-				
+
 				stairreg = stairreg.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
 				sb1.append(stairreg);
 
@@ -293,40 +302,40 @@ public class MaDBlocksHandler {
 
 				out.putNextEntry(newEntryOuter);
 				out.write(data3, 0, data3.length);
-				
+
 				out.putNextEntry(newItemEntry);
 				out.write(data1, 0, data1.length);
-				
+
 			}else if(name.contains("_slab"))
 			{
 				String slabHalf = Reference.genBlocks_Slab_model_half;
 				String slabUpper = Reference.genBlocks_Slab_model_upper;
-				
+
 
 				StringBuilder sb1 = new StringBuilder();
 				StringBuilder sb2 = new StringBuilder();
-			
-				
+
+
 
 				ZipEntry newEntryHalf = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_half" + ".json");
 				ZipEntry newEntryUpper = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/block/" + name + "_upper" +".json");
 				ZipEntry newItemEntry = new ZipEntry("assets/" + Reference.MOD_ID_GenBlocks + "/models/item/"  + "item_" + name + ".json");
-				
+
 				slabHalf = slabHalf.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
 				sb1.append(slabHalf);
 
 				slabUpper = slabUpper.replace("blocks/planks_oak", Reference.MOD_ID_GenBlocks + ":" + name);
 				sb2.append(slabUpper);
-				
+
 				byte[] data1 = sb1.toString().getBytes();
 				byte[] data2 = sb2.toString().getBytes();
-				
+
 				out.putNextEntry(newEntryHalf);
 				out.write(data1, 0, data1.length);
 
 				out.putNextEntry(newEntryUpper);
 				out.write(data2, 0, data2.length);
-				
+
 				out.putNextEntry(newItemEntry);
 				out.write(data1, 0, data1.length);
 
@@ -347,7 +356,7 @@ public class MaDBlocksHandler {
 
 				out.putNextEntry(newEntryHalf);
 				out.write(data1, 0, data1.length);
-				
+
 				out.putNextEntry(newItemEntry);
 				out.write(data1, 0, data1.length);
 			}

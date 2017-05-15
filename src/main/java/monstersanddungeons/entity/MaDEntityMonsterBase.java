@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public abstract class MaDEntityMonsterBase extends EntityMob
 {
 
-	int playerCheckCD;
+	int playerCheckCD, animationCycle;
 	
 	public MaDEntityMonsterBase(World worldIn) {
 		super(worldIn);
@@ -23,6 +23,7 @@ public abstract class MaDEntityMonsterBase extends EntityMob
 	protected boolean canDespawn() {
 		return false;
 	}
+	public abstract int getMonsterID();
 	
 	@Override
 	public void onUpdate() {
@@ -51,7 +52,7 @@ public abstract class MaDEntityMonsterBase extends EntityMob
 	
 	public boolean isPlayerNearby()
 	{
-		List<EntityPlayer> entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.getPosition().getX() - 25, this.getPosition().getY() - 25, this.getPosition().getZ() - 25, this.getPosition().getX() + 25, this.getPosition().getY() + 25, this.getPosition().getZ() + 25));
+		List<EntityPlayer> entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.getPosition().getX() - 50, this.getPosition().getY() - 50, this.getPosition().getZ() - 50, this.getPosition().getX() + 50, this.getPosition().getY() + 50, this.getPosition().getZ() + 50));
 
         if (entities.isEmpty())
         {
@@ -63,5 +64,17 @@ public abstract class MaDEntityMonsterBase extends EntityMob
         }
 	}
 	
-	public abstract NBTTagCompound getNBTData();
+	public NBTTagCompound getNBTData() {
+
+		NBTTagCompound compound = new NBTTagCompound();
+
+		compound.setFloat("Health", this.getHealth());
+		compound.setInteger("EntityID", this.getMonsterID());
+
+		return compound;
+	}
+	
+	public abstract void acivateAnimationby(int animation, int phase);
+	public abstract void resetAnimation();
+	
 }

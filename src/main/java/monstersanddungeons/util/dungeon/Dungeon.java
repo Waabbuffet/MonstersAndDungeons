@@ -44,20 +44,19 @@ public abstract class Dungeon {
 				{
 					if(!PreviousRoom.getExits().get(j).getCorrectPath())
 					{
-						//stores the actual coordinates in world inside the exit blockPos, Now can do real calculations to determine path connections
-						totalExits.add(new ExitData(getExitActualCoord(PreviousRoom.getExits().get(j), UpdatedLocation, PreviousRoom), PreviousRoom.getExits().get(j), PreviousRoom));	
+						totalExits.add(new ExitData(getExitActualCoord(PreviousRoom.getExits().get(j), UpdatedLocation, PreviousRoom), PreviousRoom.getExits().get(j), PreviousRoom, false));	
 					}else
 					{
 						if(!NextRoom.isLoaded())
 						{
 							NextRoom.loadRoom();
 						}
+					//	totalExits.add(new ExitData(getExitActualCoord(PreviousRoom.getExits().get(j), UpdatedLocation, PreviousRoom), PreviousRoom.getExits().get(j), PreviousRoom, true));
 						TempExit = NextRoom.alignWithRoom(NextRoom, PreviousRoom, PreviousRoom.getExits().get(j), UpdatedLocation);
 						NextRoom.setPrevBuiltDirection(TempExit.getDirection());
 						NextRoom.buildRoom(TempExit.getPos(), world, TempExit.getDirection(), TempExit.getExit().getPos().getY() - 1);
 						NextRoom.removeOppositeExit(ExitToRemove);	
 					}
-
 				}
 				UpdatedLocation = TempExit.getPos();	
 			}else
@@ -177,7 +176,6 @@ public abstract class Dungeon {
 			return;
 		}
 		
-		
 		BlockPos realPrevEntrance = firstExit.getPos();
 		DungeonExit previousEntrance = firstExit.getRealExit(); // this is the exit we need to work with
 
@@ -265,7 +263,7 @@ public abstract class Dungeon {
 		nextRoom.buildRoom(realPrevEntrance, world, direction, exit.getPos().getY() - 1);
 		nextRoom.setPrevBuiltDirection(direction);
 
-		createBranch(world, realPrevEntrance, DungeonSize, nextRoom, null);
+		createBranch(world, realPrevEntrance, DungeonSize, nextRoom, firstExit.getDirection());
 	}
 
 	/** DOES NOT WORK YET!

@@ -20,8 +20,6 @@ public class ResourceLoader extends FileResourcePack {
 	
 	}
 
-	
-
 	@Override
 	public Set<String> getResourceDomains() {
 		// TODO Auto-generated method stub
@@ -33,7 +31,6 @@ public class ResourceLoader extends FileResourcePack {
 	public <T extends IMetadataSection> T getPackMetadata(
 			MetadataSerializer metadataSerializer, String metadataSectionName)
 					throws IOException {
-
 
 		// TODO Auto-generated method stub
 		return null;

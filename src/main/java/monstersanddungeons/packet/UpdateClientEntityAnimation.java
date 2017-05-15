@@ -13,22 +13,32 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class UpdateClientEntityAnimation implements IMessage, IMessageHandler<UpdateClientEntityAnimation , IMessage> {
 
-	int id, animationID;
+	int id, animationID, phase;
+	boolean reset;
 
 	public UpdateClientEntityAnimation(){ }
 
 
-
-	public UpdateClientEntityAnimation(MaDEntityMonsterBase entity, int whichAnimation)
+	public UpdateClientEntityAnimation(MaDEntityMonsterBase entity, int whichAnimation, int phase)
 	{
 		id = entity.getEntityId();
+		this.reset = false;
 		this.animationID = whichAnimation;
+		this.phase = phase;
+	}
+	
+	public UpdateClientEntityAnimation(MaDEntityMonsterBase entity, int whichAnimation, int phase, boolean reset)
+	{
+		id = entity.getEntityId();
+		this.reset = reset;
+		this.animationID = whichAnimation;
+		this.phase = phase;
 	}
 
 	@Override
 	public IMessage onMessage(final UpdateClientEntityAnimation message, MessageContext ctx) {
 
-		IThreadListener mainThread = Minecraft.getMinecraft(); // or Minecraft.getMinecraft() on the client
+		IThreadListener mainThread = Minecraft.getMinecraft();
 		mainThread.addScheduledTask(new Runnable() {
 
 			@Override
@@ -36,11 +46,17 @@ public class UpdateClientEntityAnimation implements IMessage, IMessageHandler<Up
 				EntityPlayer p = Minecraft.getMinecraft().thePlayer;
 				World world = p.worldObj;
 
-				EntityAutomatonsRook rook = (EntityAutomatonsRook) world.getEntityByID(message.id);
+				MaDEntityMonsterBase rook = (MaDEntityMonsterBase) world.getEntityByID(message.id);
 
 				if(rook != null)
 				{
-					rook.acivateAnimationby(message.animationID);
+					if(!message.reset)
+					{
+						rook.acivateAnimationby(message.animationID, message.phase);
+					}else
+					{
+						rook.resetAnimation();
+					}
 				}
 			}
 		});
@@ -53,11 +69,15 @@ public class UpdateClientEntityAnimation implements IMessage, IMessageHandler<Up
 	public void fromBytes(ByteBuf buf) {
 		this.id = buf.readInt();
 		this.animationID = buf.readInt();
+		this.reset = buf.readBoolean();
+		this.phase = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(id);
 		buf.writeInt(animationID);
+		buf.writeBoolean(reset);
+		buf.writeInt(phase);
 	}
 }

@@ -1,182 +1,110 @@
 package monstersanddungeons.client.models;
 
+import org.lwjgl.opengl.GL11;
+
+import monstersanddungeons.client.ClientProxy;
+import monstersanddungeons.client.models.items.ModelQuartzBigSword;
 import monstersanddungeons.client.models.items.ModelQuartzWarHammer;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRook;
+import monstersanddungeons.entity.automatons.EntityAutomatonsRookBoss;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelAutomatonsRook extends ModelBase {
+public class ModelAutomatonsRookBoss  extends ModelBase 
+{
+	public ModelQuartzWarHammer hammer = new ModelQuartzWarHammer();
 
-	protected float[][] SlamCycle = new float[][]
-			{//
-			{   0F  ,  0F  ,    0F, 0F,  0F , 0f}, //lower shoulders, upper shoulders, middle piece, lower legs, translation point
-			{ -15F   , 0F   ,   0F, 0F,  0F, 0f},
-			{ -30F ,   0F   ,   0F,  0F, 0F,  0f },
-			{ -45F ,   -15F  ,  0F,  0F,  0F, 0f},
-			{ -45F  , -30F  ,   0F,  0F, 0F,0f },
-			{ -60F ,  -60F  ,   0F,  0F,  0F,0f },
-			{ -60F  , -90F  ,   -5F,  0F,  0F,0f },
-			{ -45F  , -120F  ,  -5F,  0F,  0F,0f },
-			{ -30F  , -150F  ,  -10F,  0F,  0F,0f },
-			{ -15F  , -180F  ,  -10F,  0F,  0F,0f },
-			{   0F  , -180F  ,  -15F,  0F,   0F, 0}, 
-			//charging up cycle
-			{   0F  , -180F  ,  -15F,  0F,  0F, 0 }, 
-			{   0F  , -180F  ,   0F,  0F,   0F, 0f}, 
-			{   0F  , -180F  ,   15F,  15F,  10F, 0}, 
-			{   0F  , -180F  ,   30F,  30F, 20F, 0}, 
-			{   0F  , -160F  ,   45F,  75F, 50F, 1f}, 
-			{   0F  , -140F  ,   60F,  90F, 50F, 1.5f},
-			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
-			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
-			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
-			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
-			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
-			{   0F  , -160F  ,   90F,  75F, 15F, 1.5f},  
-			{   0F  , -110F  ,   50F,  75F, 15F, 1.5f},  
-			{   0F  , -80F  ,    30F,  50F, 15F, 1f},  
-			{   0F  , -40F  ,    20F,  30F, 0F, 0.5f},  
-			{   0F  ,  0F  ,    0F, 0F,  0F , 0f  }, 
-			};
+	public ModelQuartzBigSword left_BigSword = new ModelQuartzBigSword(-17);
+	public ModelQuartzBigSword right_BigSword = new ModelQuartzBigSword(17);
 
-	protected float[][] LeftPunchCycle = new float[][]
-			{//
-			{   0F  ,   0F  ,    0F, 0F,  0F , -15f }, 
-			//left shoulder, upper shoulders, middle pieceX, middle piece Y, belt pieces, right shoulder
-			{   -90F,  15F,  15F, -15F,  -10F,  -15F}, 
-			{   -90F,  15F,  15F, -45F,  -15F,  -15F}, 
-			{   -90F,  15F,  15F, -65F,  -15F,  -15F}, 
-			{   -115F,  15F,  24F, -65F,  -15F,  -15F},
-			{   -135F,  15F,  30F, -55F,  -25F,  -15F}, 
-			{   -115F,  15F,  30F, -30F,  -20F,  -15F},
-			{   -100F,  0F,  30F, -10F,  -20F,  -15F}, 
-			{   -80F,  -15F,  30F, 20F,  -10F,  -15F},
-			{   -40F,  -40F,  30F, 40F,  10F,  -15F},
-			{    0F,  -40F,  30F, 40F,  10F,  -0F}, 
-			{    0F,  -40F,  15F, 20F,  10F,  -0F}, 
-			{    0F,   0,  0F,  0F,  0F,  0F},
-			{   -15F,  15F,  15F, 15F,  -10F,  -90F}, 
-			{   -15F,  15F,  15F, 45F,  -15F,  -90F}, 
-			{   -15F,  15F,  15F, 65F,  -15F,  -90F}, 
-			{   -15F,  15F,  24F, 65F,  -15F,  -115F},
-			{   -15F,  15F,  30F, 55F,  -25F,  -135F}, 
-			{   -15F,  15F,  30F, 30F,  -20F,  -115F},
-			{   -15F,  0F,  30F,   10F,  -20F,  -100F}, 
-			{   -15F,  -15F,  30F,  -20F,  -10F,  -80F},
-			{   -15F,  -40F,  30F,  -40F,  10F,  -40F},
-			{    -15F,  -40F,  30F, -40F,  10F,  -0F}, 
-			{    -0F,  -40F,  15F, -20F,  10F,  -0F}, 
-			{    0F,  0F,  0F, 0F,  0F,  0F}, 
-			};
+	public ModelRenderer rightBoot;
+	public ModelRenderer LeftBoot;
+	public ModelRenderer LeftShin;
+	public ModelRenderer RightShin;
+	public ModelRenderer LeftPieceThing;
+	public ModelRenderer RightPieceThing;
+	public ModelRenderer RightLegArmor;
+	public ModelRenderer LeftLegArmor;
+	public ModelRenderer LeftBelt;
+	public ModelRenderer MiddlePiece;
+	public ModelRenderer rightMiddlePiece;
+	public ModelRenderer ChestOne;
+	public ModelRenderer ChestTwo;
+	public ModelRenderer UpperChest;
+	public ModelRenderer UpperChest1;
+	public ModelRenderer UpperChest2;
+	public ModelRenderer LegMiddleThing;
+	public ModelRenderer LegMiddle1;
+	public ModelRenderer LegMiddle2;
+	public ModelRenderer LegMiddle3;
+	public ModelRenderer BackPieceLeg;
+	public ModelRenderer BackMiddleThing;
+	public ModelRenderer smallCube;
+	public ModelRenderer smallCube2;
+	public ModelRenderer LegMiddleThing2;
+	public ModelRenderer LegMiddleThing3;
+	public ModelRenderer BackMiddleThing2;
+	public ModelRenderer BackMiddleThing3;
+	public ModelRenderer Head1;
+	public ModelRenderer Neck;
+	public ModelRenderer Head2;
+	public ModelRenderer Head3;
+	public ModelRenderer Head4;
+	public ModelRenderer Head5;
+	public ModelRenderer Head6;
+	public ModelRenderer Head7;
+	public ModelRenderer Head8;
+	public ModelRenderer Head9;
+	public ModelRenderer WeakSpot1;
+	public ModelRenderer WeakSpotLeg2;
+	public ModelRenderer WeakSpotLeg3;
+	public ModelRenderer WeakSpot2;
+	public ModelRenderer WeakSpot3;
+	public ModelRenderer WeakSpot4;
+	public ModelRenderer Unknown;
+	public ModelRenderer WeakSpot5;
+	public ModelRenderer WeakSpot7;
+	public ModelRenderer WeakSpot6;
+	public ModelRenderer WeakSpot8;
+	public ModelRenderer WeakSpot9;
+	public ModelRenderer WeakSpot10;
+	public ModelRenderer WeakSpot11;
+	public ModelRenderer WeakSpot12;
+	public ModelRenderer WeakSpot13;
+	public ModelRenderer WeakSpot14;
+	public ModelRenderer WeakSpot15;
+	public ModelRenderer WeakSpot17;
+	public ModelRenderer WeakSpot18;
+	public ModelRenderer WeakSpot19;
+	public ModelRenderer WeakSpot20;
+	public ModelRenderer LeftShoulder1;
+	public ModelRenderer RightShoulder1;
+	public ModelRenderer LeftShoulder2;
+	public ModelRenderer RightShoulder2;
+	public ModelRenderer GoldLeftShoulder3;
+	public ModelRenderer Unknown2;
+	public ModelRenderer LeftShoulder3;
+	public ModelRenderer RightShoulder4;
+	public ModelRenderer rightHand1;
+	public ModelRenderer RightFinger1;
+	public ModelRenderer RightFinger2;
+	public ModelRenderer RightThumb;
+	public ModelRenderer RightWrist;
+	public ModelRenderer RightHand2;
+	public ModelRenderer LeftWrist;
+	public ModelRenderer LeftHand1;
+	public ModelRenderer LeftFinger1;
+	public ModelRenderer LeftFinger2;
+	public ModelRenderer LeftFinger3;
+	public ModelRenderer LeftThumb;
+	public ModelRenderer RightEye;
+	public ModelRenderer LeftEye;
 
-	protected float[][] KickAnimation = new float[][]
-			{//
-			{   0F, 0F,  0F,  0F}, // middle piece, right belt, right shin,
-			{   10F, 0F,  10F, 0F},
-			{   20F, 20F,  20F, 0F},
-			{   30F, 30F,  30F, 0F},
-			{   30F, 30F,  45F, 0F},
-			{   30F, 30F,  45F, 0F},
-			{   15F, 20F,  30F, 0F},
-			{   15F, 20F,  30F, 0F},
-			{   10F, 10F,  10F, 0F},
-			{   10F, 10F,  10F, 0F},
-			{   -10F, 0F,  0F,  0F},
-			{   -10F, -20F,  -10F,  0F},
-			{   -10F, -20F,  -10F,  0F},//12
-			{   -10F, -20F,  -40F,  0F},//13
-			{   -10F, -30F,  -60F,  0F},//14
-			{   -10F, -20F,  -40F,  0F},//15
-			{   -10F, -20F,  -10F,  0F},//16
-			};
-
-
-	ModelRenderer rightBoot;
-	ModelRenderer LeftBoot;
-	ModelRenderer LeftShin;
-	ModelRenderer RightShin;
-	ModelRenderer LeftPieceThing;
-	ModelRenderer RightPieceThing;
-	ModelRenderer RightLegArmor;
-	ModelRenderer LeftLegArmor;
-	ModelRenderer LeftBelt;
-	ModelRenderer MiddlePiece;
-	ModelRenderer rightMiddlePiece;
-	ModelRenderer ChestOne;
-	ModelRenderer ChestTwo;
-	ModelRenderer UpperChest;
-	ModelRenderer UpperChest1;
-	ModelRenderer UpperChest2;
-	ModelRenderer LegMiddleThing;
-	ModelRenderer LegMiddle1;
-	ModelRenderer LegMiddle2;
-	ModelRenderer LegMiddle3;
-	ModelRenderer BackPieceLeg;
-	ModelRenderer BackMiddleThing;
-	ModelRenderer smallCube;
-	ModelRenderer smallCube2;
-	ModelRenderer LegMiddleThing2;
-	ModelRenderer LegMiddleThing3;
-	ModelRenderer BackMiddleThing2;
-	ModelRenderer BackMiddleThing3;
-	ModelRenderer Head1;
-	ModelRenderer Neck;
-	ModelRenderer Head2;
-	ModelRenderer Head3;
-	ModelRenderer Head4;
-	ModelRenderer Head5;
-	ModelRenderer Head6;
-	ModelRenderer Head7;
-	ModelRenderer Head8;
-	ModelRenderer Head9;
-	ModelRenderer WeakSpot1;
-	ModelRenderer WeakSpotLeg2;
-	ModelRenderer WeakSpotLeg3;
-	ModelRenderer WeakSpot2;
-	ModelRenderer WeakSpot3;
-	ModelRenderer WeakSpot4;
-	ModelRenderer Unknown;
-	ModelRenderer WeakSpot5;
-	ModelRenderer WeakSpot7;
-	ModelRenderer WeakSpot6;
-	ModelRenderer WeakSpot8;
-	ModelRenderer WeakSpot9;
-	ModelRenderer WeakSpot10;
-	ModelRenderer WeakSpot11;
-	ModelRenderer WeakSpot12;
-	ModelRenderer WeakSpot13;
-	ModelRenderer WeakSpot14;
-	ModelRenderer WeakSpot15;
-	ModelRenderer WeakSpot17;
-	ModelRenderer WeakSpot18;
-	ModelRenderer WeakSpot19;
-	ModelRenderer WeakSpot20;
-	ModelRenderer LeftShoulder1;
-	ModelRenderer RightShoulder1;
-	ModelRenderer LeftShoulder2;
-	ModelRenderer RightShoulder2;
-	ModelRenderer GoldLeftShoulder3;
-	ModelRenderer Unknown2;
-	ModelRenderer LeftShoulder3;
-	ModelRenderer RightShoulder4;
-	ModelRenderer rightHand1;
-	ModelRenderer RightFinger1;
-	ModelRenderer RightFinger2;
-	ModelRenderer RightThumb;
-	ModelRenderer RightWrist;
-	ModelRenderer RightHand2;
-	ModelRenderer LeftWrist;
-	ModelRenderer LeftHand1;
-	ModelRenderer LeftFinger1;
-	ModelRenderer LeftFinger2;
-	ModelRenderer LeftFinger3;
-	ModelRenderer LeftThumb;
-	ModelRenderer RightEye;
-	ModelRenderer LeftEye;
-
-	public ModelAutomatonsRook()
+	public ModelAutomatonsRookBoss()
 	{
 		textureWidth = 256;
 		textureHeight = 256;
@@ -187,13 +115,13 @@ public class ModelAutomatonsRook extends ModelBase {
 		rightBoot.setTextureSize(256, 256);
 		rightBoot.mirror = true;
 		setRotation(rightBoot, 0F, 0F, 0F);
-		LeftBoot = new ModelRenderer(this, 28, 0);
+		LeftBoot = new  ModelRenderer(this, 28, 0);
 		LeftBoot.addBox(-3.5F, 3F, -3.5F, 7, 12, 7);
 		LeftBoot.setRotationPoint(-6.5F, 9F, 0F);
 		LeftBoot.setTextureSize(256, 256);
 		LeftBoot.mirror = true;
 		setRotation(LeftBoot, 0F, 0F, 0F);
-		LeftShin = new ModelRenderer(this, 56, 0);
+		LeftShin = new  ModelRenderer(this, 56, 0);
 		LeftShin.addBox(-2.5F, -1F, -4F, 5, 5, 5);
 		LeftShin.setRotationPoint(-6.5F, 9F, 0F);
 		LeftShin.setTextureSize(256, 256);
@@ -510,25 +438,25 @@ public class ModelAutomatonsRook extends ModelBase {
 		WeakSpot14.setRotationPoint(0F, -17F, 6F);
 		WeakSpot14.setTextureSize(256, 256);
 		WeakSpot14.mirror = true;
-		setRotation(WeakSpot14, 0.7853982F, 0F, 0F);
+		setRotation(WeakSpot14, 1.5853982F, 0F, 0F);
 		WeakSpot15 = new ModelRenderer(this, 1, 166);
 		WeakSpot15.addBox(-0.5F, -0.5F, -2.8F, 1, 1, 1);
 		WeakSpot15.setRotationPoint(0F, -17F, 6F);
 		WeakSpot15.setTextureSize(256, 256);
 		WeakSpot15.mirror = true;
-		setRotation(WeakSpot15, 0.7853982F, 0F, 0F);
+		setRotation(WeakSpot15, 1.5853982F, 0F, 0F);
 		WeakSpot17 = new ModelRenderer(this, 1, 170);
 		WeakSpot17.addBox(-0.5F, -0.5F, -2.8F, 1, 1, 1);
 		WeakSpot17.setRotationPoint(0F, -17F, 6F);
 		WeakSpot17.setTextureSize(256, 256);
 		WeakSpot17.mirror = true;
-		setRotation(WeakSpot17, -0.7853982F, 0F, 0F);
+		setRotation(WeakSpot17, -1.5853982F, 0F, 0F);
 		WeakSpot18 = new ModelRenderer(this, 7, 170);
 		WeakSpot18.addBox(-0.5F, -0.5F, 1.8F, 1, 1, 1);
 		WeakSpot18.setRotationPoint(0F, -17F, 6F);
 		WeakSpot18.setTextureSize(256, 256);
 		WeakSpot18.mirror = true;
-		setRotation(WeakSpot18, -0.7853982F, 0F, 0F);
+		setRotation(WeakSpot18, -1.5853982F, 0F, 0F);
 		WeakSpot19 = new ModelRenderer(this, 47, 85);
 		WeakSpot19.addBox(-2.8F, -1.5F, -3.8F, 2, 2, 1);
 		WeakSpot19.setRotationPoint(0F, -24F, 1F);
@@ -541,6 +469,7 @@ public class ModelAutomatonsRook extends ModelBase {
 		WeakSpot20.setTextureSize(256, 256);
 		WeakSpot20.mirror = true;
 		setRotation(WeakSpot20, 0F, 0F, 0F);
+
 		LeftShoulder1 = new ModelRenderer(this, 87, 0);
 		LeftShoulder1.addBox(-9F, -4F, -5F, 10, 10, 10);
 		LeftShoulder1.setRotationPoint(-10F, -18F, 2F);
@@ -549,7 +478,7 @@ public class ModelAutomatonsRook extends ModelBase {
 		setRotation(LeftShoulder1, 0F, 0F, 0.2617994F);
 
 		RightShoulder1 = new ModelRenderer(this, 128, 0);
-		RightShoulder1.addBox(-1F, -4F, -5F, 10, 10, 10);
+		RightShoulder1.addBox(-0.9F, -4F, -5F, 11, 10, 10);
 		RightShoulder1.setRotationPoint(10F, -18F, 2F);
 		RightShoulder1.setTextureSize(256, 256);
 		RightShoulder1.mirror = true;
@@ -563,9 +492,8 @@ public class ModelAutomatonsRook extends ModelBase {
 		LeftShoulder2.mirror = true;
 		setRotation(LeftShoulder2, 0F, 0F, 0.2617994F);
 
-
 		RightShoulder2 = new ModelRenderer(this, 131, 22);
-		RightShoulder2.addBox(-0.5F, 6F, -4.5F, 9, 3, 9);
+		RightShoulder2.addBox(0.5F, 5F, -4.5F, 9, 3, 9);
 		RightShoulder2.setRotationPoint(10F, -18F, 2F);
 		RightShoulder2.setTextureSize(256, 256);
 		RightShoulder2.mirror = true;
@@ -579,17 +507,15 @@ public class ModelAutomatonsRook extends ModelBase {
 		GoldLeftShoulder3.mirror = true;
 		setRotation(GoldLeftShoulder3, 0F, 0F, 0.2617994F);
 
-
-
 		Unknown2 = new ModelRenderer(this, 95, 35);
-		Unknown2.addBox(0.5F, 9F, -3.5F, 7, 5, 7);
+		Unknown2.addBox(1.5F, 8F, -3.5F, 7, 5, 7);
 		Unknown2.setRotationPoint(10F, -18F, 2F);
 		Unknown2.setTextureSize(256, 256);
 		Unknown2.mirror = true;
 		setRotation(Unknown2, 0F, 0F, -0.2617994F);
 
 		LeftShoulder3 = new ModelRenderer(this, 95, 48);
-		LeftShoulder3.addBox(-4.5F, 0F, -4.5F, 9, 13, 9);
+		LeftShoulder3.addBox(-4.4F, 0F, -4.5F, 9, 13, 9);
 		LeftShoulder3.setRotationPoint(-17F, -8F, 2F);
 		LeftShoulder3.setTextureSize(256, 256);
 		LeftShoulder3.mirror = true;
@@ -598,7 +524,7 @@ public class ModelAutomatonsRook extends ModelBase {
 
 
 		RightShoulder4 = new ModelRenderer(this, 95, 48);
-		RightShoulder4.addBox(-5.5F, 0F, -4.5F, 9, 13, 9);
+		RightShoulder4.addBox(-5.6F, 0F, -4.5F, 9, 13, 9);
 		RightShoulder4.setRotationPoint(17F, -7F, 2F);
 		RightShoulder4.setTextureSize(256, 256);
 		RightShoulder4.mirror = true;
@@ -679,24 +605,29 @@ public class ModelAutomatonsRook extends ModelBase {
 		LeftThumb.mirror = true;
 		setRotation(LeftThumb, 0F, 0F, -1.570796F);
 		RightEye = new ModelRenderer(this, 54, 82);
-		RightEye.addBox(0.8F, -0.7F, -4F, 2, 1, 1);
+		RightEye.addBox(0.8F, -1.5F, -4F, 2, 1, 1);
 		RightEye.setRotationPoint(0F, -24F, 1F);
 		RightEye.setTextureSize(256, 256);
 		RightEye.mirror = true;
 		setRotation(RightEye, 0F, 0F, 0F);
 		LeftEye = new ModelRenderer(this, 48, 82);
-		LeftEye.addBox(-3F, -0.7F, -4F, 2, 1, 1);
+		LeftEye.addBox(-3F, -1.5F, -4F, 2, 1, 1);
 		LeftEye.setRotationPoint(0F, -24F, 1F);
 		LeftEye.setTextureSize(256, 256);
 		LeftEye.mirror = true;
 		setRotation(LeftEye, 0F, 0F, 0F);
 
 		//left arm
-	
-		
 		convertToChild(LeftHand1, LeftFinger1);
 		convertToChild(LeftHand1, LeftFinger2);
 		convertToChild(LeftHand1, LeftFinger3);
+
+
+
+		this.hammer.attachShaftTo(LeftWrist);
+		this.left_BigSword.attachSwordTo(LeftWrist);
+
+
 		convertToChild(LeftWrist, LeftThumb);
 		convertToChild(LeftWrist, LeftHand1);
 		convertToChild(LeftShoulder3, LeftWrist);
@@ -706,12 +637,11 @@ public class ModelAutomatonsRook extends ModelBase {
 		convertToChild(UpperChest, LeftShoulder1);
 
 		//right arm
-		
 		convertToChild(RightHand2, RightFinger1);
 		convertToChild(RightHand2, RightFinger2);
 		convertToChild(RightHand2, rightHand1);
-		
-		//this.hammer.attachShaftTo(RightWrist);
+
+		this.right_BigSword.attachSwordTo(RightWrist);
 		convertToChild(RightWrist, RightThumb);
 		convertToChild(RightWrist, RightHand2);
 		convertToChild(RightShoulder4, RightWrist);
@@ -759,8 +689,6 @@ public class ModelAutomatonsRook extends ModelBase {
 		convertToChild(LeftBelt, BackPieceLeg);
 		convertToChild(LeftBelt, LeftLegArmor);
 
-		//rightMiddlePiece (really right belt)
-
 		convertToChild(RightShin, rightBoot);
 		convertToChild(RightShin, WeakSpotLeg3);
 		convertToChild(RightPieceThing, RightShin);
@@ -796,51 +724,195 @@ public class ModelAutomatonsRook extends ModelBase {
 		convertToChild(MiddlePiece, UpperChest);	
 
 
+
 	}
 
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+	public void render(Entity entityIn, float f, float f1, float f2, float f3, float f4, float scaleFactor)
 	{
-		super.render(entity, f, f1, f2, f3, f4, f5);
-		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-			
-		/*
-		 * 	kneeling down
-		movePiece(LeftShoulder3, 0.5f, -40, 0, 0);  //-20
-		movePiece(LeftShoulder1, 0.5f, -45, 0, 0);  //-40
-		
-		movePiece(RightShoulder4, 0.5f, -45, 0, 0);  //-20
-		movePiece(RightShoulder1, 0.5f, -0, 0, 0);  //-40
+		super.render(entityIn, f, f1, f2, f3, f4, scaleFactor);
+		setRotationAngles(f, f1, f2, f3, f4, scaleFactor, entityIn);
 
-		
-		movePiece(hammer.Shaft, 2f, 270, 0, 0);	
-		movePiece(MiddlePiece, 0.5f, 0, 0, 0);	
-		
-		
-		movePiece(LeftShin, 0.5f, 50, 0, 0);
-		movePiece(RightShin, 0.5f, 80, 0, 0);
-		
-		
-		movePiece(LeftLegArmor, 0.5f, 20, 0, 0);	
-		movePiece(RightLegArmor, 0.5f, -80, 0, 0);	
-		
-		this.MiddlePiece.offsetY = 0.6f;
-		this.LeftBelt.offsetY = 0.6f;
-		this.rightMiddlePiece.offsetY = 0.6f;
-		 */
-		
-		
-		MiddlePiece.render(f5);
-		LeftBelt.render(f5);
-		rightMiddlePiece.render(f5);
+		EntityAutomatonsRookBoss boss = (EntityAutomatonsRookBoss) entityIn;
+
+		if(boss.getCurrentAttack() == null)
+		{
+			if(boss.getPhase() == 0)
+			{
+				this.left_BigSword.getHandle().isHidden = true;
+				this.right_BigSword.getHandle().isHidden = true;
+				this.hammer.Shaft.isHidden = false;
+			}else if(boss.getPhase() == 1)
+			{
+				this.left_BigSword.getHandle().isHidden = false;
+				this.right_BigSword.getHandle().isHidden = false;
+				this.hammer.Shaft.isHidden = true;
+			}else
+			{
+				this.left_BigSword.getHandle().isHidden = true;
+				this.right_BigSword.getHandle().isHidden = true;
+				this.hammer.Shaft.isHidden = true;
+			}
+		}
+
+
+		MiddlePiece.render(scaleFactor);
+		LeftBelt.render(scaleFactor);
+		rightMiddlePiece.render(scaleFactor);
+
+		if(boss.getCurrentAttack() != null)
+		{
+			if(!Minecraft.getMinecraft().isGamePaused())
+				boss.getCurrentAttack().tickAnimation(this, scaleFactor, (float)(60.0/Minecraft.getDebugFPS()));
+		}else
+		{
+			if(boss.getWeakenedCD() <= 0)
+				this.idolAnimation();
+			else
+				this.weakenedAnimation();
+		}
 	}
-	
+
+	private void weakenedAnimation()
+	{
+		movePiece(RightShoulder1, 1.5f, 0, 0, 0);
+		movePiece(LeftShoulder1, 1.5f, -45, 0, 0);
+		movePiece(RightShoulder4, 1.5f, -90, 40, 0);
+		movePiece(LeftShoulder3, 1.5f, -40, 0, 0);
+		movePiece(LeftWrist, 1.5f, 0, 0, 0);
+		movePiece(RightWrist, 1.5f, 0, 0, 0);
+		movePiece(MiddlePiece, 1.5f, 0, 0, 0);
+
+		MiddlePiece.rotateAngleY = 0f;
+		rightMiddlePiece.rotateAngleZ = -0.122173F;
+		rightMiddlePiece.rotateAngleY = 0f; 
+		LeftBelt.rotateAngleZ = 0.122173F;
+		LeftBelt.rotateAngleY = 0f;
+
+		movePiece(LeftBelt, 1.5f, 0, 0, 0f);
+		movePiece(rightMiddlePiece, 1.5f, 0, 0, 0f);
+
+		movePiece(RightLegArmor, 1.5f, -80, 0, 0);
+		movePiece(LeftLegArmor, 1.5f, 20, 0, 0);
+		movePiece(RightShin, 1.5f, 80, 0, 0);
+		movePiece(LeftShin, 1.5f, 50, 0, 0);
+
+
+		movePiece(this.left_BigSword.getHandle(), 2.5f, 270, 0, 0);
+		movePiece(this.right_BigSword.getHandle(), 2.5f, 270, 0, 0);
+		movePiece(hammer.Shaft, 2.5f, 270, 0, 0);
+		moveoffSet(0.01f, 0.6f);
+
+		movePiece(RightFinger1, 1.5f, 0, 0, 0);
+		movePiece(RightFinger2, 1.5f, 0, 0, 0);
+		movePiece(rightHand1, 1.5f, 0, 0, 0);
+	}
+
+	public void idolAnimation()
+	{
+		movePiece(RightShoulder1, 1.5f, 0, 0, 0);
+		movePiece(LeftShoulder1, 1.5f, 0, 0, 0);
+		movePiece(RightShoulder4, 1.5f, 0, 0, 0);
+		movePiece(LeftShoulder3, 1.5f, 0, 0, 0);
+		movePiece(LeftWrist, 1.5f, 0, 0, 0);
+		movePiece(RightWrist, 1.5f, 0, 0, 0);
+		movePiece(MiddlePiece, 1.5f, 0, 0, 0);
+
+
+		MiddlePiece.rotateAngleY = 0f;
+		rightMiddlePiece.rotateAngleZ = -0.122173F;
+		rightMiddlePiece.rotateAngleY = 0f; 
+		LeftBelt.rotateAngleZ = 0.122173F;
+		LeftBelt.rotateAngleY = 0f;
+
+		movePiece(RightLegArmor, 1.5f, 0, 0, 0);
+		movePiece(LeftLegArmor, 1.5f, 0, 0, 0);
+		movePiece(RightShin, 1.5f, 0, 0, 0);
+		movePiece(LeftShin, 1.5f, 0, 0, 0);
+
+		movePiece(this.left_BigSword.getHandle(), 2.5f, 45, 0, 0);
+		movePiece(this.right_BigSword.getHandle(), 2.5f, 45, 0, 0);
+		movePiece(hammer.Shaft, 2.5f, 45, 0, 0);
+		moveoffSet(0.01f, 0);
+
+		movePiece(RightFinger1, 1.5f, 0, 0, 0);
+		movePiece(RightFinger2, 1.5f, 0, 0, 0);
+		movePiece(rightHand1, 1.5f, 0, 0, 0);
+	}
+
+	private void setRotation(ModelRenderer model, float x, float y, float z)
+	{
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
+	}
+
+	@Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+		// TODO Auto-generated method stub
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+	}
+
+	public boolean moveoffSet(float speed, float offsetY)
+	{
+
+		if(MiddlePiece.offsetY < offsetY)
+		{
+			if(MiddlePiece.offsetY + speed < offsetY)
+			{
+				MiddlePiece.offsetY += speed;
+			}else
+				MiddlePiece.offsetY = offsetY;
+		}else
+		{
+			if(MiddlePiece.offsetY - speed > offsetY)
+			{
+				MiddlePiece.offsetY -= speed;
+			}else
+				MiddlePiece.offsetY = offsetY;
+		}
+
+		if(LeftBelt.offsetY < offsetY)
+		{
+			if(LeftBelt.offsetY + speed < offsetY)
+			{
+				LeftBelt.offsetY += speed;
+			}else
+				LeftBelt.offsetY = offsetY;
+		}else
+		{
+			if(LeftBelt.offsetY - speed > offsetY)
+			{
+				LeftBelt.offsetY -= speed;
+			}else
+				LeftBelt.offsetY = offsetY;
+		}
+
+		if(rightMiddlePiece.offsetY < offsetY)
+		{
+			if(rightMiddlePiece.offsetY + speed < offsetY)
+			{
+				rightMiddlePiece.offsetY += speed;
+			}else
+				rightMiddlePiece.offsetY = offsetY;
+		}else
+		{
+			if(rightMiddlePiece.offsetY - speed > offsetY)
+			{
+				rightMiddlePiece.offsetY -= speed;
+			}else
+				rightMiddlePiece.offsetY = offsetY;
+		}
+
+
+		return true;
+	}
+
 	/** This function will increment the specific piece by the speed
 	 * 
 	 * @return true if at designated location, otherwise false
 	 */
 	public boolean movePiece(ModelRenderer currentRender, float speed, float rotationX, float rotationY, float rotationZ)
 	{
-		
 		if(currentRender.rotateAngleX < degToRad(rotationX))
 		{
 			if(currentRender.rotateAngleX + degToRad(speed) < degToRad(rotationX))
@@ -854,9 +926,11 @@ public class ModelAutomatonsRook extends ModelBase {
 			{
 				currentRender.rotateAngleX -= degToRad(speed);
 			}else
+			{	
 				currentRender.rotateAngleX = degToRad(rotationX);
+			}
 		}
-		
+
 		//Y
 		if(currentRender.rotateAngleY < degToRad(rotationY))
 		{
@@ -874,7 +948,7 @@ public class ModelAutomatonsRook extends ModelBase {
 				currentRender.rotateAngleY = degToRad(rotationY);
 		}
 		//Z
-		if(currentRender.rotateAngleZ < rotationZ)
+		if(currentRender.rotateAngleZ < degToRad(rotationZ))
 		{
 			if(currentRender.rotateAngleZ + degToRad(speed) < degToRad(rotationZ))
 			{
@@ -889,138 +963,59 @@ public class ModelAutomatonsRook extends ModelBase {
 			}else
 				currentRender.rotateAngleZ = degToRad(rotationZ);
 		}
-			
-		
-		
-		
-		if(currentRender.rotateAngleX != rotationX || currentRender.rotateAngleY != rotationY || currentRender.rotateAngleZ != rotationZ)
+
+		if(currentRender.rotateAngleX != degToRad(rotationX) || currentRender.rotateAngleY != degToRad(rotationY) || currentRender.rotateAngleZ != degToRad(rotationZ))
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
-	private void setRotation(ModelRenderer model, float x, float y, float z)
+
+	public void renderPhantomRook(ModelAutomatonsRookBoss bossModel, float offX, float offZ,  float f5, float rotation, float[][] arms, float [][] legs, float [][] chest, float [] weapon, float[] height, int animationNumber, float speed)
 	{
-		model.rotateAngleX = x;
-		model.rotateAngleY = y;
-		model.rotateAngleZ = z;
+		GlStateManager.pushMatrix();
+		GlStateManager.rotate(rotation, 0f, 1f, 0f);
+
+		bossModel.movePiece(bossModel.RightShoulder1, 1.5f* speed, arms[animationNumber][0], arms[animationNumber][7], 0);
+		bossModel.movePiece(bossModel.LeftShoulder1, 1.5f* speed, arms[animationNumber][1], arms[animationNumber][8], 0);
+		bossModel.movePiece(bossModel.RightShoulder4, 1.5f* speed, arms[animationNumber][2], arms[animationNumber][4], arms[animationNumber][5]);
+		bossModel.movePiece(bossModel.LeftShoulder3, 1.5f* speed, arms[animationNumber][3], 0, 0);
+		bossModel.movePiece(bossModel.LeftWrist, 1.5f* speed, 0, 0, arms[animationNumber][6]);
+
+		bossModel.movePiece(bossModel.MiddlePiece, chest[animationNumber][1]* speed, chest[animationNumber][0], 0, 0);
+
+		bossModel.movePiece(bossModel.RightLegArmor, 1.5f* speed, legs[animationNumber][0], 0, 0);
+		bossModel.movePiece(bossModel.LeftLegArmor, 1.5f* speed, legs[animationNumber][1], 0, 0);
+		bossModel.movePiece(bossModel.RightShin, 1.5f* speed, legs[animationNumber][2], 0, 0);
+		bossModel.movePiece(bossModel.LeftShin, 1.5f* speed, legs[animationNumber][3], 0, 0);
+
+		bossModel.movePiece(bossModel.RightFinger1, 1.5f* speed, 0, 0, arms[animationNumber][5]);
+		bossModel.movePiece(bossModel.RightFinger2, 1.5f* speed, 0, 0, arms[animationNumber][5]);
+		bossModel.movePiece(bossModel.rightHand1, 1.5f* speed, 0, 0, arms[animationNumber][5]);
+
+		bossModel.movePiece(bossModel.hammer.Shaft, 2f* speed, weapon[animationNumber], 0, 0);
+		bossModel.moveoffSet(0.01f* speed, height[animationNumber]);
+
+		bossModel.left_BigSword.getHandle().isHidden = true;
+		bossModel.right_BigSword.getHandle().isHidden = true;
+
+		bossModel.MiddlePiece.offsetX = offX;
+		bossModel.LeftBelt.offsetX = offX;
+		bossModel.rightMiddlePiece.offsetX = offX;
+
+		bossModel.MiddlePiece.offsetZ = offZ;
+		bossModel.LeftBelt.offsetZ = offZ;
+		bossModel.rightMiddlePiece.offsetZ = offZ;
+
+		bossModel.MiddlePiece.render(f5);
+		bossModel.LeftBelt.render(f5);
+		bossModel.rightMiddlePiece.render(f5);
+
+
+		GlStateManager.popMatrix();
 	}
 
-	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-		// TODO Auto-generated method stub
-		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-
-	//	float  f = 1f;
-	//	this.RightShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-	//	this.LeftShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
-
-		EntityAutomatonsRook rook = (EntityAutomatonsRook) entityIn;
-
-		if(rook.SlamAttack){
-			this.slamAnimation(rook);
-		}
-		else if(rook.PunchMode){
-			this.punchAnimation(rook);
-		}else if(rook.KickMode)
-		{
-			this.kickAnimation(rook);
-		}else
-		{
-			this.idolAnimation(rook);
-		}
-	}
-
-	private void kickAnimation(EntityAutomatonsRook rook)
-	{
-
-		this.LeftShoulder1.rotateAngleX = degToRad(0);
-		this.RightShoulder1.rotateAngleX = degToRad(0);  
-		this.MiddlePiece.rotateAngleX = degToRad(KickAnimation[rook.getAnimationCycle()][0]);
-
-		this.LeftBelt.rotateAngleX = degToRad(0);
-		this.rightMiddlePiece.rotateAngleX = degToRad(KickAnimation[rook.getAnimationCycle()][1]);
-
-		this.LeftShoulder3.rotateAngleX = degToRad(0);
-		this.RightShoulder4.rotateAngleX = degToRad(0);
-
-		this.MiddlePiece.rotateAngleY = degToRad(0);
-		this.rightMiddlePiece.rotateAngleY = degToRad(0);
-		this.LeftBelt.rotateAngleY = degToRad(0);
-
-		this.LeftShin.rotateAngleX = degToRad(0);
-		this.RightShin.rotateAngleX = degToRad(KickAnimation[rook.getAnimationCycle()][2]);
-
-
-	}
-
-	private void slamAnimation(EntityAutomatonsRook rook)
-	{
-		this.LeftShoulder1.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][1]);
-		this.RightShoulder1.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][1]);  
-		this.MiddlePiece.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][2]);
-
-		this.LeftBelt.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][3]);
-		this.rightMiddlePiece.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][3]);
-
-		this.LeftShoulder3.rotateAngleX = degToRad(0);
-		this.RightShoulder4.rotateAngleX = degToRad(0);
-
-		this.MiddlePiece.rotateAngleY = degToRad(0);
-		this.rightMiddlePiece.rotateAngleY = degToRad(0);
-		this.LeftBelt.rotateAngleY = degToRad(0);
-
-		this.LeftShin.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][4]);
-		this.RightShin.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][4]);
-
-		this.MiddlePiece.offsetY = (float) SlamCycle[rook.getAnimationCycle()][5];
-		this.LeftBelt.offsetY= (float) SlamCycle[rook.getAnimationCycle()][5];
-		this.rightMiddlePiece.offsetY = (float) SlamCycle[rook.getAnimationCycle()][5];
-	}
-
-	private void punchAnimation(EntityAutomatonsRook rook)
-	{
-		this.LeftShoulder3.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][5]);
-		this.RightShoulder4.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][0]);
-
-		this.LeftShoulder1.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][1]);  
-		this.RightShoulder1.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][1]);  
-
-		this.MiddlePiece.rotateAngleX = degToRad(LeftPunchCycle[rook.getAnimationCycle()][2]);
-		this.MiddlePiece.rotateAngleY = degToRad(LeftPunchCycle[rook.getAnimationCycle()][3]);
-
-		this.rightMiddlePiece.rotateAngleY = degToRad(LeftPunchCycle[rook.getAnimationCycle()][4]);
-		this.LeftBelt.rotateAngleY = degToRad(LeftPunchCycle[rook.getAnimationCycle()][4]);
-
-	}
-
-	private void idolAnimation(EntityAutomatonsRook rook)
-	{
-		this.LeftShoulder1.rotateAngleX = degToRad(0);
-		this.RightShoulder1.rotateAngleX = degToRad(0);  
-		this.MiddlePiece.rotateAngleX = degToRad(0);
-
-		this.LeftBelt.rotateAngleX = degToRad(0);
-		this.rightMiddlePiece.rotateAngleX = degToRad(0);
-
-		this.LeftShoulder3.rotateAngleX = degToRad(0);
-		this.RightShoulder4.rotateAngleX = degToRad(0);
-
-		this.MiddlePiece.rotateAngleY = degToRad(0);
-		this.rightMiddlePiece.rotateAngleY = degToRad(0);
-		this.LeftBelt.rotateAngleY = degToRad(0);
-
-		this.MiddlePiece.offsetY = (float) 0;
-		this.LeftBelt.offsetY= (float) 0;
-		this.rightMiddlePiece.offsetY = 0;
-	}
-
-	private void halfHpAnimation(EntityAutomatonsRook rook)
-	{
-
-	}
 
 	protected void convertToChild(ModelRenderer parParent, ModelRenderer parChild)
 	{
@@ -1034,12 +1029,10 @@ public class ModelAutomatonsRook extends ModelBase {
 		parChild.rotateAngleZ -= parParent.rotateAngleZ;
 		// create relationship
 		parParent.addChild(parChild);
-
 	}
 
 	protected float degToRad(float degrees)
 	{
 		return degrees * (float)Math.PI / 180 ;
 	}
-
 }

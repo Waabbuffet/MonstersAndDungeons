@@ -14,8 +14,12 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -26,13 +30,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 
-
 	int animationCycle = 0, TickCount = 0;
 
 	int kickCD, chargeCD;
 	public boolean SlamAttack, PunchMode, KickMode, chargeMode;
 
-
+	ItemStack weapon = new ItemStack(Items.GOLDEN_SWORD);
 
 	public EntityAutomatonsRook(World worldIn) {
 		super(worldIn);
@@ -42,7 +45,11 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityPigZombie.class}));
+
+		this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, weapon);
 	}
+
+
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		// TODO Auto-generated method stub
@@ -202,7 +209,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	{
 		if(!worldObj.isRemote)
 		{	
-			MaDPacketHandler.INSTANCE.sendToAll(new UpdateClientEntityAnimation(this, animation));
+			MaDPacketHandler.INSTANCE.sendToAll(new UpdateClientEntityAnimation(this, animation, 0));
 		}
 	}
 
@@ -302,6 +309,7 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 	public void onUpdate() {
 		super.onUpdate();
 
+		
 		if(this.getAttackTarget() != null)
 		{
 			BlockPos pos = this.getAttackTarget().getPosition();
@@ -353,17 +361,25 @@ public class EntityAutomatonsRook extends MaDEntityMonsterBase {
 		}
 		inAnimation();
 	}
+	@Override
+	public int getMonsterID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 
 	@Override
-	public NBTTagCompound getNBTData() {
-
-		NBTTagCompound compound = new NBTTagCompound();
-
-		compound.setFloat("Health", this.getHealth());
-		compound.setInteger("EntityID", 0);
-
-		return compound;
+	public void resetAnimation() {
+		// TODO Auto-generated method stub
+		
 	}
+
+
+	@Override
+	public void acivateAnimationby(int animation, int phase) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 

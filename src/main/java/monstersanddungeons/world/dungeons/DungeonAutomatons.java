@@ -3,6 +3,7 @@ package monstersanddungeons.world.dungeons;
 import java.util.Random;
 
 import monstersanddungeons.entity.automatons.EntityAutomatonsRook;
+import monstersanddungeons.entity.automatons.EntityAutomatonsRookBoss;
 import monstersanddungeons.util.dungeon.Dungeon;
 import monstersanddungeons.util.dungeon.DungeonRoom;
 import monstersanddungeons.util.dungeon.EnumDirection;
@@ -90,22 +91,24 @@ public class DungeonAutomatons  extends Dungeon{
 
 	@Override
 	public void ConstructDungeon(World world, BlockPos startingLocation, int DungeonSize) {
+		System.out.println("building");
 		createBranch(world, startingLocation, DungeonSize, null, EnumDirection.EAST);
 
-		System.out.println("BUILDING");
 		boolean hasBuiltBossRoom = true;
-	
 		for(int i = 0; i < getTotalExits().size(); i ++)
 		{
 			Random rand = new Random();
 			ExitData exit = getTotalExits().get(i);
 
-			if(rand.nextInt(5) == 0)
+			if(!exit.getAlreadyBuilt())
 			{
-				createBranch(exit, world, 5); // use to be 4
-			}else
-			{
-				closeBranch(exit, world, false);
+				if(rand.nextInt(6) == 0)
+				{
+					createBranch(exit, world, 5); // use to be 4
+				}else
+				{
+					closeBranch(exit, world, false);
+				}
 			}
 		}
 
@@ -119,7 +122,7 @@ public class DungeonAutomatons  extends Dungeon{
 				{
 					closeBranch(exit, world, true);
 					
-					EntityAutomatonsRook rook = new EntityAutomatonsRook(world);
+					EntityAutomatonsRookBoss rook = new EntityAutomatonsRookBoss(world);
 					BlockPos pos = exit.getPos();
 					
 					switch (exit.getDirection()) {

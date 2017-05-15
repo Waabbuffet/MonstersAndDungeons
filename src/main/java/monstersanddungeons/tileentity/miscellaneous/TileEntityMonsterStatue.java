@@ -4,7 +4,9 @@ import java.util.List;
 
 import monstersanddungeons.entity.MaDEntityMonsterBase;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRook;
+import monstersanddungeons.entity.automatons.EntityAutomatonsRookBoss;
 import monstersanddungeons.entity.automatons.EntityWhitePawns;
+import monstersanddungeons.entity.miscellaneous.EntityFlyingSword;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,22 +26,17 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 		storedDATA = entity.getNBTData();
 	}
 
-
-
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 
 		compound.setTag("storedDATA", storedDATA);
-
 		return super.writeToNBT(compound);
 	}
-
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 
 		storedDATA = (NBTTagCompound) compound.getTag("storedDATA");
-
 		super.readFromNBT(compound);
 	}
 
@@ -61,7 +58,6 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 
 		if(this.checkPlayerCD == 0)
 		{
@@ -74,14 +70,18 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 					Entity entityToSpawn = null;
 
 					switch(EntityID)
-
 					{
 					case 0:
 						entityToSpawn = new EntityAutomatonsRook(this.worldObj);
-
 						break;
 					case 1:
 						entityToSpawn = new EntityWhitePawns(this.worldObj);
+						break;
+					case 2:
+						entityToSpawn = new EntityAutomatonsRookBoss(this.worldObj);
+						break;
+					case 3:
+						entityToSpawn = new EntityFlyingSword(this.worldObj);
 						break;
 					}
 
@@ -95,16 +95,8 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 						this.spawnOnce = false;
 					}
 
-
-
 					this.worldObj.setBlockToAir(this.getPos());
 					this.worldObj.removeTileEntity(this.getPos());
-				}else
-				{
-					this.worldObj.setBlockToAir(this.getPos());
-					this.worldObj.removeTileEntity(this.getPos());
-
-
 				}
 			}
 		}else

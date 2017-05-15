@@ -18,7 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DungeonRoom implements IDungeonRoom {
+public class DungeonRoom {
 
 	StructureData roomStructure;
 	String filename;
@@ -33,7 +33,7 @@ public class DungeonRoom implements IDungeonRoom {
 		this.filename = FileName;
 	}
 
-	@Override
+
 	public boolean isLoaded()
 	{
 		boolean Yes = false;
@@ -63,8 +63,9 @@ public class DungeonRoom implements IDungeonRoom {
 		this.exits = exits;
 	}
 
-	@Override
+	
 	public void buildRoom(BlockPos startPos, World world, EnumDirection direction, int offset) {
+		
 		if(this.isLoaded())
 		{
 			if(direction == EnumDirection.EAST)
@@ -223,7 +224,7 @@ public class DungeonRoom implements IDungeonRoom {
 
 	}
 
-	@Override
+	
 	public boolean loadRoom() {
 
 		if(!isAlreadyLoaded())
@@ -297,7 +298,7 @@ public class DungeonRoom implements IDungeonRoom {
 	}*/
 
 
-	@Override
+	
 	public DungeonExit alignWithRoom(DungeonRoom nextRoom, DungeonRoom previousRoom, DungeonExit previousEntrance, BlockPos startingPosition) {
 
 		BlockPos realPrevEntrance = null;
@@ -531,13 +532,13 @@ public class DungeonRoom implements IDungeonRoom {
 		return new DungeonExit(realPrevEntrance, direction, exit);
 	}
 
-	@Override
+	
 	public void unloadRoom() {
 		this.roomStructure = null;
 		this.exits.clear();
 	}
 
-	@Override
+
 	public DungeonExit setCorrectPath() {
 		Random Rand = new Random();
 		int RandomNumber;

@@ -12,7 +12,6 @@ public class DungeonExit {
 	int rotation;
 
 
-
 	public DungeonExit(BlockPos pos, EnumDirection direction)
 	{
 		this.direction = direction;
