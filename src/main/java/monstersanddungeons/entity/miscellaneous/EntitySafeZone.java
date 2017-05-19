@@ -66,13 +66,18 @@ public class EntitySafeZone extends Entity {
 	@Override
 	public void onUpdate() 
 	{
-		if(this.owner != null)
+		if(this.owner != null )
 		{
+			if(this.owner.isDead)
+			{
+				this.setDead();
+			}
+
 			if(this.cooldown == 0)
 			{
 
 				players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(this.posX - 2, this.posY - 2, this.posZ - 2,  this.posX + 2,  this.posY + 2, this.posZ + 2));
-			
+
 				if(!players.isEmpty())
 				{
 					if(players.size() > 1)
@@ -88,14 +93,6 @@ public class EntitySafeZone extends Entity {
 				{
 					this.isPlayerNearby = false;
 					this.getDataManager().set(this.playerNearby, Boolean.valueOf(false));
-				}
-				
-				for(EntityPlayer player : players)
-				{
-					if(player != null)
-					{
-						player.attackEntityFrom(DamageSource.magic, 0.5f);
-					}
 				}
 
 				this.cooldown = 10;

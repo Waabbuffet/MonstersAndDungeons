@@ -10,8 +10,11 @@ import monstersanddungeons.items.MaDItemsHandler;
 import monstersanddungeons.packet.MaDPacketHandler;
 import monstersanddungeons.sound.MaDSoundsHandler;
 import monstersanddungeons.tileentity.MaDTileEntityHandler;
+import monstersanddungeons.util.Reference;
 import monstersanddungeons.world.MaDWorldGenerationHandler;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -48,10 +51,7 @@ public class CommonProxy {
 
 	public void init(FMLInitializationEvent event) {
 		// TODO Auto-generated method stub
-
-
 		GameRegistry.registerWorldGenerator(new MaDWorldGenerationHandler(), 9000);
-
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {

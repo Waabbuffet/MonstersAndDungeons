@@ -5,24 +5,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.sun.jna.platform.unix.X11.XClientMessageEvent.Data;
-
+import monstersanddungeons.entity.automatons.EntityPawnCommander;
 import monstersanddungeons.entity.automatons.EntityWhitePawns;
 import monstersanddungeons.util.StructureData;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
+import net.minecraft.world.storage.loot.LootTableList;
 
 public class DungeonRoom {
 
 	StructureData roomStructure;
 	String filename;
 	EnumDirection prevBuiltDirection;
+
 
 	List<DungeonExit> exits = new ArrayList<DungeonExit>();
 	static List<StructureData> loadedRooms = new ArrayList<StructureData>();
@@ -63,9 +70,9 @@ public class DungeonRoom {
 		this.exits = exits;
 	}
 
-	
+
 	public void buildRoom(BlockPos startPos, World world, EnumDirection direction, int offset) {
-		
+
 		if(this.isLoaded())
 		{
 			if(direction == EnumDirection.EAST)
@@ -77,7 +84,7 @@ public class DungeonRoom {
 						for(int z = 0; z < this.roomStructure.blocks[0][0].length; z ++)
 						{
 							BlockPos blockPos = new BlockPos(startPos.getX() + x, startPos.getY() + y - offset, startPos.getZ() + z);
-							
+
 							if(this.roomStructure.blocks[x][y][z].getBlock() == Blocks.STONE){
 								if(!(world.getBlockState(blockPos).getBlock() instanceof BlockOre) && !(world.getBlockState(blockPos).getBlock() instanceof BlockRedstoneOre)){
 									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
@@ -86,14 +93,37 @@ public class DungeonRoom {
 								//Don't force air at the top layer
 							}
 							else{
-								world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
-							}
-							if(rand.nextInt(250) == 0 && canSpawnWhite(x, y, z) && (!world.getBlockState(blockPos).equals(Blocks.AIR)))
-							{
-								EntityWhitePawns pawn = new EntityWhitePawns(world);
-								pawn.setPosition(startPos.getX() + x, startPos.getY() + y + 2,startPos.getZ() + z);
-								world.spawnEntityInWorld(pawn);
 
+								if(this.roomStructure.blocks[x][y][z].getBlock().toString().contains("_stairs"))
+								{
+									world.setBlockState(blockPos, this.getCorrectStairOrientation(this.roomStructure.blocks[x][y][z], direction));
+								}else
+									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+
+								if(this.roomStructure.blocks[x][y][z].getBlock() instanceof BlockChest)
+								{
+
+									TileEntityChest chest = (TileEntityChest) world.getTileEntity(blockPos);
+									LootTable table = world.getLootTableManager().getLootTableFromLocation(LootTableList.CHESTS_ABANDONED_MINESHAFT);
+									LootContext ctx = new LootContext.Builder((WorldServer) world).withLuck(10).build();
+									table.fillInventory(chest, world.rand, ctx);
+								}
+							}
+
+							
+							if(rand.nextInt(100) == 0 && canSpawnWhite(x, y, z) && (world.getBlockState(blockPos).getBlock().equals(Blocks.AIR)))
+							{
+								if(rand.nextInt(20) == 0)
+								{
+									EntityPawnCommander pawn = new EntityPawnCommander(world);
+									pawn.setPosition(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z);
+									world.spawnEntityInWorld(pawn);
+								}else
+								{
+									EntityWhitePawns pawn = new EntityWhitePawns(world);
+									pawn.setPosition(startPos.getX() + x, startPos.getY() + y,startPos.getZ() + z);
+									world.spawnEntityInWorld(pawn);
+								}
 							}
 						}
 					}
@@ -115,15 +145,39 @@ public class DungeonRoom {
 								//Don't force air at the top layer
 							}
 							else{
-								world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+
+								if(this.roomStructure.blocks[x][y][z].getBlock().toString().contains("_stairs"))
+								{
+									world.setBlockState(blockPos, this.getCorrectStairOrientation(this.roomStructure.blocks[x][y][z], direction));
+								}else
+									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
 							}
-							if(rand.nextInt(250) == 0 && canSpawnWhite(x, y, z) && (!world.getBlockState(blockPos).equals(Blocks.AIR)))
+
+
+							if(this.roomStructure.blocks[x][y][z].getBlock() instanceof BlockChest)
+							{
+								TileEntityChest chest = (TileEntityChest) world.getTileEntity(blockPos);
+								LootTable table = world.getLootTableManager().getLootTableFromLocation(LootTableList.CHESTS_ABANDONED_MINESHAFT);
+								LootContext ctx = new LootContext.Builder((WorldServer) world).withLuck(10).build();
+								table.fillInventory(chest, world.rand, ctx);
+
+							}
+
+
+							if(rand.nextInt(100) == 0 && canSpawnWhite(x, y, z) && (world.getBlockState(blockPos).equals(Blocks.AIR)))
 							{
 
-								EntityWhitePawns pawn = new EntityWhitePawns(world);
-								pawn.setPosition(startPos.getX() - x, startPos.getY() + y + 2,startPos.getZ() - z);
-								world.spawnEntityInWorld(pawn);
-
+								if(rand.nextInt(20) == 0)
+								{
+									EntityPawnCommander pawn = new EntityPawnCommander(world);
+									pawn.setPosition(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z);
+									world.spawnEntityInWorld(pawn);
+								}else
+								{
+									EntityWhitePawns pawn = new EntityWhitePawns(world);
+									pawn.setPosition(startPos.getX() - x, startPos.getY() + y,startPos.getZ() - z);
+									world.spawnEntityInWorld(pawn);
+								}
 							}
 						}	
 					}
@@ -147,15 +201,36 @@ public class DungeonRoom {
 								//Don't force air at the top layer
 							}
 							else{
-								world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+								if(this.roomStructure.blocks[x][y][z].getBlock().toString().contains("_stairs"))
+								{
+									world.setBlockState(blockPos, this.getCorrectStairOrientation(this.roomStructure.blocks[x][y][z], direction));
+								}else
+									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
 							}
-							if(rand.nextInt(250) == 0 && canSpawnWhite(x, y, z) && (!world.getBlockState(blockPos).equals(Blocks.AIR)))
+
+
+							if(this.roomStructure.blocks[x][y][z].getBlock() instanceof BlockChest)
 							{
+								TileEntityChest chest = (TileEntityChest) world.getTileEntity(blockPos);
+								LootTable table = world.getLootTableManager().getLootTableFromLocation(LootTableList.CHESTS_ABANDONED_MINESHAFT);
+								LootContext ctx = new LootContext.Builder((WorldServer) world).build();
+								table.fillInventory(chest, world.rand, ctx);
 
-								EntityWhitePawns pawn = new EntityWhitePawns(world);
-								pawn.setPosition(startPos.getX() + z, startPos.getY() + y + 2,startPos.getZ() - x);
-								world.spawnEntityInWorld(pawn);
+							}
 
+							if(rand.nextInt(100) == 0 && canSpawnWhite(x, y, z) && (world.getBlockState(blockPos).getBlock().equals(Blocks.AIR)))
+							{
+								if(rand.nextInt(20) == 0)
+								{
+									EntityPawnCommander pawn = new EntityPawnCommander(world);
+									pawn.setPosition(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x);
+									world.spawnEntityInWorld(pawn);
+								}else
+								{
+									EntityWhitePawns pawn = new EntityWhitePawns(world);
+									pawn.setPosition(startPos.getX() + z, startPos.getY() + y,startPos.getZ() - x);
+									world.spawnEntityInWorld(pawn);
+								}
 							}
 						}	
 					}
@@ -177,14 +252,36 @@ public class DungeonRoom {
 								//Don't force air at the top layer
 							}
 							else{
-								world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
+
+								if(this.roomStructure.blocks[x][y][z].getBlock().toString().contains("_stairs"))
+								{
+
+									world.setBlockState(blockPos, this.getCorrectStairOrientation(this.roomStructure.blocks[x][y][z], direction));
+								}else
+									world.setBlockState(blockPos, this.roomStructure.blocks[x][y][z]);
 							}
 
-							if(rand.nextInt(250) == 0 && canSpawnWhite(x, y, z) && (!world.getBlockState(blockPos).equals(Blocks.AIR)))
+							if(this.roomStructure.blocks[x][y][z].getBlock() instanceof BlockChest)
 							{
-								EntityWhitePawns pawn = new EntityWhitePawns(world);
-								pawn.setPosition(startPos.getX() - z, startPos.getY() + y + 2,startPos.getZ() + x);
-								world.spawnEntityInWorld(pawn);
+								TileEntityChest chest = (TileEntityChest) world.getTileEntity(blockPos);
+								LootTable table = world.getLootTableManager().getLootTableFromLocation(LootTableList.CHESTS_ABANDONED_MINESHAFT);
+								LootContext ctx = new LootContext.Builder((WorldServer) world).withLuck(10).build();
+								table.fillInventory(chest, world.rand, ctx);
+							}
+
+							if(rand.nextInt(100) == 0 && canSpawnWhite(x, y, z) && (world.getBlockState(blockPos).getBlock().equals(Blocks.AIR)))
+							{
+								if(rand.nextInt(20) == 0)
+								{
+									EntityPawnCommander pawn = new EntityPawnCommander(world);
+									pawn.setPosition(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x);
+									world.spawnEntityInWorld(pawn);
+								}else
+								{
+									EntityWhitePawns pawn = new EntityWhitePawns(world);
+									pawn.setPosition(startPos.getX() - z, startPos.getY() + y,startPos.getZ() + x);
+									world.spawnEntityInWorld(pawn);
+								}
 							}
 						}
 					}
@@ -193,17 +290,115 @@ public class DungeonRoom {
 		}
 	}
 
+	public IBlockState getCorrectStairOrientation(IBlockState stairblock, EnumDirection currentDirection)
+	{
+		IBlockState newState = null;
+		int meta = stairblock.getBlock().getMetaFromState(stairblock);
+		switch(currentDirection)
+		{
+		case EAST:
+			if(meta == 1)
+			{
+				meta = 0;
+			}else if(meta == 0)
+			{
+				meta = 1;
+			}
+			else
+				if(meta == 5)
+				{
+					meta = 4;
+				}else if(meta == 4)
+				{
+					meta = 5;
+				}
+				else
+					if(meta == 2)
+					{
+						meta = 3;
+					}else if(meta == 3)
+					{
+						meta = 2;
+					}else
+						if(meta == 6)
+						{
+							meta = 7;
+						}else if(meta == 7)
+						{
+							meta = 6;
+						}
+			break;
+		case WEST:
+			break;
+		case NORTH:
+			if(meta == 1)
+			{
+				meta = 3;
+			}else if(meta == 3)
+			{
+				meta = 0;
+			}else if(meta == 0)
+			{
+				meta = 2;
+			}else if(meta == 2)
+			{
+				meta = 1;
+			}
+
+			if(meta == 5)
+			{
+				meta = 7;
+			}else if(meta == 7)
+			{
+				meta = 4;
+			}else if(meta == 4)
+			{
+				meta = 6;
+			}else if(meta == 6)
+			{
+				meta = 5;
+			}
+			break;
+		case SOUTH:
+			if(meta == 1)
+			{
+				meta = 2;
+			}else if(meta == 3)
+			{
+				meta = 1;
+			}else if(meta == 0)
+			{
+				meta = 3;
+			}else if(meta == 2)
+			{
+				meta = 0;
+			}
+			if(meta == 5)
+			{
+				meta = 6;
+			}else if(meta == 7)
+			{
+				meta = 5;
+			}else if(meta == 4)
+			{
+				meta = 7;
+			}else if(meta == 6)
+			{
+				meta = 4;
+			}	
+			break;
+		};
+
+
+		newState = stairblock.getBlock().getStateFromMeta(meta);
+		return newState;
+	}
+
 	private boolean canSpawnWhite(int x, int y, int z)
 	{
-		if(y == 1)
+		if(y == 2)
 		{
-			if(x != (this.roomStructure.blocks.length - 1) && x != 0)
-			{
-				if(z != (this.roomStructure.blocks[0][0].length - 1) && z != 0)
-				{
-					return true;
-				}
-			}
+			return true;
 		}
 		return false;
 	}
@@ -224,7 +419,7 @@ public class DungeonRoom {
 
 	}
 
-	
+
 	public boolean loadRoom() {
 
 		if(!isAlreadyLoaded())
@@ -298,7 +493,7 @@ public class DungeonRoom {
 	}*/
 
 
-	
+
 	public DungeonExit alignWithRoom(DungeonRoom nextRoom, DungeonRoom previousRoom, DungeonExit previousEntrance, BlockPos startingPosition) {
 
 		BlockPos realPrevEntrance = null;
@@ -532,7 +727,7 @@ public class DungeonRoom {
 		return new DungeonExit(realPrevEntrance, direction, exit);
 	}
 
-	
+
 	public void unloadRoom() {
 		this.roomStructure = null;
 		this.exits.clear();
@@ -555,7 +750,7 @@ public class DungeonRoom {
 	}
 
 	public DungeonExit setCorrectPath(EnumDirection enumDirection) {
-		
+
 		if(enumDirection != null)
 		{
 			for(DungeonExit tree : exits){

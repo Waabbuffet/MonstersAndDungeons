@@ -7,7 +7,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelAutomatonsRook extends ModelBase {
+public class ModelAutomatonsRook extends MaDEntityModelBase {
 
 	protected float[][] SlamCycle = new float[][]
 			{//
@@ -834,88 +834,21 @@ public class ModelAutomatonsRook extends ModelBase {
 		rightMiddlePiece.render(f5);
 	}
 	
-	/** This function will increment the specific piece by the speed
-	 * 
-	 * @return true if at designated location, otherwise false
-	 */
-	public boolean movePiece(ModelRenderer currentRender, float speed, float rotationX, float rotationY, float rotationZ)
-	{
-		
-		if(currentRender.rotateAngleX < degToRad(rotationX))
-		{
-			if(currentRender.rotateAngleX + degToRad(speed) < degToRad(rotationX))
-			{
-				currentRender.rotateAngleX += degToRad(speed);
-			}else
-				currentRender.rotateAngleX = degToRad(rotationX);
-		}else
-		{
-			if(currentRender.rotateAngleX - degToRad(speed) > degToRad(rotationX))
-			{
-				currentRender.rotateAngleX -= degToRad(speed);
-			}else
-				currentRender.rotateAngleX = degToRad(rotationX);
-		}
-		
-		//Y
-		if(currentRender.rotateAngleY < degToRad(rotationY))
-		{
-			if(currentRender.rotateAngleY + degToRad(speed) < degToRad(rotationY))
-			{
-				currentRender.rotateAngleY += degToRad(speed);
-			}else
-				currentRender.rotateAngleY = degToRad(rotationY);
-		}else
-		{
-			if(currentRender.rotateAngleY - degToRad(speed) > degToRad(rotationY))
-			{
-				currentRender.rotateAngleY -= degToRad(speed);
-			}else
-				currentRender.rotateAngleY = degToRad(rotationY);
-		}
-		//Z
-		if(currentRender.rotateAngleZ < rotationZ)
-		{
-			if(currentRender.rotateAngleZ + degToRad(speed) < degToRad(rotationZ))
-			{
-				currentRender.rotateAngleZ += degToRad(speed);
-			}else
-				currentRender.rotateAngleZ = degToRad(rotationZ);
-		}else
-		{
-			if(currentRender.rotateAngleZ - degToRad(speed) > degToRad(rotationZ))
-			{
-				currentRender.rotateAngleZ -= degToRad(speed);
-			}else
-				currentRender.rotateAngleZ = degToRad(rotationZ);
-		}
-			
-		
-		
-		
-		if(currentRender.rotateAngleX != rotationX || currentRender.rotateAngleY != rotationY || currentRender.rotateAngleZ != rotationZ)
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
 	private void setRotation(ModelRenderer model, float x, float y, float z)
 	{
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
-
+	
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
 		// TODO Auto-generated method stub
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 
-	//	float  f = 1f;
-	//	this.RightShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-	//	this.LeftShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
+		float  f = 1f;
+		this.RightShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
+		this.LeftShin.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
 
 		EntityAutomatonsRook rook = (EntityAutomatonsRook) entityIn;
 
@@ -932,7 +865,6 @@ public class ModelAutomatonsRook extends ModelBase {
 			this.idolAnimation(rook);
 		}
 	}
-
 	private void kickAnimation(EntityAutomatonsRook rook)
 	{
 
@@ -955,7 +887,6 @@ public class ModelAutomatonsRook extends ModelBase {
 
 
 	}
-
 	private void slamAnimation(EntityAutomatonsRook rook)
 	{
 		this.LeftShoulder1.rotateAngleX = degToRad(SlamCycle[rook.getAnimationCycle()][1]);
@@ -1016,30 +947,4 @@ public class ModelAutomatonsRook extends ModelBase {
 		this.LeftBelt.offsetY= (float) 0;
 		this.rightMiddlePiece.offsetY = 0;
 	}
-
-	private void halfHpAnimation(EntityAutomatonsRook rook)
-	{
-
-	}
-
-	protected void convertToChild(ModelRenderer parParent, ModelRenderer parChild)
-	{
-		// move child rotation point to be relative to parent
-		parChild.rotationPointX -= parParent.rotationPointX;
-		parChild.rotationPointY -= parParent.rotationPointY;
-		parChild.rotationPointZ -= parParent.rotationPointZ;
-		// make rotations relative to parent
-		parChild.rotateAngleX -= parParent.rotateAngleX;
-		parChild.rotateAngleY -= parParent.rotateAngleY;
-		parChild.rotateAngleZ -= parParent.rotateAngleZ;
-		// create relationship
-		parParent.addChild(parChild);
-
-	}
-
-	protected float degToRad(float degrees)
-	{
-		return degrees * (float)Math.PI / 180 ;
-	}
-
 }

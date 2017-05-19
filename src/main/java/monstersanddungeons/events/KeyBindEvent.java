@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 
 import monstersanddungeons.client.ClientProxy;
 import monstersanddungeons.util.Structure;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.math.BlockPos;
@@ -35,6 +36,7 @@ public class KeyBindEvent {
 			ClientProxy.BlockPos1 = new BlockPos(Minecraft.getMinecraft().thePlayer.getPosition().getX(), Minecraft.getMinecraft().thePlayer.getPosition().getY(), Minecraft.getMinecraft().thePlayer.getPosition().getZ());
 			
 			System.out.println("L:" +ClientProxy.BlockPos1);
+			System.out.println("Stair: " + Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(-609, 57, -361)).getBlock().getMetaFromState(Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(-609, 57, -361))));
 		}
 
 		if(key1.isPressed()){

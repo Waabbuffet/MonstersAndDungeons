@@ -1,19 +1,26 @@
 package monstersanddungeons.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import monstersanddungeons.items.armor.ArmorStat;
 import monstersanddungeons.items.armor.ItemQuartzArmor;
 import monstersanddungeons.items.armor.ItemQuartzShield;
+import monstersanddungeons.items.spawnEggs.ItemSpawnWhitePawn;
 import monstersanddungeons.items.weapon.ItemQuartzGreatSword;
 import monstersanddungeons.items.weapon.ItemQuartzWarHammer;
 import monstersanddungeons.stats.Stats;
 import monstersanddungeons.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 
 
@@ -23,7 +30,7 @@ public class MaDItemsHandler
 	
 	public static ArmorMaterial armorMaterialQuartz = EnumHelper.addArmorMaterial("RomanSpartanArmorExample", "wc:RomanArmor", 16, new int[] {3, 8, 6, 3}, 20, null, 1f);
 
-	public static Item quartzHelmet, quartzChest, quartzLegs, quartzBoots, quartzShield, quartzWarhammer, quartzGreatSword;
+	public static Item quartzHelmet, quartzChest, quartzLegs, quartzBoots, quartzShield, quartzWarhammer, quartzGreatSword, spawnPawn;
 
 	public static void init()
 	{
@@ -35,6 +42,7 @@ public class MaDItemsHandler
 		
 		quartzWarhammer = new ItemQuartzWarHammer(toolMaterialQuartz, "quartzWarhammer");
 		quartzGreatSword = new ItemQuartzGreatSword(toolMaterialQuartz, "quartzGreatSword");
+		spawnPawn = new ItemSpawnWhitePawn("EggWhitePawn");
 
 	}
 
@@ -49,12 +57,32 @@ public class MaDItemsHandler
 		
 		registerRender(quartzWarhammer);
 		registerRender(quartzGreatSword);
+		
+		registerRender(spawnPawn, true);
 
 	}
 
 	public static void registerRender(Item item)
 	{
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Reference.MODID + ":" + item.getUnlocalizedName().substring(5),"inventory"));
+		registerRender(item, false);
 	}
+	
+	public static void registerRender(Item item, boolean isEgg)
+	{
+		if(!isEgg)
+		{
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(Reference.MODID + ":" + item.getUnlocalizedName().substring(5),"inventory"));
+		}else
+		{
+			List<ItemStack> allitems = new ArrayList<ItemStack>();
+			item.getSubItems(item, null, allitems);
 
+			
+			for(int i = 0; i < allitems.size() + 1; i ++)
+			{
+				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, i, new ModelResourceLocation("minecraft:spawn_egg", "inventory"));
+				FMLClientHandler.instance().getClient().getItemColors().registerItemColorHandler((IItemColor)item, item);
+			}	
+		}
+	}
 }

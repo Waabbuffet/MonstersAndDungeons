@@ -5,6 +5,7 @@ import java.util.List;
 import monstersanddungeons.entity.MaDEntityMonsterBase;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRook;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRookBoss;
+import monstersanddungeons.entity.automatons.EntityPawnCommander;
 import monstersanddungeons.entity.automatons.EntityWhitePawns;
 import monstersanddungeons.entity.miscellaneous.EntityFlyingSword;
 import net.minecraft.entity.Entity;
@@ -20,6 +21,11 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 	NBTTagCompound storedDATA;
 	int checkPlayerCD;
 	boolean spawnOnce = true;
+	
+	public TileEntityMonsterStatue()
+	{
+		
+	}
 
 	public TileEntityMonsterStatue(MaDEntityMonsterBase entity) {
 		// TODO Auto-generated constructor stub
@@ -83,10 +89,11 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 					case 3:
 						entityToSpawn = new EntityFlyingSword(this.worldObj);
 						break;
+					case 4:
+						entityToSpawn = new EntityPawnCommander(this.worldObj);
+						break;
 					}
-
 					entityToSpawn.setPosition(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
-
 					if(spawnOnce)
 					{
 						if(!this.worldObj.isRemote)

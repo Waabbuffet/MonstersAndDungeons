@@ -1,17 +1,22 @@
 package monstersanddungeons.entity;
 
+import java.util.Random;
+
 import monstersanddungeons.MonstersAndDungeons;
 import monstersanddungeons.client.models.ModelAutomatonsRook;
 import monstersanddungeons.client.models.ModelAutomatonsRookBoss;
+import monstersanddungeons.client.models.ModelCommanderPawn;
 import monstersanddungeons.client.models.ModelWitePawns;
 import monstersanddungeons.client.models.items.ModelQuartzBigSword;
 import monstersanddungeons.client.renderer.RenderAutomatonsRook;
 import monstersanddungeons.client.renderer.RenderAutomatonsRookBoss;
+import monstersanddungeons.client.renderer.RenderCommanderPawn;
 import monstersanddungeons.client.renderer.RenderFlyingSword;
 import monstersanddungeons.client.renderer.RenderSafeZone;
 import monstersanddungeons.client.renderer.RenderWhitePawns;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRook;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRookBoss;
+import monstersanddungeons.entity.automatons.EntityPawnCommander;
 import monstersanddungeons.entity.automatons.EntityTameablePawn;
 import monstersanddungeons.entity.automatons.EntityWhitePawns;
 import monstersanddungeons.entity.miscellaneous.EntityFlyingSword;
@@ -24,22 +29,29 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MaDEntityHandler {
 	
-
 	private static int entityID = 0;
 	
 	public static void registerEntities() {
-		registerEntity(EntityAutomatonsRook.class, "AutomatonsRook", 80, 3, false);
-		registerEntity(EntityAutomatonsRookBoss.class, "AutomatonsRookBoss", 80, 3, false);
-		registerEntity(EntitySafeZone.class, "EntitySafeZone", 80, 3, false);
-		registerEntity(EntityFlyingSword.class, "EntityFlyingSword", 80, 3, false);
+		registerEntity(EntityAutomatonsRook.class, "AutomatonsRook", 80, 3, false, 0xFFFFFF, 0x000000);
+		registerEntity(EntityAutomatonsRookBoss.class, "AutomatonsRookBoss", 80, 3, false, 0xFFFFFF, 0xB200FF);
+		registerEntity(EntitySafeZone.class, "EntitySafeZone", 80, 3, false, 0xFFFFFF, 0x000000);
+		registerEntity(EntityFlyingSword.class, "EntityFlyingSword", 80, 3, false, 0xFFFFFF, 0x000000);
 		
+		registerEntity(EntityWhitePawns.class, "WhitePawns", 80, 3, false, 0xFFFFFF, 0x808080);
+		registerEntity(EntityPawnCommander.class, "PawnCommander", 80, 3, false, 0xFFFFFF, 0x000000);
 		
-		registerEntity(EntityWhitePawns.class, "WhitePawns", 80, 3, false);
-		registerEntity(EntityTameablePawn.class, "tameablePawn", 80, 3, false);
+		registerEntity(EntityTameablePawn.class, "tameablePawn", 80, 3, false, 0xFFFFFF, 0x000000);
 	}
 	
-	private static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
+	private static void registerEntity(Class<? extends Entity> entityClass, String entityName, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates, int mainColor, int offColpr) {
 		EntityRegistry.registerModEntity(entityClass, entityName, entityID++, MonstersAndDungeons.instance, trackingRange, updateFrequency, sendsVelocityUpdates);
+		
+		long x = entityClass.hashCode();
+		Random random = new Random(x);
+		int MainColour = random.nextInt() * 16777215;
+		int SubColour = random.nextInt() * 16777215;
+		
+		MaDEntityList.addMapping(entityClass, entityName, MainColour, SubColour);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -50,6 +62,7 @@ public class MaDEntityHandler {
 		RenderingRegistry.registerEntityRenderingHandler(EntityFlyingSword.class, new RenderFlyingSword(new ModelQuartzBigSword()));
 		
 	
+		RenderingRegistry.registerEntityRenderingHandler(EntityPawnCommander.class, new RenderCommanderPawn(new ModelCommanderPawn()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityWhitePawns.class, new RenderWhitePawns(new ModelWitePawns()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityTameablePawn.class, new RenderWhitePawns(new ModelWitePawns()));		
 	}

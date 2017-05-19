@@ -8,6 +8,12 @@ import net.minecraft.world.World;
 
 public abstract class Dungeon {
 
+	
+	//FOR NEW SYSTEM it will work with a 3D array, a changelog (stack, or list), and total exits list
+	//needed functions hasSpaceFor(Room), deleted last change, deleteChange(), 
+	//algorithim will start by marching through each exit in the list, the same as the traversal, each time it places an new room
+	//the old exit gets replaced by the new ones
+
 	int dungeonSize;
 	List<ExitData> totalExits = new ArrayList<ExitData>(); 
 
@@ -51,7 +57,7 @@ public abstract class Dungeon {
 						{
 							NextRoom.loadRoom();
 						}
-					//	totalExits.add(new ExitData(getExitActualCoord(PreviousRoom.getExits().get(j), UpdatedLocation, PreviousRoom), PreviousRoom.getExits().get(j), PreviousRoom, true));
+						totalExits.add(new ExitData(getExitActualCoord(PreviousRoom.getExits().get(j), UpdatedLocation, PreviousRoom), PreviousRoom.getExits().get(j), PreviousRoom, true));
 						TempExit = NextRoom.alignWithRoom(NextRoom, PreviousRoom, PreviousRoom.getExits().get(j), UpdatedLocation);
 						NextRoom.setPrevBuiltDirection(TempExit.getDirection());
 						NextRoom.buildRoom(TempExit.getPos(), world, TempExit.getDirection(), TempExit.getExit().getPos().getY() - 1);
@@ -264,6 +270,7 @@ public abstract class Dungeon {
 		nextRoom.setPrevBuiltDirection(direction);
 
 		createBranch(world, realPrevEntrance, DungeonSize, nextRoom, firstExit.getDirection());
+	//	createBranch(world, realPrevEntrance, DungeonSize, nextRoom, null);
 	}
 
 	/** DOES NOT WORK YET!

@@ -102,7 +102,7 @@ public class DungeonAutomatons  extends Dungeon{
 
 			if(!exit.getAlreadyBuilt())
 			{
-				if(rand.nextInt(6) == 0)
+				if(rand.nextInt(5) == 0)
 				{
 					createBranch(exit, world, 5); // use to be 4
 				}else
@@ -111,7 +111,6 @@ public class DungeonAutomatons  extends Dungeon{
 				}
 			}
 		}
-
 		for(int i = 0; i < getTotalExits().size(); i ++)
 		{
 			ExitData exit = getTotalExits().get(i);

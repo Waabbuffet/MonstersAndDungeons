@@ -13,6 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -36,6 +37,7 @@ import monstersanddungeons.entity.miscellaneous.EntityFlyingSword;
 import monstersanddungeons.entity.miscellaneous.EntitySafeZone;
 import monstersanddungeons.packet.MaDPacketHandler;
 import monstersanddungeons.packet.UpdateClientEntityAnimation;
+import monstersanddungeons.sound.MaDSoundsHandler;
 import monstersanddungeons.util.Reference;
 import monstersanddungeons.util.entity.IMaDBoss;
 
@@ -62,6 +64,11 @@ public class EntityAutomatonsRookBoss extends MaDEntityMonsterBase implements IM
 		ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.attackCD = 50;
+	}
+	
+	@Override
+	protected SoundEvent getHurtSound() {
+		return MaDSoundsHandler.automatonHurtStone;
 	}
 
 	@Override

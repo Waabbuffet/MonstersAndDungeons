@@ -51,21 +51,15 @@ public class EntityFlyingSword extends MaDEntityMonsterBase{
 		{
 			if(damageSrc.getEntity() instanceof EntityPlayer)
 			{
-				if(isSevenSword != null && !isSevenSword.isEntityAlive())
-				{
-					super.damageEntity(damageSrc, damageAmount);
-				}
-				if(isSevenSword == null)
-				{
-					super.damageEntity(damageSrc, damageAmount);
-				}
+				super.damageEntity(damageSrc, damageAmount);
 			}
 		}
 	}
 
 	@Override
-	public void onCollideWithPlayer(EntityPlayer entityIn) {
-		// TODO Auto-generated method stub
+	public void onCollideWithPlayer(EntityPlayer entityIn) 
+	{
+
 		this.attackEntityAsMob(entityIn);
 	}
 
@@ -77,12 +71,6 @@ public class EntityFlyingSword extends MaDEntityMonsterBase{
 		{
 			getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0D);
 			this.posY = this.isSevenSword.getPosition().getY();
-			if(!this.updateClient)
-			{
-				MaDPacketHandler.INSTANCE.sendToAll(new UpdateClientEntityAnimation(this, this.isSevenSword.getEntityId(), 0));
-				this.updateClient = true;
-			}
-
 		}else
 		{	
 			if(!isAttacking)
@@ -99,8 +87,8 @@ public class EntityFlyingSword extends MaDEntityMonsterBase{
 					this.getNavigator().tryMoveToEntityLiving(player, 1f);
 
 				this.attackCD = 100 + rand.nextInt(100);
-				
-				
+
+
 			}else
 			{
 				this.attackCD--;	

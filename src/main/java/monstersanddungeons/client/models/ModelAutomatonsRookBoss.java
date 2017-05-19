@@ -1,22 +1,16 @@
 package monstersanddungeons.client.models;
 
-import org.lwjgl.opengl.GL11;
-
-import monstersanddungeons.client.ClientProxy;
 import monstersanddungeons.client.models.items.ModelQuartzBigSword;
 import monstersanddungeons.client.models.items.ModelQuartzWarHammer;
-import monstersanddungeons.entity.automatons.EntityAutomatonsRook;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRookBoss;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
 
-public class ModelAutomatonsRookBoss  extends ModelBase 
+public class ModelAutomatonsRookBoss  extends MaDEntityModelBase
 {
-	public ModelQuartzWarHammer hammer = new ModelQuartzWarHammer();
+	public ModelQuartzWarHammer hammer = new ModelQuartzWarHammer(-17);
 
 	public ModelQuartzBigSword left_BigSword = new ModelQuartzBigSword(-17);
 	public ModelQuartzBigSword right_BigSword = new ModelQuartzBigSword(17);
@@ -722,9 +716,6 @@ public class ModelAutomatonsRookBoss  extends ModelBase
 		convertToChild(UpperChest, ChestOne);
 		convertToChild(UpperChest, ChestTwo);
 		convertToChild(MiddlePiece, UpperChest);	
-
-
-
 	}
 
 	public void render(Entity entityIn, float f, float f1, float f2, float f3, float f4, float scaleFactor)
@@ -851,7 +842,7 @@ public class ModelAutomatonsRookBoss  extends ModelBase
 		// TODO Auto-generated method stub
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 	}
-
+	
 	public boolean moveoffSet(float speed, float offsetY)
 	{
 
@@ -907,71 +898,7 @@ public class ModelAutomatonsRookBoss  extends ModelBase
 		return true;
 	}
 
-	/** This function will increment the specific piece by the speed
-	 * 
-	 * @return true if at designated location, otherwise false
-	 */
-	public boolean movePiece(ModelRenderer currentRender, float speed, float rotationX, float rotationY, float rotationZ)
-	{
-		if(currentRender.rotateAngleX < degToRad(rotationX))
-		{
-			if(currentRender.rotateAngleX + degToRad(speed) < degToRad(rotationX))
-			{
-				currentRender.rotateAngleX += degToRad(speed);
-			}else
-				currentRender.rotateAngleX = degToRad(rotationX);
-		}else
-		{
-			if(currentRender.rotateAngleX - degToRad(speed) > degToRad(rotationX))
-			{
-				currentRender.rotateAngleX -= degToRad(speed);
-			}else
-			{	
-				currentRender.rotateAngleX = degToRad(rotationX);
-			}
-		}
-
-		//Y
-		if(currentRender.rotateAngleY < degToRad(rotationY))
-		{
-			if(currentRender.rotateAngleY + degToRad(speed) < degToRad(rotationY))
-			{
-				currentRender.rotateAngleY += degToRad(speed);
-			}else
-				currentRender.rotateAngleY = degToRad(rotationY);
-		}else
-		{
-			if(currentRender.rotateAngleY - degToRad(speed) > degToRad(rotationY))
-			{
-				currentRender.rotateAngleY -= degToRad(speed);
-			}else
-				currentRender.rotateAngleY = degToRad(rotationY);
-		}
-		//Z
-		if(currentRender.rotateAngleZ < degToRad(rotationZ))
-		{
-			if(currentRender.rotateAngleZ + degToRad(speed) < degToRad(rotationZ))
-			{
-				currentRender.rotateAngleZ += degToRad(speed);
-			}else
-				currentRender.rotateAngleZ = degToRad(rotationZ);
-		}else
-		{
-			if(currentRender.rotateAngleZ - degToRad(speed) > degToRad(rotationZ))
-			{
-				currentRender.rotateAngleZ -= degToRad(speed);
-			}else
-				currentRender.rotateAngleZ = degToRad(rotationZ);
-		}
-
-		if(currentRender.rotateAngleX != degToRad(rotationX) || currentRender.rotateAngleY != degToRad(rotationY) || currentRender.rotateAngleZ != degToRad(rotationZ))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
+	
 	public void renderPhantomRook(ModelAutomatonsRookBoss bossModel, float offX, float offZ,  float f5, float rotation, float[][] arms, float [][] legs, float [][] chest, float [] weapon, float[] height, int animationNumber, float speed)
 	{
 		GlStateManager.pushMatrix();
@@ -1016,23 +943,7 @@ public class ModelAutomatonsRookBoss  extends ModelBase
 		GlStateManager.popMatrix();
 	}
 
-
-	protected void convertToChild(ModelRenderer parParent, ModelRenderer parChild)
-	{
-		// move child rotation point to be relative to parent
-		parChild.rotationPointX -= parParent.rotationPointX;
-		parChild.rotationPointY -= parParent.rotationPointY;
-		parChild.rotationPointZ -= parParent.rotationPointZ;
-		// make rotations relative to parent
-		parChild.rotateAngleX -= parParent.rotateAngleX;
-		parChild.rotateAngleY -= parParent.rotateAngleY;
-		parChild.rotateAngleZ -= parParent.rotateAngleZ;
-		// create relationship
-		parParent.addChild(parChild);
-	}
-
-	protected float degToRad(float degrees)
-	{
-		return degrees * (float)Math.PI / 180 ;
-	}
+	
+	
+	
 }
