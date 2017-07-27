@@ -745,11 +745,10 @@ public class ModelAutomatonsRookBoss  extends MaDEntityModelBase
 			}
 		}
 
-
 		MiddlePiece.render(scaleFactor);
 		LeftBelt.render(scaleFactor);
 		rightMiddlePiece.render(scaleFactor);
-
+		
 		if(boss.getCurrentAttack() != null)
 		{
 			if(!Minecraft.getMinecraft().isGamePaused())
@@ -942,8 +941,4 @@ public class ModelAutomatonsRookBoss  extends MaDEntityModelBase
 
 		GlStateManager.popMatrix();
 	}
-
-	
-	
-	
 }

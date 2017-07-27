@@ -35,7 +35,6 @@ import net.minecraft.item.Item;
 public class MaDBlocksHandler {
 
 	public static Block BlockExit, BlockRotten, BlockStonePagoda, BlockEntityStatue;
-
 	public static List<Block> genBlocks = new ArrayList<Block>();
 	public static List<ItemGenBlockSlab> genSlab = new ArrayList<ItemGenBlockSlab>();
 

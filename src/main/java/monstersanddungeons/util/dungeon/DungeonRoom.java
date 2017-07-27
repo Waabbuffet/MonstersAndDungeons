@@ -40,7 +40,6 @@ public class DungeonRoom {
 		this.filename = FileName;
 	}
 
-
 	public boolean isLoaded()
 	{
 		boolean Yes = false;
@@ -416,7 +415,6 @@ public class DungeonRoom {
 			}
 		}
 		return false;
-
 	}
 
 
@@ -522,7 +520,6 @@ public class DungeonRoom {
 
 				j++;
 			}while(j < 4);
-
 
 
 		if(PreviousBuiltDirection == EnumDirection.WEST) // gets the entrance actual position

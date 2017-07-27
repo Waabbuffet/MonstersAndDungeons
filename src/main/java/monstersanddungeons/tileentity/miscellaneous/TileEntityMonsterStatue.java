@@ -7,7 +7,11 @@ import monstersanddungeons.entity.automatons.EntityAutomatonsRook;
 import monstersanddungeons.entity.automatons.EntityAutomatonsRookBoss;
 import monstersanddungeons.entity.automatons.EntityPawnCommander;
 import monstersanddungeons.entity.automatons.EntityWhitePawns;
+import monstersanddungeons.entity.marshdwellers.EntityMarshDweller;
+import monstersanddungeons.entity.marshdwellers.EntityMarshDwellerFisherman;
+import monstersanddungeons.entity.marshdwellers.EntityMarshDwellerShaman;
 import monstersanddungeons.entity.miscellaneous.EntityFlyingSword;
+import monstersanddungeons.entity.world.EntityEnt;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -91,6 +95,18 @@ public class TileEntityMonsterStatue extends TileEntity implements ITickable {
 						break;
 					case 4:
 						entityToSpawn = new EntityPawnCommander(this.worldObj);
+						break;
+					case 5:
+						entityToSpawn = new EntityMarshDweller(this.worldObj);
+						break;
+					case 6:
+						entityToSpawn = new EntityMarshDwellerFisherman(this.worldObj);
+						break;
+					case 7:
+						entityToSpawn = new EntityMarshDwellerShaman(this.worldObj);
+						break;
+					case 8:
+						entityToSpawn = new EntityEnt(this.worldObj);
 						break;
 					}
 					entityToSpawn.setPosition(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());

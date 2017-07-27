@@ -257,7 +257,6 @@ public class EntityPhantomHammerSmash extends EntitySpecialAttackBase<ModelAutom
 	@Override
 	public void activateEffect(int animationNumber, EntityAutomatonsRookBoss bossEntity) {
 	
-		
 		if(animationNumber < getExpectedTicks()/2)
 		{
 			if(bossEntity instanceof EntityAutomatonsRookBoss)

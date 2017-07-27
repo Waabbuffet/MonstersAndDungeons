@@ -1,6 +1,8 @@
 package monstersanddungeons.blocks.dungeonbuilder;
 
-import monstersanddungeons.world.dungeons.DungeonAutomatons;
+import monstersanddungeons.util.dungeon.EnumDirection;
+import monstersanddungeons.world.dungeons_new.DungeonAutomatons;
+import monstersanddungeons.world.dungeons_new.VillageFrog;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -113,7 +115,10 @@ public class BlockExit extends Block
 
 
 		EnumFacing enumfacing = (placer == null) ? EnumFacing.NORTH : EnumFacing.fromAngle(placer.rotationYaw);
-
+		
+		System.out.println("" + enumfacing);
+		
+	
 		return this.getDefaultState().withProperty(PROPERTYFACING, enumfacing);
 	}
 
@@ -125,12 +130,13 @@ public class BlockExit extends Block
 		
 		if(hand.equals(EnumHand.MAIN_HAND) && !worldIn.isRemote)
 		{
-			DungeonAutomatons dungeon = new DungeonAutomatons(15);
-			dungeon.ConstructDungeon(worldIn, pos.up(10), dungeon.getDungeonSize());
+			DungeonAutomatons dungeon = new DungeonAutomatons();
+			
+			//VillageFrog dungeon = new VillageFrog();
+			dungeon.constructDungeon(worldIn, pos, 20);	
 		}
 		
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem,
 				side, hitX, hitY, hitZ);
-
 	}
 }

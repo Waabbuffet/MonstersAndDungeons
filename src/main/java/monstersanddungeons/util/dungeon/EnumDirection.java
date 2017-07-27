@@ -17,6 +17,7 @@ public enum EnumDirection {
 	}
 	
 	public static EnumDirection getDirectionFromID(int id){
+		
 		for(EnumDirection dir : values()){
 			if(dir.getID() == id){
 				return dir;
@@ -27,6 +28,7 @@ public enum EnumDirection {
 	
 	public static EnumDirection getDirectionFromBlockState(IBlockState state){
 		int i = state.getBlock().getMetaFromState(state);
+		
 		for(EnumDirection dir : values()){
 			if(dir.getID()-1 == i){
 				return dir;
@@ -53,6 +55,46 @@ public enum EnumDirection {
 		}
 		
 		return null;
+	}
+	
+	public static EnumDirection rotateDirection(EnumDirection dir, int rotation)
+	{
+		EnumDirection newDir = dir;
+		for(int i = 0; i < rotation; i ++)
+		{
+			switch(dir)
+			{
+			case EAST:
+				newDir = EnumDirection.SOUTH;
+				continue;
+			case NORTH:
+				newDir = EnumDirection.EAST;
+				continue;
+			case SOUTH:
+				newDir = EnumDirection.WEST;
+				continue;
+			case WEST:
+				newDir = EnumDirection.NORTH;
+			}
+		}
+		return newDir;
+	}
+	
+	public static EnumDirection getOppositeDirection(EnumDirection dir)
+	{
+		switch(dir)
+		{
+		case WEST:
+			return EAST;
+		case EAST:
+			return WEST;
+		case NORTH:
+			return SOUTH;
+		case SOUTH:
+			return NORTH;
+		default:
+			return EAST;
+		}
 	}
 	
 	public int getID(){

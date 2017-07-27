@@ -3,7 +3,9 @@ package monstersanddungeons.proxy;
 import java.io.File;
 import java.io.IOException;
 
+import monstersanddungeons.MonstersAndDungeons;
 import monstersanddungeons.blocks.MaDBlocksHandler;
+import monstersanddungeons.client.gui.MaDGuiHandler;
 import monstersanddungeons.entity.MaDEntityHandler;
 import monstersanddungeons.events.CommonEventHandler;
 import monstersanddungeons.items.MaDItemsHandler;
@@ -19,6 +21,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 
@@ -46,7 +49,9 @@ public class CommonProxy {
 		MaDPacketHandler.init();
 		MaDTileEntityHandler.register();
 		MaDEntityHandler.registerEntities();
+		MaDEntityHandler.addSpawns();
 		MaDSoundsHandler.init();
+		NetworkRegistry.INSTANCE.registerGuiHandler(MonstersAndDungeons.instance, new MaDGuiHandler());
 	}
 
 	public void init(FMLInitializationEvent event) {

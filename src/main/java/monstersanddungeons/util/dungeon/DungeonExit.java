@@ -11,14 +11,12 @@ public class DungeonExit {
 	boolean isCorrectPath;
 	int rotation;
 
-
 	public DungeonExit(BlockPos pos, EnumDirection direction)
 	{
 		this.direction = direction;
 		this.pos = pos;
 
 	}
-	
 	public DungeonExit(BlockPos pos, EnumDirection direction, DungeonExit exit)
 	{
 		this(pos, direction);

@@ -82,14 +82,13 @@ public abstract class EntitySpecialAttackBase<T, V extends IMaDBoss> {
 		{
 			if(this.getPhase() == -1)
 			{
-				
+
 				return true;
 			}else
-			if(bossEntity.getPhase() == this.getPhase())
-			{
-				return true;
-			}
-
+				if(bossEntity.getPhase() == this.getPhase())
+				{
+					return true;
+				}
 		}
 		return false;
 	}

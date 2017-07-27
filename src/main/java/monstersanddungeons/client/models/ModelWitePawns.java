@@ -183,7 +183,6 @@ public class ModelWitePawns extends MaDEntityModelBase {
 				this.activatePanicAnimation();
 				break;
 			case 2:
-				
 				this.activateAttackAnimation();
 				break;
 			case -1:

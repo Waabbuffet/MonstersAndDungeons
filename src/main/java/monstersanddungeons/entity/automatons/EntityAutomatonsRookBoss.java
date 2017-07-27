@@ -35,6 +35,7 @@ import monstersanddungeons.entity.ai.rook.EntitySwordFall;
 import monstersanddungeons.entity.ai.rook.EntitySwordFlurrySlash;
 import monstersanddungeons.entity.miscellaneous.EntityFlyingSword;
 import monstersanddungeons.entity.miscellaneous.EntitySafeZone;
+import monstersanddungeons.items.MaDItemsHandler;
 import monstersanddungeons.packet.MaDPacketHandler;
 import monstersanddungeons.packet.UpdateClientEntityAnimation;
 import monstersanddungeons.sound.MaDSoundsHandler;
@@ -173,6 +174,53 @@ public class EntityAutomatonsRookBoss extends MaDEntityMonsterBase implements IM
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
+		// TODO Auto-generated method stub
+		Random rand = new Random();
+		switch(rand.nextInt(15))
+		{
+		case 0:
+			this.dropItem(MaDItemsHandler.quartzBoots, 1);
+			break;
+		case 1:
+			this.dropItem(MaDItemsHandler.quartzLegs, 1);
+			break;
+		case 2:
+			this.dropItem(MaDItemsHandler.quartzChest, 1);
+			break;
+		case 3:
+			this.dropItem(MaDItemsHandler.quartzHelmet, 1);
+			break;
+		case 4:
+			this.dropItem(MaDItemsHandler.quartzShield, 1);
+			break;
+		case 5:
+			this.dropItem(MaDItemsHandler.quartzGreatSword, 1);
+			break;
+		case 6:
+			this.dropItem(MaDItemsHandler.quartzWarhammer, 1);
+			break;
+		default:
+		}
+	}
+	
+	@Override
+	public void onDeath(DamageSource cause) {
+		super.onDeath(cause);
+		
+		List<MaDEntityMonsterBase> all = worldObj.getEntitiesWithinAABB(MaDEntityMonsterBase.class,  new AxisAlignedBB(getPosition().getX() - 50, getPosition().getY() - 50, getPosition().getZ() - 50, getPosition().getX() + 50, getPosition().getY() + 50, getPosition().getZ() + 50));
+		
+		for(MaDEntityMonsterBase entity : all)
+		{
+			if(!(entity instanceof EntityAutomatonsRookBoss))
+			{
+				entity.setDead();
+			}
+		}
+					
 	}
 
 	@Override
@@ -327,7 +375,6 @@ public class EntityAutomatonsRookBoss extends MaDEntityMonsterBase implements IM
 
 		return false;
 	}
-
 
 	@Override
 	public void resetAnimation() 

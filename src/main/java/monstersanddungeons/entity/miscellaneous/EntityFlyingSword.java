@@ -30,6 +30,7 @@ public class EntityFlyingSword extends MaDEntityMonsterBase{
 	public EntityFlyingSword(World worldIn) {
 		super(worldIn);
 		// TODO Auto-generated constructor stub
+		this.setHealth(50);
 	}
 
 	public EntityFlyingSword(World worldIn, EntityAutomatonsRookBoss isSevenSword) {

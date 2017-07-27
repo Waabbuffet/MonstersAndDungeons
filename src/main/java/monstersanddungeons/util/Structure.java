@@ -94,7 +94,7 @@ public class Structure {
 				cmp.setInteger("ExitNumberZ" + i, totalExits.get(i).getPos().getZ());
 				cmp.setString("ExitDirection" + i, totalExits.get(i).getDirection().getDirection());
 			}
-			
+
 			cmp.setInteger("TotalExits", howManyExits);
 			cmp.setInteger("MaxXValue", data.blocks.length);
 			cmp.setInteger("MaxYValue", data.blocks[0].length);

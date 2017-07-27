@@ -35,7 +35,6 @@ public class CommonEventHandler {
 
 	@SubscribeEvent
 	public void onEntityAttack(LivingAttackEvent event){
-
 		if(event.getSource() != StatDamageSources.bonusDamage){
 			if(event.getSource().getSourceOfDamage() instanceof EntityPlayer){
 
@@ -78,6 +77,7 @@ public class CommonEventHandler {
 				{
 					if(event.getSource().getSourceOfDamage().getLookVec().dotProduct(event.getEntity().getLookVec()) < 0.5 && ((EntityAutomatonsRookBoss) event.getEntityLiving()).getWeakenedCD() > 0)
 					{
+
 						if(event.isCancelable())
 						{
 							event.setCanceled(true);
@@ -88,7 +88,7 @@ public class CommonEventHandler {
 		}
 	}
 
-
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onPlayerTickEvent(PlayerTickEvent e)
 	{
@@ -99,13 +99,15 @@ public class CommonEventHandler {
 		{
 			if(entity instanceof IMaDBoss)
 			{
-				ClientProxy.shouldRenderHpBar = (IMaDBoss) entity;
+				if(((IMaDBoss) entity).getIcon() != null)
+					ClientProxy.shouldRenderHpBar = (IMaDBoss) entity;
 				return;
 			}
 		}
 		ClientProxy.shouldRenderHpBar = null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void renderGameOverlayEvent(RenderGameOverlayEvent.Post e)
 	{

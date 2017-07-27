@@ -14,6 +14,7 @@ public class MaDPacketHandler {
 	 public static void init() 
 	 {
 		  INSTANCE.registerMessage(UpdateClientEntityAnimation.class, UpdateClientEntityAnimation.class, 0, Side.CLIENT);
-	    
+		  INSTANCE.registerMessage(GivePlayerItem.class, GivePlayerItem.class, 1, Side.SERVER);
+		  INSTANCE.registerMessage(UpdateShopKeeperList.class, UpdateShopKeeperList.class, 2, Side.CLIENT);
 	 }	
 }
